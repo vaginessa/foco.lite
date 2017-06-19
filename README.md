@@ -4,6 +4,8 @@ Minimalist text editor for writing without distractions for Android. This applic
 
 ## Features
 
+* Scrolling bar like completion bar
+
 * Folder support
 * Markdown format
 * Writing statistics (time, words and chars count)
