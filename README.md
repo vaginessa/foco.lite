@@ -33,6 +33,8 @@ Minimalist text editor for writing without distractions for Android. This applic
 * List
 
 ## TODO
+* Mockup application
+* Define tasks and sprints
 
 ## 3rd party software
 
@@ -44,3 +46,4 @@ Minimalist text editor for writing without distractions for Android. This applic
 ## License
 
 [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.en.html "GNU General Public License v3")
+
