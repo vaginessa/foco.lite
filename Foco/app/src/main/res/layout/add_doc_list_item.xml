@@ -14,12 +14,12 @@
         android:layout_height="@dimen/doc_shape_height"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="@drawable/shape_empty_doc"
-        android:padding="@dimen/doc_shape_padding">
+        android:background="@drawable/shape_empty_doc">
 
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/add_doc_image_size"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_add_dark"/>

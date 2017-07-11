@@ -5,7 +5,10 @@
 
     <dimen name="logo_margin_start">20dp</dimen>
     <dimen name="logo_margin_bottom">20dp</dimen>
-    <dimen name="logo_height_expanded_app_bar">34dp</dimen>
+    <dimen name="logo_expanded_height">34dp</dimen>
+    <dimen name="logo_expanded_width">84dp</dimen>
+    <dimen name="logo_collapsed_height">18dp</dimen>
+    <dimen name="logo_collapsed_width">44dp</dimen>
 
     <dimen name="doc_vertical_padding">8dp</dimen>
     <dimen name="doc_horizontal_padding">8dp</dimen>
@@ -15,5 +18,6 @@
     <dimen name="doc_shape_width">130dp</dimen>
     <dimen name="doc_shape_padding">8dp</dimen>
     <dimen name="doc_detail_text_margin_end">8dp</dimen>
+    <dimen name="add_doc_image_size">60dp</dimen>
 
 </resources>

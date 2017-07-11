@@ -28,8 +28,8 @@
 
                 <ImageView
                     android:id="@+id/main_layout_image_logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/logo_height_expanded_app_bar"
+                    android:layout_width="@dimen/logo_expanded_width"
+                    android:layout_height="@dimen/logo_expanded_height"
                     android:contentDescription="@string/app_name"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -69,8 +69,8 @@
 
         <ImageView
             android:id="@+id/main_toolbar_image_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
+            android:layout_width="@dimen/logo_collapsed_width"
+            android:layout_height="@dimen/logo_collapsed_height"
             android:contentDescription="@string/app_name"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
