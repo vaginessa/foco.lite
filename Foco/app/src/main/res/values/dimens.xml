@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="loading_size">50dp</dimen>
+
+    <dimen name="logo_margin_start">20dp</dimen>
+    <dimen name="logo_margin_bottom">20dp</dimen>
+    <dimen name="logo_height_expanded_app_bar">34dp</dimen>
+
+</resources>

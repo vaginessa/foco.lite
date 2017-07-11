@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Foco</string>
+    <string name="action_mute">Mute</string>
+    <string name="action_settings">Settings</string>
+</resources>

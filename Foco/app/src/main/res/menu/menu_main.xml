@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="io.github.nfdz.foco.ui.MainActivity">
+    <item
+        android:id="@+id/action_mute"
+        android:orderInCategory="100"
+        android:title="@string/action_mute"
+        android:icon="@drawable/ic_volume_up"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="200"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="always" />
+</menu>
