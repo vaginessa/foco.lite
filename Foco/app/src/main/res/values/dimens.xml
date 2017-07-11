@@ -7,4 +7,7 @@
     <dimen name="logo_margin_bottom">20dp</dimen>
     <dimen name="logo_height_expanded_app_bar">34dp</dimen>
 
+    <dimen name="doc_vertical_padding">8dp</dimen>
+    <dimen name="main_content_vertical_margin_top">30dp</dimen>
+
 </resources>

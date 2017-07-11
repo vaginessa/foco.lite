@@ -6,12 +6,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -19,7 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.nfdz.foco.R;
 
-public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
+public class MainActivity extends AppCompatActivity
+        implements AppBarLayout.OnOffsetChangedListener, DocsAdapter.DocsClickHandler {
 
     private static final float PERCENTAGE_LOGO_THRESHOLD = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
@@ -27,11 +32,15 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     private boolean mToolbarLogoVisible = false;
     private boolean mLayoutLogoVisible = true;
 
+    private DocsAdapter mAdapter;
+
     @BindView(R.id.main_toolbar) Toolbar mToolbar;
     @BindView(R.id.main_fab_add) FloatingActionButton mFab;
     @BindView(R.id.main_toolbar_image_logo) ImageView mToolbarLogo;
     @BindView(R.id.main_layout_image_logo) ImageView mLayoutLogo;
     @BindView(R.id.main_app_bar) AppBarLayout mAppBar;
+    @BindView(R.id.main_rv_docs) RecyclerView mRecyclerView;
+    @BindView(R.id.main_loading) ProgressBar mLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,15 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         mAppBar.addOnOffsetChangedListener(this);
 
         startAlphaAnimation(mToolbarLogo, 0, View.INVISIBLE);
+
+        int spanCount = getResources().getInteger(R.integer.grid_doc_columns);
+        int orientation = OrientationHelper.VERTICAL;
+        boolean reverseLayout = false;
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount, orientation, reverseLayout);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new DocsAdapter(this, this);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -102,6 +120,16 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 mLayoutLogoVisible = false;
             }
         }
+
+    }
+
+    @Override
+    public void onDocumentClick() {
+
+    }
+
+    @Override
+    public void onDocumentLongClick() {
 
     }
 }
