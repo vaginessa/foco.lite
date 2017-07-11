@@ -1,18 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/selector_doc"
     android:paddingTop="@dimen/doc_vertical_padding"
-    android:paddingBottom="@dimen/doc_vertical_padding">
+    android:paddingBottom="@dimen/doc_vertical_padding"
+    android:paddingLeft="@dimen/doc_horizontal_padding"
+    android:paddingRight="@dimen/doc_horizontal_padding">
 
     <LinearLayout
-        android:layout_width="130dp"
-        android:layout_height="184dp"
-        android:layout_gravity="center"
+        android:layout_width="@dimen/doc_shape_width"
+        android:layout_height="@dimen/doc_shape_height"
         android:orientation="vertical"
-        android:background="@drawable/shape_doc" >
+        android:layout_gravity="center"
+        android:background="@drawable/shape_doc"
+        android:padding="@dimen/doc_shape_padding">
+
+        <TextView
+            android:id="@+id/doc_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/colorPrimaryDark"
+            tools:text="Title" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
+                android:text="Words:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginEnd="@dimen/doc_detail_text_margin_end"
+                android:layout_marginRight="@dimen/doc_detail_text_margin_end"/>
+
+            <TextView
+                android:id="@+id/doc_item_words"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center_vertical|start"
+                tools:text="84965"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textAlignment="textStart"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center_vertical|end"
+                android:text="Time:"
+                android:textAlignment="textEnd"
+                android:layout_marginEnd="@dimen/doc_detail_text_margin_end"
+                android:layout_marginRight="@dimen/doc_detail_text_margin_end"/>
+
+            <TextView
+                android:id="@+id/doc_item_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center_vertical|start"
+                tools:text="50 min"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textAlignment="textStart"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
