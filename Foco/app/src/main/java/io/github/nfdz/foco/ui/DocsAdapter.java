@@ -13,11 +13,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.nfdz.foco.R;
 
-public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolder> {
+public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int DOCUMENT_TYPE = 0;
+    private static final int ADD_DOCUMENT_TYPE = 1;
 
     public interface DocsClickHandler {
         void onDocumentClick();
         void onDocumentLongClick();
+        void onAddDocumentClick();
     }
 
     private final Context mContext;
@@ -29,34 +33,56 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolder> {
     }
 
     @Override
-    public DocsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int layoutId = R.layout.doc_list_item;
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        boolean shouldAttachToParent = false;
-        View view = inflater.inflate(layoutId, parent, shouldAttachToParent);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == ADD_DOCUMENT_TYPE) {
+            int layoutId = R.layout.add_doc_list_item;
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            boolean shouldAttachToParent = false;
+            View view = inflater.inflate(layoutId, parent, shouldAttachToParent);
+            return new AddDocViewHolder(view);
+        } else {
+            int layoutId = R.layout.doc_list_item;
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            boolean shouldAttachToParent = false;
+            View view = inflater.inflate(layoutId, parent, shouldAttachToParent);
+            return new DocViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(DocsAdapter.ViewHolder holder, int position) {
-        holder.title.setText("Title etc");
-        holder.words.setText("1500");
-        holder.time.setText("40 min");
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == ADD_DOCUMENT_TYPE) {
+            // nothing to do
+        } else {
+            DocViewHolder docHolder = (DocViewHolder) holder;
+            docHolder.title.setText("Title etc");
+            docHolder.words.setText("1500");
+            docHolder.time.setText("40 min");
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return isTheLastOne(position) ? ADD_DOCUMENT_TYPE : DOCUMENT_TYPE;
+    }
+
+    private boolean isTheLastOne(int position) {
+        return position == 5;
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 5 + 1;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
+    public class DocViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
         @BindView(R.id.doc_item_title) TextView title;
         @BindView(R.id.doc_item_time) TextView time;
         @BindView(R.id.doc_item_words) TextView words;
 
-        public ViewHolder(View itemView) {
+        public DocViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
@@ -72,6 +98,19 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolder> {
         public boolean onLongClick(View v) {
             if (mHandler != null) mHandler.onDocumentLongClick();
             return true;
+        }
+    }
+
+    public class AddDocViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public AddDocViewHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mHandler != null) mHandler.onAddDocumentClick();
         }
     }
 }

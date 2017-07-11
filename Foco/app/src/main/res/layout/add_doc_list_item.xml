@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/selector_doc"
+    android:paddingTop="@dimen/doc_vertical_padding"
+    android:paddingBottom="@dimen/doc_vertical_padding"
+    android:paddingLeft="@dimen/doc_horizontal_padding"
+    android:paddingRight="@dimen/doc_horizontal_padding">
+
+    <LinearLayout
+        android:layout_width="@dimen/doc_shape_width"
+        android:layout_height="@dimen/doc_shape_height"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_empty_doc"
+        android:padding="@dimen/doc_shape_padding">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_add_dark"/>
+
+    </LinearLayout>
+
+</FrameLayout>

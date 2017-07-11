@@ -132,4 +132,9 @@ public class MainActivity extends AppCompatActivity
     public void onDocumentLongClick() {
 
     }
+
+    @Override
+    public void onAddDocumentClick() {
+        onCreateDocumentClick();
+    }
 }
