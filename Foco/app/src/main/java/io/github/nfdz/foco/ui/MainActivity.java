@@ -1,7 +1,14 @@
 package io.github.nfdz.foco.ui;
 
+import android.arch.lifecycle.LifecycleRegistryOwner;
+import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,16 +25,22 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.data.entity.DocumentMetadata;
+import io.github.nfdz.foco.viewmodel.DocListViewModel;
 
-public class MainActivity extends AppCompatActivity
-        implements AppBarLayout.OnOffsetChangedListener, DocsAdapter.DocsClickHandler {
+public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,
+        DocsAdapter.DocsClickHandler, LifecycleRegistryOwner {
 
     private static final float PERCENTAGE_LOGO_THRESHOLD = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
+
+    private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
 
     private boolean mToolbarLogoVisible = false;
     private boolean mLayoutLogoVisible = true;
@@ -41,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.main_app_bar) AppBarLayout mAppBar;
     @BindView(R.id.main_rv_docs) RecyclerView mRecyclerView;
     @BindView(R.id.main_loading) ProgressBar mLoading;
+    @BindView(R.id.main_collapsing_layout) CollapsingToolbarLayout mCollapsingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +77,20 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new DocsAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
+
+        DocListViewModel viewModel = ViewModelProviders.of(this).get(DocListViewModel.class);
+        subscribeUi(viewModel);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mAppBar.setExpanded(false, false);
     }
 
     @Override
@@ -79,12 +107,6 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @OnClick(R.id.main_fab_add)
-    void onCreateDocumentClick() {
-        Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
     }
 
     public static void startAlphaAnimation(View v, long duration, int visibility) {
@@ -123,6 +145,50 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void updateCollapsingBehaviour(){
+        /*if (mLayoutManager.findLastCompletelyVisibleItemPosition() == items.size()-1) {
+            turnOffToolbarScrolling();
+        } else {
+            turnOnToolbarScrolling();
+        }*/
+    }
+
+    private void turnOffCollapsing() {
+        AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) mCollapsingLayout.getLayoutParams();
+        toolbarLayoutParams.setScrollFlags(0);
+        mCollapsingLayout.setLayoutParams(toolbarLayoutParams);
+
+        CoordinatorLayout.LayoutParams appBarLayoutParams = (CoordinatorLayout.LayoutParams) mAppBar.getLayoutParams();
+        appBarLayoutParams.setBehavior(null);
+        mAppBar.setLayoutParams(appBarLayoutParams);
+    }
+
+    private void turnOnCollapsing() {
+        AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) mCollapsingLayout.getLayoutParams();
+        toolbarLayoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED);
+        mCollapsingLayout.setLayoutParams(toolbarLayoutParams);
+
+        CoordinatorLayout.LayoutParams appBarLayoutParams = (CoordinatorLayout.LayoutParams) mAppBar.getLayoutParams();
+        appBarLayoutParams.setBehavior(new AppBarLayout.Behavior());
+        mAppBar.setLayoutParams(appBarLayoutParams);
+    }
+
+    private void showLoading() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mLoading.setVisibility(View.VISIBLE);
+    }
+
+    private void showData() {
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mLoading.setVisibility(View.INVISIBLE);
+    }
+
+    @OnClick(R.id.main_fab_add)
+    void onCreateDocumentClick() {
+        Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
     @Override
     public void onDocumentClick() {
 
@@ -137,4 +203,24 @@ public class MainActivity extends AppCompatActivity
     public void onAddDocumentClick() {
         onCreateDocumentClick();
     }
+
+    @Override
+    public LifecycleRegistry getLifecycle() {
+        return mRegistry;
+    }
+
+    private void subscribeUi(DocListViewModel viewModel) {
+        viewModel.getDocumentsMetadata().observe(this, new Observer<List<DocumentMetadata>>() {
+            @Override
+            public void onChanged(@Nullable List<DocumentMetadata> docs) {
+                if (docs != null) {
+                    showData();
+                    mAdapter.setDocumentList(docs);
+                } else {
+                    showLoading();
+                }
+            }
+        });
+    }
+
 }

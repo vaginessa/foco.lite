@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.data.entity.DocumentMetadata;
 
 public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -27,9 +30,16 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context mContext;
     private final DocsClickHandler mHandler;
 
+    private List<DocumentMetadata> mDocs;
+
     public DocsAdapter(@NonNull Context context, @Nullable DocsClickHandler clickHandler) {
         mContext = context;
         mHandler = clickHandler;
+    }
+
+    public void setDocumentList(List<DocumentMetadata> docs) {
+        mDocs = docs;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -51,9 +61,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder.getItemViewType() == ADD_DOCUMENT_TYPE) {
-            // nothing to do
-        } else {
+        if (holder.getItemViewType() == DOCUMENT_TYPE) {
             DocViewHolder docHolder = (DocViewHolder) holder;
             docHolder.title.setText("Title etc");
             docHolder.words.setText("1500");
@@ -67,12 +75,14 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private boolean isTheLastOne(int position) {
-        return position == 5;
+        int listSize = mDocs != null ? mDocs.size() : 0;
+        return position == listSize;
     }
 
     @Override
     public int getItemCount() {
-        return 5 + 1;
+        int listSize = mDocs != null ? mDocs.size() : 0;
+        return listSize + 1;
     }
 
     public class DocViewHolder extends RecyclerView.ViewHolder
