@@ -12,7 +12,6 @@
 
     <dimen name="doc_vertical_padding">8dp</dimen>
     <dimen name="doc_horizontal_padding">8dp</dimen>
-    <dimen name="main_content_vertical_margin_top">40dp</dimen>
 
     <dimen name="doc_shape_height">184dp</dimen>
     <dimen name="doc_shape_width">130dp</dimen>

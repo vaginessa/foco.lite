@@ -59,14 +59,6 @@ public class DatabaseManager {
             protected Void doInBackground(Void... params) {
                 Context appContext = context.getApplicationContext();
                 mDb = AppDatabase.getInstance(appContext);
-
-                // insert dummy doc
-                DocumentEntity doc = new DocumentEntity();
-                doc.setLastEditionTimeMillis(System.currentTimeMillis());
-                doc.setName("Testing Title");
-                doc.setText("ASDFASFASDF ASDF ASDF ASDF AS FASF AS DF");
-                doc.setWorkingTimeMillis(new Random().nextInt());
-                mDb.documentDao().insert(doc);
                 return null;
             }
 

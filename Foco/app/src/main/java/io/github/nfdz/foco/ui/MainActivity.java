@@ -1,14 +1,14 @@
 package io.github.nfdz.foco.ui;
 
-import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,11 +26,14 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.data.AppDatabase;
+import io.github.nfdz.foco.data.entity.DocumentEntity;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
 
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     private boolean mLayoutLogoVisible = true;
 
     private DocsAdapter mAdapter;
+    private GridLayoutManager mLayoutManager;
 
     @BindView(R.id.main_toolbar) Toolbar mToolbar;
     @BindView(R.id.main_fab_add) FloatingActionButton mFab;
@@ -72,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         int spanCount = getResources().getInteger(R.integer.grid_doc_columns);
         int orientation = OrientationHelper.VERTICAL;
         boolean reverseLayout = false;
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount, orientation, reverseLayout);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
+        mLayoutManager = new GridLayoutManager(this, spanCount, orientation, reverseLayout);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new DocsAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
@@ -146,34 +150,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     }
 
-    private void updateCollapsingBehaviour(){
-        /*if (mLayoutManager.findLastCompletelyVisibleItemPosition() == items.size()-1) {
-            turnOffToolbarScrolling();
-        } else {
-            turnOnToolbarScrolling();
-        }*/
-    }
-
-    private void turnOffCollapsing() {
-        AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) mCollapsingLayout.getLayoutParams();
-        toolbarLayoutParams.setScrollFlags(0);
-        mCollapsingLayout.setLayoutParams(toolbarLayoutParams);
-
-        CoordinatorLayout.LayoutParams appBarLayoutParams = (CoordinatorLayout.LayoutParams) mAppBar.getLayoutParams();
-        appBarLayoutParams.setBehavior(null);
-        mAppBar.setLayoutParams(appBarLayoutParams);
-    }
-
-    private void turnOnCollapsing() {
-        AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) mCollapsingLayout.getLayoutParams();
-        toolbarLayoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED);
-        mCollapsingLayout.setLayoutParams(toolbarLayoutParams);
-
-        CoordinatorLayout.LayoutParams appBarLayoutParams = (CoordinatorLayout.LayoutParams) mAppBar.getLayoutParams();
-        appBarLayoutParams.setBehavior(new AppBarLayout.Behavior());
-        mAppBar.setLayoutParams(appBarLayoutParams);
-    }
-
     private void showLoading() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mLoading.setVisibility(View.VISIBLE);
@@ -188,6 +164,20 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     void onCreateDocumentClick() {
         Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+        // insert dummy doc
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+            DocumentEntity doc = new DocumentEntity();
+            doc.setLastEditionTimeMillis(System.currentTimeMillis());
+            doc.setName("Testing Title");
+            doc.setText("ASDFASFASDF ASDF ASDF ASDF AS FASF AS DF");
+            doc.setWorkingTimeMillis(new Random().nextInt());
+            AppDatabase.getInstance(MainActivity.this).documentDao().insert(doc);
+            return null;
+            }
+        }.execute();
+
     }
 
     @Override

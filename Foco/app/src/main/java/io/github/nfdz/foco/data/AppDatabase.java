@@ -22,6 +22,7 @@ public abstract class AppDatabase extends RoomDatabase {
         if (sInstance == null) {
             synchronized (LOCK) {
                 if (sInstance == null) {
+                    context.deleteDatabase(DATABASE_NAME);
                     sInstance = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME).build();
                 }
             }
