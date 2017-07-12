@@ -2,20 +2,19 @@ package io.github.nfdz.foco.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import io.github.nfdz.foco.data.entity.DocumentEntity;
 import timber.log.Timber;
 
-import static io.github.nfdz.foco.data.AppDatabase.DATABASE_NAME;
+public class DatabaseManager {
 
-public class DatabaseCreator {
-
-    private static DatabaseCreator sInstance;
+    private static DatabaseManager sInstance;
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
@@ -25,11 +24,11 @@ public class DatabaseCreator {
 
     // singleton instantiation
     private static final Object LOCK = new Object();
-    public synchronized static DatabaseCreator getInstance(Context context) {
+    public synchronized static DatabaseManager getInstance(Context context) {
         if (sInstance == null) {
             synchronized (LOCK) {
                 if (sInstance == null) {
-                    sInstance = new DatabaseCreator();
+                    sInstance = new DatabaseManager();
                 }
             }
         }
@@ -46,7 +45,7 @@ public class DatabaseCreator {
         return mDb;
     }
 
-    public void createDb(final Context context) {
+    public void initDb(final Context context) {
 
         Timber.d("Creating DB from " + Thread.currentThread().getName());
 
@@ -58,19 +57,16 @@ public class DatabaseCreator {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                Timber.d("Starting bg job " + Thread.currentThread().getName());
-
                 Context appContext = context.getApplicationContext();
+                mDb = AppDatabase.getInstance(appContext);
 
-                appContext.deleteDatabase(DATABASE_NAME);
-
-                AppDatabase db = Room.databaseBuilder(appContext, AppDatabase.class, DATABASE_NAME).build();
-
-                addDelay();
-
-                Timber.d("DB was created in thread " + Thread.currentThread().getName());
-
-                mDb = db;
+                // insert dummy doc
+                DocumentEntity doc = new DocumentEntity();
+                doc.setLastEditionTimeMillis(System.currentTimeMillis());
+                doc.setName("Testing Title");
+                doc.setText("ASDFASFASDF ASDF ASDF ASDF AS FASF AS DF");
+                doc.setWorkingTimeMillis(new Random().nextInt());
+                mDb.documentDao().insert(doc);
                 return null;
             }
 
@@ -79,11 +75,5 @@ public class DatabaseCreator {
                 mIsDatabaseCreated.setValue(true);
             }
         }.execute();
-    }
-
-    private void addDelay() {
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException ignored) {}
     }
 }

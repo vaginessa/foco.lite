@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         mAdapter = new DocsAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
 
+        showLoading();
         DocListViewModel viewModel = ViewModelProviders.of(this).get(DocListViewModel.class);
         subscribeUi(viewModel);
     }

@@ -9,7 +9,7 @@ import android.arch.lifecycle.Transformations;
 
 import java.util.List;
 
-import io.github.nfdz.foco.data.DatabaseCreator;
+import io.github.nfdz.foco.data.DatabaseManager;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 
 public class DocListViewModel extends AndroidViewModel {
@@ -24,9 +24,9 @@ public class DocListViewModel extends AndroidViewModel {
     public DocListViewModel(Application application) {
         super(application);
 
-        final DatabaseCreator databaseCreator = DatabaseCreator.getInstance(application);
+        final DatabaseManager databaseManager = DatabaseManager.getInstance(application);
 
-        LiveData<Boolean> databaseCreated = databaseCreator.isDatabaseCreated();
+        LiveData<Boolean> databaseCreated = databaseManager.isDatabaseCreated();
         mObservableDocuments = Transformations.switchMap(databaseCreated,
                 new Function<Boolean, LiveData<List<DocumentMetadata>>>() {
                     @Override
@@ -34,12 +34,12 @@ public class DocListViewModel extends AndroidViewModel {
                         if (!Boolean.TRUE.equals(isDbCreated)) {
                             return ABSENT;
                         } else {
-                            return databaseCreator.getDatabase().documentDao().loadAllDocumentsMetadata();
+                            return databaseManager.getDatabase().documentDao().loadAllDocumentsMetadata();
                         }
                     }
                 });
 
-        databaseCreator.createDb(this.getApplication());
+        databaseManager.initDb(this.getApplication());
     }
 
     public LiveData<List<DocumentMetadata>> getDocumentsMetadata() {
