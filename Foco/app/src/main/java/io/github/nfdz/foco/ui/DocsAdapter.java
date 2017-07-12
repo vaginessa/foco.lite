@@ -63,9 +63,10 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == DOCUMENT_TYPE) {
             DocViewHolder docHolder = (DocViewHolder) holder;
-            docHolder.title.setText("Title etc");
+            docHolder.title.setText("Title");
             docHolder.words.setText("1500");
-            docHolder.time.setText("40 min");
+            docHolder.workTime.setText("40 min");
+            docHolder.editTime.setText("1999/12/31 00:00");
         }
     }
 
@@ -89,8 +90,9 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             implements View.OnClickListener, View.OnLongClickListener {
 
         @BindView(R.id.doc_item_title) TextView title;
-        @BindView(R.id.doc_item_time) TextView time;
+        @BindView(R.id.doc_item_work_time) TextView workTime;
         @BindView(R.id.doc_item_words) TextView words;
+        @BindView(R.id.doc_item_edit_time) TextView editTime;
 
         public DocViewHolder(View itemView) {
             super(itemView);
