@@ -25,8 +25,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,10 +43,15 @@ import io.github.nfdz.foco.viewmodel.DocListViewModel;
 public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,
         DocsAdapter.DocsClickHandler, LifecycleRegistryOwner {
 
+    private static final String SELECTED_DOCUMENTS_KEY = "selected-documents";
+
+    private static final float PERCENTAGE_ADD_DOC_THRESHOLD = 0.7f;
     private static final float PERCENTAGE_LOGO_THRESHOLD = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
 
     private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
+
+    private final Set<Integer> mSelectedDocumentsIds = new HashSet<>();
 
     private boolean mToolbarLogoVisible = false;
     private boolean mLayoutLogoVisible = true;
@@ -69,18 +77,17 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(null);
 
-        mAppBar.addOnOffsetChangedListener(this);
-
-        startAlphaAnimation(mToolbarLogo, 0, View.INVISIBLE);
-
         int spanCount = getResources().getInteger(R.integer.grid_doc_columns);
         int orientation = OrientationHelper.VERTICAL;
         boolean reverseLayout = false;
         mLayoutManager = new GridLayoutManager(this, spanCount, orientation, reverseLayout);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new DocsAdapter(this, this);
+        mAdapter = new DocsAdapter(this, mSelectedDocumentsIds, this);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAppBar.addOnOffsetChangedListener(this);
+        startAlphaAnimation(mToolbarLogo, 0, View.INVISIBLE);
 
         showLoading();
         DocListViewModel viewModel = ViewModelProviders.of(this).get(DocListViewModel.class);
@@ -90,12 +97,25 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putIntegerArrayList(SELECTED_DOCUMENTS_KEY, new ArrayList<Integer>(mSelectedDocumentsIds));
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mAppBar.setExpanded(false, false);
+        mSelectedDocumentsIds.addAll(savedInstanceState.getIntegerArrayList(SELECTED_DOCUMENTS_KEY));
+        mAdapter.updateSelectedDocuments();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mSelectedDocumentsIds.size() != 0) {
+            mSelectedDocumentsIds.clear();
+            mAdapter.updateSelectedDocuments();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -128,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         int maxScroll = appBarLayout.getTotalScrollRange();
         float percentage = (float) Math.abs(offset) / (float) maxScroll;
 
+        // update logo
         if (percentage < PERCENTAGE_LOGO_THRESHOLD) {
             if (mToolbarLogoVisible) {
                 startAlphaAnimation(mToolbarLogo, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
@@ -145,6 +166,17 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
             if(mLayoutLogoVisible) {
                 startAlphaAnimation(mLayoutLogo, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
                 mLayoutLogoVisible = false;
+            }
+        }
+
+        // update add doc adapter placeholder
+        if (percentage < PERCENTAGE_ADD_DOC_THRESHOLD) {
+            if (mAdapter.getShowAddDoc()) {
+                mAdapter.setShowAddDoc(false);
+            }
+        } else {
+            if (!mAdapter.getShowAddDoc()) {
+                mAdapter.setShowAddDoc(true);
             }
         }
 
@@ -181,13 +213,15 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     }
 
     @Override
-    public void onDocumentClick() {
-
+    public void onDocumentClick(DocumentMetadata doc) {
+        Toast.makeText(this, "TODO Doc click:"+doc.id, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onDocumentLongClick() {
-
+    public void onDocumentLongClick(DocumentMetadata doc) {
+        mSelectedDocumentsIds.add(doc.id);
+        mAdapter.updateSelectedDocuments();
+        // TODO show tool bar
     }
 
     @Override

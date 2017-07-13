@@ -25,6 +25,9 @@
     <item android:drawable="@color/colorPrimary"
         android:state_focused="true"/>
 
+    <item android:drawable="@color/colorPrimary"
+        android:state_selected="true"/>
+
     <!-- Default state with no interaction -->
     <item android:drawable="@android:color/transparent"/>
 </selector>

@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,8 +25,8 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ADD_DOCUMENT_TYPE = 1;
 
     public interface DocsClickHandler {
-        void onDocumentClick();
-        void onDocumentLongClick();
+        void onDocumentClick(DocumentMetadata doc);
+        void onDocumentLongClick(DocumentMetadata doc);
         void onAddDocumentClick();
     }
 
@@ -31,14 +34,34 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final DocsClickHandler mHandler;
 
     private List<DocumentMetadata> mDocs;
+    private boolean mShowAddDoc;
+    private Set<Integer> mSelectedDocumentsIds;
 
-    public DocsAdapter(@NonNull Context context, @Nullable DocsClickHandler clickHandler) {
+    public DocsAdapter(@NonNull Context context,
+                       @Nullable Set<Integer> selectedDocumentsIds,
+                       @Nullable DocsClickHandler clickHandler) {
         mContext = context;
         mHandler = clickHandler;
+        mSelectedDocumentsIds = selectedDocumentsIds == null ? new HashSet<Integer>() :
+                selectedDocumentsIds;
+        mShowAddDoc = false;
     }
 
     public void setDocumentList(List<DocumentMetadata> docs) {
         mDocs = docs;
+        notifyDataSetChanged();
+    }
+
+    public void setShowAddDoc(boolean showAddDoc) {
+        mShowAddDoc = showAddDoc;
+        notifyDataSetChanged();
+    }
+
+    public boolean getShowAddDoc() {
+        return mShowAddDoc;
+    }
+
+    public void updateSelectedDocuments() {
         notifyDataSetChanged();
     }
 
@@ -63,16 +86,18 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == DOCUMENT_TYPE) {
             DocViewHolder docHolder = (DocViewHolder) holder;
-            docHolder.title.setText("Title ");
+            DocumentMetadata doc = mDocs.get(position);
+            docHolder.title.setText("Title " + doc.id);
             docHolder.words.setText("1500");
             docHolder.workTime.setText("40");
             docHolder.editTime.setText("1999/12/31 00:00");
+            docHolder.itemView.setSelected(mSelectedDocumentsIds.contains(doc.id));
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        return isTheLastOne(position) ? ADD_DOCUMENT_TYPE : DOCUMENT_TYPE;
+        return mShowAddDoc && isTheLastOne(position) ? ADD_DOCUMENT_TYPE : DOCUMENT_TYPE;
     }
 
     private boolean isTheLastOne(int position) {
@@ -83,7 +108,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         int listSize = mDocs != null ? mDocs.size() : 0;
-        return listSize + 1;
+        return listSize + (mShowAddDoc ? 1 : 0);
     }
 
     public class DocViewHolder extends RecyclerView.ViewHolder
@@ -103,12 +128,18 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if (mHandler != null) mHandler.onDocumentClick();
+            if (mHandler != null) {
+                int pos = getAdapterPosition();
+                mHandler.onDocumentClick(mDocs.get(pos));
+            }
         }
 
         @Override
         public boolean onLongClick(View v) {
-            if (mHandler != null) mHandler.onDocumentLongClick();
+            if (mHandler != null) {
+                int pos = getAdapterPosition();
+                mHandler.onDocumentLongClick(mDocs.get(pos));
+            }
             return true;
         }
     }
