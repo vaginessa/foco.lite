@@ -48,7 +48,7 @@ Minimalist text editor for writing without distractions for Android. This applic
 
 ## 3rd party software
 
-* [Android Architecture Components (Room, LiveData, ViewModel, LifecycleObserver and LifecycleOwner)](https://developer.android.com/topic/libraries/architecture/index.html)
+* [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) (Room, LiveData, ViewModel, LifecycleObserver and LifecycleOwner)
 * [Butter Knife](http://jakewharton.github.io/butterknife/)
 * [Timber](https://github.com/JakeWharton/timber)
 
