@@ -10,13 +10,13 @@
     <dimen name="logo_collapsed_height">18dp</dimen>
     <dimen name="logo_collapsed_width">44dp</dimen>
 
-    <dimen name="doc_vertical_padding">8dp</dimen>
-    <dimen name="doc_horizontal_padding">8dp</dimen>
+    <dimen name="doc_vertical_padding">16dp</dimen>
+    <dimen name="doc_horizontal_padding">16dp</dimen>
 
     <dimen name="doc_shape_height">184dp</dimen>
     <dimen name="doc_shape_width">130dp</dimen>
     <dimen name="doc_shape_padding">8dp</dimen>
-    <dimen name="doc_detail_text_margin_end">8dp</dimen>
+    <dimen name="doc_detail_text_margin_start">4dp</dimen>
     <dimen name="add_doc_image_size">60dp</dimen>
 
 </resources>

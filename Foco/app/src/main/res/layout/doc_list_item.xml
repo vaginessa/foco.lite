@@ -25,6 +25,8 @@
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorPrimaryDark"
+            android:maxLines="2"
+            android:ellipsize="end"
             tools:text="Title" />
 
         <LinearLayout
@@ -34,25 +36,28 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/doc_detail_text_margin_end"
-                android:layout_marginRight="@dimen/doc_detail_text_margin_end"
-                android:gravity="center_vertical|end"
-                android:text="Words:"
-                android:textSize="10dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-            <TextView
                 android:id="@+id/doc_item_words"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical|start"
+                android:gravity="center_vertical|end"
                 tools:text="84965"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:ellipsize="end"
+                android:textAlignment="textEnd"
+                android:textSize="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/doc_detail_text_margin_start"
+                android:layout_marginLeft="@dimen/doc_detail_text_margin_start"
+                android:gravity="center_vertical|start"
                 android:textAlignment="textStart"
+                android:text="words"
                 android:textSize="10dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
@@ -64,26 +69,28 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="50dp"
+                android:id="@+id/doc_item_work_time"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|end"
-                android:text="Time:"
+                tools:text="50"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:textAlignment="textEnd"
-                android:layout_marginEnd="@dimen/doc_detail_text_margin_end"
-                android:layout_marginRight="@dimen/doc_detail_text_margin_end"
                 android:textSize="10dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <TextView
-                android:id="@+id/doc_item_work_time"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|start"
-                tools:text="50 min"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:ellipsize="end"
+                android:text="minutes"
                 android:textAlignment="textStart"
+                android:layout_marginStart="@dimen/doc_detail_text_margin_start"
+                android:layout_marginLeft="@dimen/doc_detail_text_margin_start"
                 android:textSize="10dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
@@ -93,7 +100,7 @@
             android:id="@+id/doc_item_edit_time"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.1"
             android:gravity="center"
             tools:text="1999/12/31 00:00"
             android:textAlignment="center"
