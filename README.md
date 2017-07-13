@@ -1,5 +1,10 @@
 # foco
 
+<p align="center">
+  <img src="dev/icon.png?raw=true" width="300" alt="App Icon"/>
+  <img src="dev/logo.svg" width="300" alt="App Logo"/>
+</p>
+
 Minimalist text editor for writing without distractions for Android. This application can be considered as a professional writing application without distractions and fuss, since it has many useful features, or also as a simple notes application, because it is easy to use and tiny.
 
 ## Features
@@ -31,6 +36,12 @@ Minimalist text editor for writing without distractions for Android. This applic
 * Bold, italic, underlined and strikethrough
 * Quote
 * List
+
+## Mockup
+
+<p align="center">
+  <img src="dev/mockup.png?raw=true" width="300" alt="App Mockup"/>
+</p>
 
 ## TODO
 * Mockup application
