@@ -5,10 +5,9 @@
 
     <dimen name="logo_margin_start">20dp</dimen>
     <dimen name="logo_margin_bottom">20dp</dimen>
-    <dimen name="logo_expanded_height">34dp</dimen>
-    <dimen name="logo_expanded_width">84dp</dimen>
-    <dimen name="logo_collapsed_height">18dp</dimen>
-    <dimen name="logo_collapsed_width">44dp</dimen>
+    <dimen name="logo_expanded_width">100dp</dimen>
+    <dimen name="logo_collapsed_width">48dp</dimen>
+    <dimen name="layout_expanded_bottom_line_height">8dp</dimen>
 
     <dimen name="doc_vertical_padding">16dp</dimen>
     <dimen name="doc_horizontal_padding">16dp</dimen>

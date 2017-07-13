@@ -16,7 +16,7 @@
             android:id="@+id/main_collapsing_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
+            android:background="@drawable/main_expanded_layout"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <FrameLayout
@@ -30,7 +30,7 @@
                 <ImageView
                     android:id="@+id/main_layout_image_logo"
                     android:layout_width="@dimen/logo_expanded_width"
-                    android:layout_height="@dimen/logo_expanded_height"
+                    android:layout_height="wrap_content"
                     android:contentDescription="@string/app_name"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
@@ -38,7 +38,7 @@
                     android:layout_marginLeft="@dimen/logo_margin_start"
                     android:layout_marginBottom="@dimen/logo_margin_bottom"
                     android:layout_gravity="bottom|start"
-                    app:srcCompat="@drawable/ic_logo_name"/>
+                    app:srcCompat="@drawable/logo"/>
 
             </FrameLayout>
 
@@ -65,19 +65,19 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         app:layout_anchor="@id/main_layout_title"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <ImageView
             android:id="@+id/main_toolbar_image_logo"
             android:layout_width="@dimen/logo_collapsed_width"
-            android:layout_height="@dimen/logo_collapsed_height"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:layout_marginStart="@dimen/logo_margin_start"
             android:layout_marginLeft="@dimen/logo_margin_start"
-            app:srcCompat="@drawable/ic_logo_name"/>
+            app:srcCompat="@drawable/logo_light"/>
 
     </android.support.v7.widget.Toolbar>
 
