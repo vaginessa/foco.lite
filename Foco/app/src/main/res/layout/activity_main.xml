@@ -9,14 +9,14 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/main_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="@dimen/app_bar_expanded_height"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/main_collapsing_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/main_expanded_layout"
+            android:background="@drawable/app_bar_expanded_bg"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <FrameLayout
@@ -58,12 +58,12 @@
         android:layout_width="@dimen/loading_size"
         android:layout_height="@dimen/loading_size"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/app_bar_height"/>
+        android:layout_marginTop="@dimen/app_bar_expanded_height"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
+        android:layout_height="@dimen/app_bar_collapsed_height"
         app:layout_anchor="@id/main_layout_title"
         android:background="@color/colorAccent"
         app:popupTheme="@style/AppTheme.PopupOverlay">
