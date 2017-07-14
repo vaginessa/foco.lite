@@ -18,6 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.nfdz.foco.R;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
+import io.github.nfdz.foco.utils.DocItemUtils;
+import io.github.nfdz.foco.utils.FontChangeCrawler;
 
 public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -32,10 +34,13 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context mContext;
     private final DocsClickHandler mHandler;
+    private final FontChangeCrawler mRegularFontChanger;
+    private final FontChangeCrawler mBoldFontChanger;
 
     private List<DocumentMetadata> mDocs;
     private boolean mShowAddDoc;
     private Set<Integer> mSelectedDocumentsIds;
+
 
     public DocsAdapter(@NonNull Context context,
                        @Nullable Set<Integer> selectedDocumentsIds,
@@ -45,6 +50,10 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         mSelectedDocumentsIds = selectedDocumentsIds == null ? new HashSet<Integer>() :
                 selectedDocumentsIds;
         mShowAddDoc = false;
+        mRegularFontChanger = new FontChangeCrawler(mContext.getAssets(),
+                mContext.getString(R.string.font_libre_baskerville_regular));
+        mBoldFontChanger = new FontChangeCrawler(mContext.getAssets(),
+                mContext.getString(R.string.font_libre_baskerville_bold));
     }
 
     public void setDocumentList(List<DocumentMetadata> docs) {
@@ -87,7 +96,12 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder.getItemViewType() == DOCUMENT_TYPE) {
             DocViewHolder docHolder = (DocViewHolder) holder;
             DocumentMetadata doc = mDocs.get(position);
-            docHolder.title.setText("Title " + doc.id);
+            String title = "Title normal no muy la";
+            if (doc.id == 1 ) title = "Title " + doc.id + " largo per no mucho lo suficiente para esto que se vea";
+            if (doc.id == 2 ) title = "Title " + doc.id + " largo de cojones me cago en todo puta mierda esto no cabe ni de broma puto usuario";
+            if (doc.id == 3 ) title = "Title " + doc.id + " mediano mas asumible un tamaño e";
+            DocItemUtils.resolveTitleSize(mContext, title, docHolder.title);
+            docHolder.title.setText(title);
             docHolder.words.setText("1500 words");
             docHolder.workTime.setText("40 minutes");
             docHolder.editTime.setText("1999/12/31 00:00");
@@ -123,6 +137,14 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public DocViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            // replace fonts
+            mBoldFontChanger.replaceFonts(title);
+            mRegularFontChanger.replaceFonts(workTime);
+            mRegularFontChanger.replaceFonts(words);
+            mRegularFontChanger.replaceFonts(editTime);
+
+            // set click listeners
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

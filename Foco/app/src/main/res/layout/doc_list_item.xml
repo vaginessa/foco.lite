@@ -67,7 +67,7 @@
         app:layout_constraintRight_toRightOf="@+id/doc_item_bg"
         app:layout_constraintLeft_toLeftOf="@+id/doc_item_bg"
         android:paddingTop="@dimen/doc_item_shadow_vertical_padding"
-        android:textSize="20dp"
+        android:textSize="@dimen/doc_item_title_large"
         android:maxLines="3"
         android:ellipsize="end"
         tools:text="Title"/>
@@ -81,7 +81,7 @@
         tools:text="2000 words"
         app:layout_constraintTop_toTopOf="@+id/doc_item_guideline"
         app:layout_constraintRight_toRightOf="@+id/doc_item_title"
-        android:textSize="10dp"
+        android:textSize="@dimen/doc_item_details"
         android:textColor="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="@+id/doc_item_title" />
 
@@ -95,7 +95,7 @@
         tools:text="50 minutes"
         app:layout_constraintTop_toBottomOf="@+id/doc_item_words"
         app:layout_constraintRight_toRightOf="@+id/doc_item_title"
-        android:textSize="10dp"
+        android:textSize="@dimen/doc_item_details"
         android:textColor="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="@+id/doc_item_title" />
 
@@ -109,7 +109,7 @@
         tools:text="1999/12/31 00:00"
         app:layout_constraintTop_toBottomOf="@+id/doc_item_work_time"
         app:layout_constraintRight_toRightOf="@+id/doc_item_title"
-        android:textSize="10dp"
+        android:textSize="@dimen/doc_item_details"
         android:paddingBottom="@dimen/doc_item_shadow_vertical_padding"
         android:textColor="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="@+id/doc_item_title" />

@@ -24,4 +24,9 @@
 
     <dimen name="doc_item_shadow_vertical_padding">4dp</dimen>
 
+    <dimen name="doc_item_details">9dp</dimen>
+    <dimen name="doc_item_title_large">20dp</dimen>
+    <dimen name="doc_item_title_medium">14dp</dimen>
+    <dimen name="doc_item_title_small">11dp</dimen>
+
 </resources>

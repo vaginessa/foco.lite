@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(null);
 
+        // set up recycler view
         int spanCount = getResources().getInteger(R.integer.grid_doc_columns);
         int orientation = OrientationHelper.VERTICAL;
         boolean reverseLayout = false;
