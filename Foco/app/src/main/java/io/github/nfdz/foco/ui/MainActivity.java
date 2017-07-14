@@ -17,6 +17,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import io.github.nfdz.foco.R;
 import io.github.nfdz.foco.data.AppDatabase;
 import io.github.nfdz.foco.data.entity.DocumentEntity;
@@ -224,9 +226,35 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     @Override
     public void onDocumentLongClick(DocumentMetadata doc) {
-        mSelectedDocumentsIds.add(doc.id);
+        if (mSelectedDocumentsIds.contains(doc.id)) {
+            mSelectedDocumentsIds.remove(doc.id);
+        } else {
+            mSelectedDocumentsIds.add(doc.id);
+        }
         mAdapter.updateSelectedDocuments();
         // TODO show tool bar
+    }
+
+    public void makeSelectionBarToast(View view){
+        int x = view.getLeft();
+        int y = view.getTop() + 2*view.getHeight();
+        Toast toast = Toast.makeText(this, "TEST", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM|Gravity.LEFT, x, y);
+        toast.show();
+    }
+
+    // TODO move to only one method
+
+    @OnLongClick(R.id.main_selection_bar_exit)
+    public boolean onSelectionBarExit(View view) {
+        makeSelectionBarToast(view);
+        return true;
+    }
+
+    @OnLongClick(R.id.main_selection_bar_settings)
+    public boolean onSelectionBarSettings(View view) {
+        makeSelectionBarToast(view);
+        return true;
     }
 
     @Override

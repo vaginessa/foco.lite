@@ -90,4 +90,66 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_add_light" />
 
+    <LinearLayout
+        android:id="@+id/main_selection_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/selection_bar_height"
+        android:background="@color/colorAccent"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/main_selection_bar_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_margin="@dimen/selection_bar_item_margin"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_back" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_margin="@dimen/selection_bar_item_margin"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_delete" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_margin="@dimen/selection_bar_item_margin"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_cloud_upload" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_margin="@dimen/selection_bar_item_margin"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_share" />
+
+        <ImageButton
+            android:id="@+id/main_selection_bar_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_margin="@dimen/selection_bar_item_margin"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_settings"
+            android:contentDescription="Cover Settings"/>
+
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>
