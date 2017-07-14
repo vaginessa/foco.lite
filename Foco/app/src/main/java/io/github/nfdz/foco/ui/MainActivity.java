@@ -159,11 +159,11 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 mLayoutLogoVisible = true;
             }
         } else {
-            if(!mToolbarLogoVisible) {
+            if (!mToolbarLogoVisible) {
                 startAlphaAnimation(mToolbarLogo, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
                 mToolbarLogoVisible = true;
             }
-            if(mLayoutLogoVisible) {
+            if (mLayoutLogoVisible) {
                 startAlphaAnimation(mLayoutLogo, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
                 mLayoutLogoVisible = false;
             }
@@ -180,6 +180,10 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
             }
         }
 
+        // It is necessary to make sure that the toolbar is in the front because in some
+        // versions of android (not all :S) the collapsible layout is placed above the toolbar
+        // when it is expanding
+        mToolbar.bringToFront();
     }
 
     private void showLoading() {
