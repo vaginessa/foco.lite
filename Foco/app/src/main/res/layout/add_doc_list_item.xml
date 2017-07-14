@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/selector_doc"
-    android:paddingTop="@dimen/doc_vertical_padding"
-    android:paddingBottom="@dimen/doc_vertical_padding"
-    android:paddingLeft="@dimen/doc_horizontal_padding"
-    android:paddingRight="@dimen/doc_horizontal_padding">
+    android:paddingTop="@dimen/doc_item_vertical_padding"
+    android:paddingBottom="@dimen/doc_item_vertical_padding"
+    android:paddingLeft="@dimen/doc_item_horizontal_padding"
+    android:paddingRight="@dimen/doc_item_horizontal_padding">
 
     <LinearLayout
         android:layout_width="@dimen/doc_shape_width"
