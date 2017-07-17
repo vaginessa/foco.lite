@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.nfdz.foco.R;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
+import io.github.nfdz.foco.model.Document;
 import io.github.nfdz.foco.utils.DocItemUtils;
 import io.github.nfdz.foco.utils.FontChangeCrawler;
 
@@ -39,16 +40,16 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<DocumentMetadata> mDocs;
     private boolean mShowAddDoc;
-    private Set<Integer> mSelectedDocumentsIds;
+    private Set<DocumentMetadata> mSelectedDocuments;
 
 
     public DocsAdapter(@NonNull Context context,
-                       @Nullable Set<Integer> selectedDocumentsIds,
+                       @Nullable Set<DocumentMetadata> selectedDocuments,
                        @Nullable DocsClickHandler clickHandler) {
         mContext = context;
         mHandler = clickHandler;
-        mSelectedDocumentsIds = selectedDocumentsIds == null ? new HashSet<Integer>() :
-                selectedDocumentsIds;
+        mSelectedDocuments = selectedDocuments == null ? new HashSet<DocumentMetadata>() :
+                selectedDocuments;
         mShowAddDoc = false;
         mRegularFontChanger = new FontChangeCrawler(mContext.getAssets(),
                 mContext.getString(R.string.font_libre_baskerville_regular));
@@ -105,10 +106,42 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (doc.id == 6 ) title = "ElQuijotedelamancha2ElQuijotedelamancha2";
             DocItemUtils.resolveTitleSize(mContext, title, docHolder.title);
             docHolder.title.setText(title);
-            docHolder.words.setText("1500 words");
-            docHolder.workTime.setText("40 minutes");
-            docHolder.editTime.setText("1999/12/31 00:00");
-            docHolder.itemView.setSelected(mSelectedDocumentsIds.contains(doc.id));
+
+            if (doc.words != Document.NULL_WORDS) {
+                docHolder.words.setText("1500 words");
+                docHolder.words.setVisibility(View.VISIBLE);
+            } else {
+                docHolder.words.setVisibility(View.GONE);
+            }
+
+            if (doc.workingTime != Document.NULL_WORKING_TIME) {
+                docHolder.workTime.setText("40 minutes");
+                docHolder.workTime.setVisibility(View.VISIBLE);
+            } else {
+                docHolder.workTime.setVisibility(View.GONE);
+            }
+
+            if (doc.lastEditionTime != Document.NULL_LAST_EDITION_TIME) {
+                docHolder.editTime.setText("1999/12/31 00:00");
+                docHolder.editTime.setVisibility(View.VISIBLE);
+            } else {
+                docHolder.editTime.setVisibility(View.GONE);
+            }
+
+            if (doc.isFavorite) {
+                docHolder.fav.setVisibility(View.VISIBLE);
+            } else {
+                docHolder.fav.setVisibility(View.INVISIBLE);
+            }
+
+            boolean selected = false;
+            for (DocumentMetadata selectedDoc : mSelectedDocuments) {
+                if (selectedDoc.id == doc.id) {
+                    selected = true;
+                    break;
+                }
+            }
+            docHolder.itemView.setSelected(selected);
         }
     }
 

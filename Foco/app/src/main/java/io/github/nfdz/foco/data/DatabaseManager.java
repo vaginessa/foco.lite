@@ -45,7 +45,7 @@ public class DatabaseManager {
         return mDb;
     }
 
-    public void initDb(final Context context) {
+    public void initDbAsync(final Context context) {
 
         Timber.d("Creating DB from " + Thread.currentThread().getName());
 

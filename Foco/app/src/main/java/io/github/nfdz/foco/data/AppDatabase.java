@@ -15,8 +15,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract DocumentDao documentDao();
 
+    // singleton instantiation
     private static AppDatabase sInstance;
-
     private static final Object LOCK = new Object();
     public synchronized static AppDatabase getInstance(Context context) {
         if (sInstance == null) {

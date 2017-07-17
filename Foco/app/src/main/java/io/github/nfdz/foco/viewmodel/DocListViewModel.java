@@ -39,7 +39,7 @@ public class DocListViewModel extends AndroidViewModel {
                     }
                 });
 
-        databaseManager.initDb(this.getApplication());
+        databaseManager.initDbAsync(this.getApplication());
     }
 
     public LiveData<List<DocumentMetadata>> getDocumentsMetadata() {

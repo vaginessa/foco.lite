@@ -4,7 +4,6 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -29,16 +28,16 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.nfdz.foco.R;
-import io.github.nfdz.foco.data.AppDatabase;
-import io.github.nfdz.foco.data.entity.DocumentEntity;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
+import io.github.nfdz.foco.model.Callbacks;
+import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
+import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
 
 public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
 
-    private final Set<Integer> mSelectedDocumentsIds = new HashSet<>();
+    private final Set<DocumentMetadata> mSelectedDocuments = new HashSet<>();
 
     private boolean mToolbarLogoVisible = false;
     private boolean mLayoutLogoVisible = true;
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         mLayoutManager = new GridLayoutManager(this, spanCount, orientation, reverseLayout);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new DocsAdapter(this, mSelectedDocumentsIds, this);
+        mAdapter = new DocsAdapter(this, mSelectedDocuments, this);
         mRecyclerView.setAdapter(mAdapter);
 
         mAppBar.addOnOffsetChangedListener(this);
@@ -116,21 +115,27 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putIntegerArrayList(SELECTED_DOCUMENTS_KEY, new ArrayList<Integer>(mSelectedDocumentsIds));
+        if (mSelectedDocuments.size() > 0) {
+            outState.putParcelableArrayList(SELECTED_DOCUMENTS_KEY,
+                    new ArrayList<>(mSelectedDocuments));
+        }
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mAppBar.setExpanded(false, false);
-        mSelectedDocumentsIds.addAll(savedInstanceState.getIntegerArrayList(SELECTED_DOCUMENTS_KEY));
-        mAdapter.updateSelectedDocuments();
-        updateSelectionBar();
+        if (savedInstanceState.containsKey(SELECTED_DOCUMENTS_KEY)) {
+            ArrayList<DocumentMetadata> docs = savedInstanceState.getParcelableArrayList(SELECTED_DOCUMENTS_KEY);
+            mSelectedDocuments.addAll(docs);
+            mAdapter.updateSelectedDocuments();
+            updateSelectionBar();
+        }
     }
 
     @Override
     public void onBackPressed() {
-        if (mSelectedDocumentsIds.size() != 0) {
+        if (mSelectedDocuments.size() != 0) {
             onSelectionExitClick();
         } else {
             super.onBackPressed();
@@ -219,18 +224,12 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     void onCreateDocumentClick() {
         //Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         // insert dummy doc
-        new AsyncTask() {
+        TasksUtils.createDocument(this, "Test Title", new Callbacks.FinishCallback<Long>() {
             @Override
-            protected Object doInBackground(Object[] params) {
-            DocumentEntity doc = new DocumentEntity();
-            doc.setLastEditionTimeMillis(System.currentTimeMillis());
-            doc.setName("Testing Title");
-            doc.setText("ASDFASFASDF ASDF ASDF ASDF AS FASF AS DF");
-            doc.setWorkingTimeMillis(new Random().nextInt());
-            AppDatabase.getInstance(MainActivity.this).documentDao().insert(doc);
-            return null;
+            public void onFinish(Long id) {
+                // TODO open document
             }
-        }.execute();
+        });
 
     }
 
@@ -241,17 +240,17 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     @Override
     public void onDocumentLongClick(DocumentMetadata doc) {
-        if (mSelectedDocumentsIds.contains(doc.id)) {
-            mSelectedDocumentsIds.remove(doc.id);
+        if (mSelectedDocuments.contains(doc)) {
+            mSelectedDocuments.remove(doc);
         } else {
-            mSelectedDocumentsIds.add(doc.id);
+            mSelectedDocuments.add(doc);
         }
         mAdapter.updateSelectedDocuments();
         updateSelectionBar();
     }
 
     private void updateSelectionBar() {
-        switch (mSelectedDocumentsIds.size()) {
+        switch (mSelectedDocuments.size()) {
             case 0:
                 showNoSelectionMode();
                 break;
@@ -297,14 +296,29 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     @OnClick(R.id.main_selection_bar_exit)
     public void onSelectionExitClick() {
-        mSelectedDocumentsIds.clear();
+        mSelectedDocuments.clear();
         mAdapter.updateSelectedDocuments();
         showNoSelectionMode();
     }
 
     @OnClick(R.id.main_selection_bar_delete)
     public void onSelectionDeleteClick() {
-        // TODO
+        DeleteDocDialog.showDialog(this,
+                mSelectedDocuments.size(),
+                new DeleteDocDialog.Callback() {
+                    @Override
+                    public void onDeleteConfirmed() {
+                        TasksUtils.deleteDocument(MainActivity.this,
+                                mSelectedDocuments,
+                                new Callbacks.FinishCallback<Void>() {
+                                    @Override
+                                    public void onFinish(Void result) {
+                                        mSelectedDocuments.clear();
+                                        showNoSelectionMode();
+                                    }
+                                });
+                    }
+                });
     }
 
     @OnClick(R.id.main_selection_bar_cloud)
@@ -319,7 +333,16 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     @OnClick(R.id.main_selection_bar_favorite)
     public void onSelectionFavoriteClick() {
-        // TODO
+        TasksUtils.toggleFavorite(this,
+                mSelectedDocuments,
+                new Callbacks.FinishCallback<Void>() {
+                    @Override
+                    public void onFinish(Void result) {
+                        mSelectedDocuments.clear();
+                        showNoSelectionMode();
+                        mAdapter.updateSelectedDocuments();
+                    }
+                });
     }
 
     @OnClick(R.id.main_selection_bar_settings)
