@@ -4,7 +4,9 @@ import android.arch.persistence.room.ColumnInfo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DocumentMetadata implements Parcelable {
+import io.github.nfdz.foco.model.Document;
+
+public class DocumentMetadata implements Parcelable, Document {
 
     public DocumentMetadata() {
 
@@ -63,4 +65,38 @@ public class DocumentMetadata implements Parcelable {
         }
     };
 
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public long getWorkingTimeMillis() {
+        return workingTime;
+    }
+
+    @Override
+    public long getLastEditionTimeMillis() {
+        return lastEditionTime;
+    }
+
+    @Override
+    public String getText() {
+        throw new UnsupportedOperationException("This implementation only contents metadata.");
+    }
+
+    @Override
+    public int getWords() {
+        return words;
+    }
+
+    @Override
+    public boolean isFavorite() {
+        return isFavorite;
+    }
 }

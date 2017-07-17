@@ -168,8 +168,8 @@
             android:layout_margin="@dimen/selection_bar_item_margin"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_settings"
-            android:contentDescription="Settings"/>
+            app:srcCompat="@drawable/ic_edit"
+            android:contentDescription="Edit"/>
 
     </LinearLayout>
 

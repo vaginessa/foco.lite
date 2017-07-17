@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,6 +40,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final FontChangeCrawler mRegularFontChanger;
     private final FontChangeCrawler mBoldFontChanger;
 
+    private Comparator<Document> mComparator;
     private List<DocumentMetadata> mDocs;
     private boolean mShowAddDoc;
     private Set<DocumentMetadata> mSelectedDocuments;
@@ -59,11 +62,18 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setDocumentList(List<DocumentMetadata> docs) {
         mDocs = docs;
+        sort();
         notifyDataSetChanged();
     }
 
     public void setShowAddDoc(boolean showAddDoc) {
         mShowAddDoc = showAddDoc;
+        notifyDataSetChanged();
+    }
+
+    public void setComparator(Comparator<Document> comparator) {
+        mComparator = comparator;
+        sort();
         notifyDataSetChanged();
     }
 
@@ -73,6 +83,12 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void updateSelectedDocuments() {
         notifyDataSetChanged();
+    }
+
+    private void sort() {
+        if (mComparator != null && mDocs != null) {
+            Collections.sort(mDocs, mComparator);
+        }
     }
 
     @Override
@@ -97,15 +113,8 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder.getItemViewType() == DOCUMENT_TYPE) {
             DocViewHolder docHolder = (DocViewHolder) holder;
             DocumentMetadata doc = mDocs.get(position);
-            String title = "El Quijote de Madrid";
-            if (doc.id == 1 ) title = "Title " + doc.id + " largo per no mucho lo suficiente para esto que se vea";
-            if (doc.id == 2 ) title = "Title " + doc.id + " largo de cojones me cago en todo puta mierda esto no cabe ni de broma puto usuario";
-            if (doc.id == 3 ) title = "Title " + doc.id + " mediano mas asumible un tamaño e";
-            if (doc.id == 4 ) title = "ElQuijote";
-            if (doc.id == 5 ) title = "ElQuijotedelamancha2";
-            if (doc.id == 6 ) title = "ElQuijotedelamancha2ElQuijotedelamancha2";
-            DocItemUtils.resolveTitleSize(mContext, title, docHolder.title);
-            docHolder.title.setText(title);
+            DocItemUtils.resolveTitleSize(mContext, doc.name, docHolder.title);
+            docHolder.title.setText(doc.name);
 
             if (doc.words != Document.NULL_WORDS) {
                 docHolder.words.setText("1500 words");

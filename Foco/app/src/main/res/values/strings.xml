@@ -2,6 +2,7 @@
     <string name="app_name">Foco</string>
 
     <string name="action_music">Music</string>
+    <string name="action_sort">Sort</string>
     <string name="action_settings">Settings</string>
 
     <!-- Font names -->
@@ -12,5 +13,18 @@
     <string name="dialog_delete_title">Delete documents</string>
     <string name="dialog_delete_document_message">Are you sure that you want to delete this document?</string>
     <string name="dialog_delete_documents_message">Are you sure that you want to delete these documents?</string>
+
+    <!-- Sort dialog -->
+    <string name="dialog_sort_title">Sort by</string>
+
+    <!-- Preferences strings -->
+    <string name="pref_sort_key" translatable="false">sort</string>
+    <string name="pref_sort_default" translatable="false">@string/pref_sort_title_key</string>
+    <string name="pref_sort_title_label">Title</string>
+    <string name="pref_sort_title_key" translatable="false">sort-title</string>
+    <string name="pref_sort_edit_time_label">Last edition time</string>
+    <string name="pref_sort_edit_time_key" translatable="false">sort-edit-time</string>
+    <string name="pref_sort_words_label">Number of words</string>
+    <string name="pref_sort_words_key" translatable="false">sort-words</string>
 
 </resources>

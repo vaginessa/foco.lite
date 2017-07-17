@@ -9,9 +9,15 @@
         android:icon="@drawable/ic_music"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_sort"
         android:orderInCategory="200"
-        android:title="@string/action_settings"
-        android:icon="@drawable/ic_settings"
+        android:title="@string/action_sort"
+        android:icon="@drawable/ic_sort"
         app:showAsAction="always" />
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:orderInCategory="200"-->
+        <!--android:title="@string/action_settings"-->
+        <!--android:icon="@drawable/ic_settings"-->
+        <!--app:showAsAction="always" />-->
 </menu>

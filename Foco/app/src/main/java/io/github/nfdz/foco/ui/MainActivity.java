@@ -28,14 +28,20 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.data.PreferencesUtils;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Callbacks;
+import io.github.nfdz.foco.model.DocumentLastEditionComparator;
+import io.github.nfdz.foco.model.DocumentNameComparator;
+import io.github.nfdz.foco.model.DocumentWordsComparator;
+import io.github.nfdz.foco.ui.dialogs.ChangeSortDialog;
 import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
 import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
@@ -103,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new DocsAdapter(this, mSelectedDocuments, this);
         mRecyclerView.setAdapter(mAdapter);
+        updateAdapterComparator();
 
         mAppBar.addOnOffsetChangedListener(this);
         startAlphaAnimation(mToolbarLogo, 0, View.INVISIBLE);
@@ -151,11 +158,30 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Toast.makeText(this, "TODO SETTINGS", Toast.LENGTH_LONG).show();
+        if (id == R.id.action_music) {
+            Toast.makeText(this, "TODO MUSIC", Toast.LENGTH_LONG).show();
+            return true;
+        } else if (id == R.id.action_sort) {
+            ChangeSortDialog.showDialog(this, new ChangeSortDialog.Callback() {
+                @Override
+                public void onSortChanged() {
+                    updateAdapterComparator();
+                }
+            });
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateAdapterComparator() {
+        String sort = PreferencesUtils.getPreferredSort(this);
+        if (getString(R.string.pref_sort_words_key).equals(sort)) {
+            mAdapter.setComparator(new DocumentWordsComparator());
+        } else if (getString(R.string.pref_sort_edit_time_key).equals(sort)) {
+            mAdapter.setComparator(new DocumentLastEditionComparator());
+        } else {
+            mAdapter.setComparator(new DocumentNameComparator());
+        }
     }
 
     private void startAlphaAnimation(View v, long duration, int visibility) {
@@ -224,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     void onCreateDocumentClick() {
         //Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         // insert dummy doc
-        TasksUtils.createDocument(this, "Test Title", new Callbacks.FinishCallback<Long>() {
+        TasksUtils.createDocument(this, "Title: " + new Random().nextInt(20), new Callbacks.FinishCallback<Long>() {
             @Override
             public void onFinish(Long id) {
                 // TODO open document

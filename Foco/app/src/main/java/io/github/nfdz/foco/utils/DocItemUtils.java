@@ -10,8 +10,8 @@ import timber.log.Timber;
 
 public class DocItemUtils {
 
-    private static final int TITLE_SIZE_LARGE_TO_MEDIUM_THRESHOLD_CHARS = 20;
-    private static final int TITLE_SIZE_MEDIUM_TO_SMALL_THRESHOLD_CHARS = 40;
+    private static final int TITLE_SIZE_LARGE_TO_MEDIUM_THRESHOLD_CHARS = 18;
+    private static final int TITLE_SIZE_MEDIUM_TO_SMALL_THRESHOLD_CHARS = 27;
 
     public static void resolveTitleSize(Context context, String title, TextView titleView) {
         if (TextUtils.isEmpty(title) || title.length() <= TITLE_SIZE_LARGE_TO_MEDIUM_THRESHOLD_CHARS) {
