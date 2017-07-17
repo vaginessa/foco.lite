@@ -118,7 +118,7 @@
         android:id="@+id/doc_item_fav"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        app:srcCompat="@drawable/ic_fav_on"
+        app:srcCompat="@drawable/ic_fav_dark"
         app:layout_constraintBottom_toBottomOf="@+id/doc_item_bg"
         android:layout_marginBottom="4dp"
         app:layout_constraintRight_toRightOf="@+id/doc_item_bg"

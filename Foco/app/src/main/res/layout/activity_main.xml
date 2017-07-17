@@ -90,13 +90,16 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_add_light" />
 
+
+    <!-- Selection tool bar -->
     <LinearLayout
         android:id="@+id/main_selection_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/selection_bar_height"
         android:background="@color/colorAccent"
         android:layout_gravity="bottom"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <ImageButton
             android:id="@+id/main_selection_bar_exit"
@@ -106,38 +109,56 @@
             android:layout_margin="@dimen/selection_bar_item_margin"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_back" />
+            app:srcCompat="@drawable/ic_back"
+            android:contentDescription="Discard selection" />
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <ImageButton
+            android:id="@+id/main_selection_bar_delete"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:layout_margin="@dimen/selection_bar_item_margin"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_delete" />
+            app:srcCompat="@drawable/ic_delete"
+            android:contentDescription="Delete" />
 
         <ImageButton
+            android:id="@+id/main_selection_bar_cloud"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:layout_margin="@dimen/selection_bar_item_margin"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_cloud_upload" />
+            app:srcCompat="@drawable/ic_cloud_upload"
+            android:contentDescription="Upload" />
 
         <ImageButton
+            android:id="@+id/main_selection_bar_share"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:layout_margin="@dimen/selection_bar_item_margin"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_share" />
+            app:srcCompat="@drawable/ic_share"
+            android:contentDescription="Share" />
+
+        <ImageButton
+            android:id="@+id/main_selection_bar_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_margin="@dimen/selection_bar_item_margin"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_fav_light"
+            android:contentDescription="Mark as favorite"/>
 
         <ImageButton
             android:id="@+id/main_selection_bar_settings"
@@ -148,7 +169,7 @@
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_settings"
-            android:contentDescription="Cover Settings"/>
+            android:contentDescription="Settings"/>
 
     </LinearLayout>
 

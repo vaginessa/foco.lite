@@ -10,19 +10,19 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -35,7 +35,6 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
 import io.github.nfdz.foco.R;
 import io.github.nfdz.foco.data.AppDatabase;
 import io.github.nfdz.foco.data.entity.DocumentEntity;
@@ -70,6 +69,14 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @BindView(R.id.main_loading) ProgressBar mLoading;
     @BindView(R.id.main_collapsing_layout) CollapsingToolbarLayout mCollapsingLayout;
 
+    @BindView(R.id.main_selection_bar) LinearLayout mSelectionBar;
+    @BindView(R.id.main_selection_bar_exit) ImageButton mExitSelectionBar;
+    @BindView(R.id.main_selection_bar_delete) ImageButton mDeleteSelectionBar;
+    @BindView(R.id.main_selection_bar_cloud) ImageButton mCloudSelectionBar;
+    @BindView(R.id.main_selection_bar_share) ImageButton mShareSelectionBar;
+    @BindView(R.id.main_selection_bar_favorite) ImageButton mFavoriteSelectionBar;
+    @BindView(R.id.main_selection_bar_settings) ImageButton mSettingsSelectionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +85,15 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(null);
+
+        // set up selection tool bar
+        SelectionBarLongClickHandler handler = new SelectionBarLongClickHandler();
+        mExitSelectionBar.setOnLongClickListener(handler);
+        mDeleteSelectionBar.setOnLongClickListener(handler);
+        mCloudSelectionBar.setOnLongClickListener(handler);
+        mShareSelectionBar.setOnLongClickListener(handler);
+        mFavoriteSelectionBar.setOnLongClickListener(handler);
+        mSettingsSelectionBar.setOnLongClickListener(handler);
 
         // set up recycler view
         int spanCount = getResources().getInteger(R.integer.grid_doc_columns);
@@ -109,13 +125,13 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         mAppBar.setExpanded(false, false);
         mSelectedDocumentsIds.addAll(savedInstanceState.getIntegerArrayList(SELECTED_DOCUMENTS_KEY));
         mAdapter.updateSelectedDocuments();
+        updateSelectionBar();
     }
 
     @Override
     public void onBackPressed() {
         if (mSelectedDocumentsIds.size() != 0) {
-            mSelectedDocumentsIds.clear();
-            mAdapter.updateSelectedDocuments();
+            onSelectionExitClick();
         } else {
             super.onBackPressed();
         }
@@ -137,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         return super.onOptionsItemSelected(item);
     }
 
-    public static void startAlphaAnimation(View v, long duration, int visibility) {
+    private void startAlphaAnimation(View v, long duration, int visibility) {
         AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
                 ? new AlphaAnimation(0f, 1f)
                 : new AlphaAnimation(1f, 0f);
@@ -201,8 +217,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     @OnClick(R.id.main_fab_add)
     void onCreateDocumentClick() {
-        Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        //Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         // insert dummy doc
         new AsyncTask() {
             @Override
@@ -232,29 +247,84 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
             mSelectedDocumentsIds.add(doc.id);
         }
         mAdapter.updateSelectedDocuments();
-        // TODO show tool bar
+        updateSelectionBar();
     }
 
-    public void makeSelectionBarToast(View view){
-        int x = view.getLeft();
-        int y = view.getTop() + 2*view.getHeight();
-        Toast toast = Toast.makeText(this, "TEST", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM|Gravity.LEFT, x, y);
-        toast.show();
+    private void updateSelectionBar() {
+        switch (mSelectedDocumentsIds.size()) {
+            case 0:
+                showNoSelectionMode();
+                break;
+            case 1:
+                showSingleSelectionMode();
+                break;
+            default:
+                showMultipleSelectionMode();
+        }
     }
 
-    // TODO move to only one method
-
-    @OnLongClick(R.id.main_selection_bar_exit)
-    public boolean onSelectionBarExit(View view) {
-        makeSelectionBarToast(view);
-        return true;
+    private class SelectionBarLongClickHandler implements View.OnLongClickListener {
+        @Override
+        public boolean onLongClick(View v) {
+            Toast toast = Toast.makeText(MainActivity.this, v.getContentDescription(), Toast.LENGTH_SHORT);
+            toast.show();
+            return true;
+        }
     }
 
-    @OnLongClick(R.id.main_selection_bar_settings)
-    public boolean onSelectionBarSettings(View view) {
-        makeSelectionBarToast(view);
-        return true;
+    private void showNoSelectionMode() {
+        mSelectionBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void showSingleSelectionMode() {
+        mSettingsSelectionBar.setVisibility(View.VISIBLE);
+        mSelectionBar.setVisibility(View.VISIBLE);
+    }
+
+    private void showMultipleSelectionMode() {
+        mSettingsSelectionBar.setVisibility(View.GONE);
+        mSelectionBar.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This listener is needed in order to avoid that documents that are below this layout could
+     * be clicked accidentally.
+     */
+    @OnClick(R.id.main_selection_bar)
+    public void onSelectionBarClick() {
+        // nothing to do
+    }
+
+    @OnClick(R.id.main_selection_bar_exit)
+    public void onSelectionExitClick() {
+        mSelectedDocumentsIds.clear();
+        mAdapter.updateSelectedDocuments();
+        showNoSelectionMode();
+    }
+
+    @OnClick(R.id.main_selection_bar_delete)
+    public void onSelectionDeleteClick() {
+        // TODO
+    }
+
+    @OnClick(R.id.main_selection_bar_cloud)
+    public void onSelectionCloudClick() {
+        // TODO
+    }
+
+    @OnClick(R.id.main_selection_bar_share)
+    public void onSelectionShareClick() {
+        // TODO
+    }
+
+    @OnClick(R.id.main_selection_bar_favorite)
+    public void onSelectionFavoriteClick() {
+        // TODO
+    }
+
+    @OnClick(R.id.main_selection_bar_settings)
+    public void onSelectionSettingsClick() {
+        // TODO
     }
 
     @Override
