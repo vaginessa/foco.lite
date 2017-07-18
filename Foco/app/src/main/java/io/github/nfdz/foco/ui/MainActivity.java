@@ -42,6 +42,7 @@ import io.github.nfdz.foco.model.DocumentLastEditionComparator;
 import io.github.nfdz.foco.model.DocumentNameComparator;
 import io.github.nfdz.foco.model.DocumentWordsComparator;
 import io.github.nfdz.foco.ui.dialogs.ChangeSortDialog;
+import io.github.nfdz.foco.ui.dialogs.CreateDocDialog;
 import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
 import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
@@ -248,15 +249,17 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     @OnClick(R.id.main_fab_add)
     void onCreateDocumentClick() {
-        //Snackbar.make(mFab, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        // insert dummy doc
-        TasksUtils.createDocument(this, "Title: " + new Random().nextInt(20), new Callbacks.FinishCallback<Long>() {
+        CreateDocDialog.showDialog(this, new CreateDocDialog.Callback() {
             @Override
-            public void onFinish(Long id) {
-                // TODO open document
+            public void onCreateDocument(String name) {
+                TasksUtils.createDocument(MainActivity.this, name, new Callbacks.FinishCallback<Long>() {
+                    @Override
+                    public void onFinish(Long id) {
+                        // TODO open document
+                    }
+                });
             }
         });
-
     }
 
     @Override

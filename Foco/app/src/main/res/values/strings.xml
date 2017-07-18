@@ -17,6 +17,11 @@
     <!-- Sort dialog -->
     <string name="dialog_sort_title">Sort by</string>
 
+    <!-- Create dialog -->
+    <string name="dialog_create_doc_title">New document</string>
+    <string name="dialog_create_doc_ok_button">Create</string>
+    <string name="dialog_create_doc_hint">Title</string>
+
     <!-- Preferences strings -->
     <string name="pref_sort_key" translatable="false">sort</string>
     <string name="pref_sort_default" translatable="false">@string/pref_sort_title_key</string>

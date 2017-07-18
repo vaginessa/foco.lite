@@ -31,4 +31,8 @@
     <dimen name="doc_item_title_medium">14dp</dimen>
     <dimen name="doc_item_title_small">11dp</dimen>
 
+    <dimen name="dialog_create_doc_margin">6dp</dimen>
+    <dimen name="dialog_create_doc_margin_top">16dp</dimen>
+
+
 </resources>
