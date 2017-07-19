@@ -10,7 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/colorAccent"/>
 
     <TextView
@@ -18,10 +21,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="#FFFFFF"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:textAllCaps="true"
         android:gravity="center"
+        android:textColor="@color/colorAccent"
         android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         android:textStyle="bold"/>
 
     <Button
@@ -29,6 +37,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         android:text="Select color"/>
 
 </LinearLayout>

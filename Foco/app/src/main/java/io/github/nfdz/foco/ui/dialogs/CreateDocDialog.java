@@ -58,6 +58,5 @@ public class CreateDocDialog {
                 positiveButton.setEnabled(s.length() > 0);
             }
         });
-
     }
 }

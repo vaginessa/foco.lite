@@ -174,6 +174,11 @@ public class EditDocDialog extends DialogFragment {
             mSampleView.setBackgroundColor(mColor);
         }
 
+        @OnClick(R.id.edit_cover_color_sample)
+        public void onSampleClick() {
+            onSelectColorClick();
+        }
+
         @OnClick(R.id.edit_cover_color_button)
         public void onSelectColorClick() {
             final ColorPicker cp = new ColorPicker(getActivity(),

@@ -30,6 +30,7 @@
             android:id="@+id/dialog_edit_doc_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
             android:background="?android:attr/selectableItemBackground"
             android:text="@android:string/cancel"/>
 
@@ -37,6 +38,7 @@
             android:id="@+id/dialog_edit_doc_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
             android:background="?android:attr/selectableItemBackground"
             android:text="@android:string/ok"/>
 
