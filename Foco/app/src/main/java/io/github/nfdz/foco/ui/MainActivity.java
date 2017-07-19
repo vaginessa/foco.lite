@@ -5,10 +5,12 @@ import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.GridLayoutManager;
@@ -38,12 +40,14 @@ import io.github.nfdz.foco.R;
 import io.github.nfdz.foco.data.PreferencesUtils;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Callbacks;
+import io.github.nfdz.foco.model.Document;
 import io.github.nfdz.foco.model.DocumentLastEditionComparator;
 import io.github.nfdz.foco.model.DocumentNameComparator;
 import io.github.nfdz.foco.model.DocumentWordsComparator;
 import io.github.nfdz.foco.ui.dialogs.ChangeSortDialog;
 import io.github.nfdz.foco.ui.dialogs.CreateDocDialog;
 import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
+import io.github.nfdz.foco.ui.dialogs.EditDocDialog;
 import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
 
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @BindView(R.id.main_selection_bar_cloud) ImageButton mCloudSelectionBar;
     @BindView(R.id.main_selection_bar_share) ImageButton mShareSelectionBar;
     @BindView(R.id.main_selection_bar_favorite) ImageButton mFavoriteSelectionBar;
-    @BindView(R.id.main_selection_bar_settings) ImageButton mSettingsSelectionBar;
+    @BindView(R.id.main_selection_bar_edit) ImageButton mEditSelectionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         mCloudSelectionBar.setOnLongClickListener(handler);
         mShareSelectionBar.setOnLongClickListener(handler);
         mFavoriteSelectionBar.setOnLongClickListener(handler);
-        mSettingsSelectionBar.setOnLongClickListener(handler);
+        mEditSelectionBar.setOnLongClickListener(handler);
 
         // set up recycler view
         int spanCount = getResources().getInteger(R.integer.grid_doc_columns);
@@ -305,12 +309,12 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     }
 
     private void showSingleSelectionMode() {
-        mSettingsSelectionBar.setVisibility(View.VISIBLE);
+        mEditSelectionBar.setVisibility(View.VISIBLE);
         mSelectionBar.setVisibility(View.VISIBLE);
     }
 
     private void showMultipleSelectionMode() {
-        mSettingsSelectionBar.setVisibility(View.GONE);
+        mEditSelectionBar.setVisibility(View.GONE);
         mSelectionBar.setVisibility(View.VISIBLE);
     }
 
@@ -374,9 +378,28 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 });
     }
 
-    @OnClick(R.id.main_selection_bar_settings)
+    @OnClick(R.id.main_selection_bar_edit)
     public void onSelectionSettingsClick() {
-        // TODO
+        final DocumentMetadata doc = mSelectedDocuments.iterator().next();
+        EditDocDialog dialog = EditDocDialog.newInstance(doc);
+        dialog.setCallback(new EditDocDialog.Callback() {
+            @Override
+            public void onColorChanged(@ColorInt int color) {
+                TasksUtils.setCoverColor(MainActivity.this, doc, color, new Callbacks.FinishCallback<Void>() {
+                    @Override
+                    public void onFinish(Void result) {
+                        mSelectedDocuments.clear();
+                        showNoSelectionMode();
+                        mAdapter.updateSelectedDocuments();
+                    }
+                });
+            }
+            @Override
+            public void onImageChanged(String imagePath) {
+
+            }
+        });
+        dialog.show(getSupportFragmentManager(), "EditDocDialogFragment");
     }
 
     @Override

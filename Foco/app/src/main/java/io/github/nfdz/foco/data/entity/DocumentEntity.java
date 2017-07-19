@@ -28,6 +28,10 @@ public class DocumentEntity implements Document {
 
     public static final String COLUMN_FAVORITE = "favorite";
 
+    public static final String COLUMN_COVER_COLOR = "cover_color";
+
+    public static final String COLUMN_COVER_IMAGE = "cover_image";
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(index = true, name = COLUMN_ID)
     public long id;
@@ -49,6 +53,12 @@ public class DocumentEntity implements Document {
 
     @ColumnInfo(name = COLUMN_FAVORITE)
     public boolean favorite = false;
+
+    @ColumnInfo(name = COLUMN_COVER_COLOR)
+    public int coverColor = Document.NULL_COVER_COLOR;
+
+    @ColumnInfo(name = COLUMN_COVER_IMAGE)
+    public String coverImage = Document.NULL_COVER_IMAGE;
 
     public DocumentEntity() {
     }
@@ -94,6 +104,16 @@ public class DocumentEntity implements Document {
     @Override
     public boolean isFavorite() {
         return favorite;
+    }
+
+    @Override
+    public int getCoverColor() {
+        return coverColor;
+    }
+
+    @Override
+    public String getCoverImage() {
+        return coverImage;
     }
 
 

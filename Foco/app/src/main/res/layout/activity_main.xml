@@ -161,7 +161,7 @@
             android:contentDescription="Toggle favorite"/>
 
         <ImageButton
-            android:id="@+id/main_selection_bar_settings"
+            android:id="@+id/main_selection_bar_edit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"

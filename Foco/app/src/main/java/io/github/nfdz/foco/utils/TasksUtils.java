@@ -75,4 +75,23 @@ public class TasksUtils {
         }.execute();
     }
 
+    public static void setCoverColor(final Context context,
+                                     final DocumentMetadata doc,
+                                     final int color,
+                                     final Callbacks.FinishCallback<Void> callback) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void[] params) {
+                DocumentEntity entity = AppDatabase.getInstance(context).documentDao().getDocument(doc.id);
+                entity.coverColor = color;
+                AppDatabase.getInstance(context).documentDao().update(entity);
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void v) {
+                callback.onFinish(null);
+            }
+        }.execute();
+    }
+
 }

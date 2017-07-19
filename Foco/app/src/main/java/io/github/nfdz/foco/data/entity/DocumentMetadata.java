@@ -30,6 +30,12 @@ public class DocumentMetadata implements Parcelable, Document {
     @ColumnInfo(name = DocumentEntity.COLUMN_FAVORITE)
     public boolean isFavorite;
 
+    @ColumnInfo(name = DocumentEntity.COLUMN_COVER_COLOR)
+    public int coverColor = Document.NULL_COVER_COLOR;
+
+    @ColumnInfo(name = DocumentEntity.COLUMN_COVER_IMAGE)
+    public String coverImage = Document.NULL_COVER_IMAGE;
+
     @Override
     public int describeContents() {
         return 0;
@@ -43,6 +49,8 @@ public class DocumentMetadata implements Parcelable, Document {
         dest.writeLong(lastEditionTime);
         dest.writeInt(words);
         dest.writeInt(isFavorite ? 1 : 0);
+        dest.writeInt(coverColor);
+        dest.writeString(coverImage);
     }
 
     private DocumentMetadata(Parcel in) {
@@ -52,6 +60,8 @@ public class DocumentMetadata implements Parcelable, Document {
         lastEditionTime = in.readLong();
         words = in.readInt();
         isFavorite = in.readInt() == 1;
+        coverColor = in.readInt();
+        coverImage = in.readString();
     }
 
     public static final Parcelable.Creator<DocumentMetadata> CREATOR
@@ -98,5 +108,15 @@ public class DocumentMetadata implements Parcelable, Document {
     @Override
     public boolean isFavorite() {
         return isFavorite;
+    }
+
+    @Override
+    public int getCoverColor() {
+        return coverColor;
+    }
+
+    @Override
+    public String getCoverImage() {
+        return coverImage;
     }
 }

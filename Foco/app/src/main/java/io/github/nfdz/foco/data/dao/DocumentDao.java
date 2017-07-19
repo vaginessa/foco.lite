@@ -13,6 +13,8 @@ import java.util.List;
 import io.github.nfdz.foco.data.entity.DocumentEntity;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 
+import static io.github.nfdz.foco.data.entity.DocumentEntity.COLUMN_COVER_COLOR;
+import static io.github.nfdz.foco.data.entity.DocumentEntity.COLUMN_COVER_IMAGE;
 import static io.github.nfdz.foco.data.entity.DocumentEntity.COLUMN_FAVORITE;
 import static io.github.nfdz.foco.data.entity.DocumentEntity.COLUMN_ID;
 import static io.github.nfdz.foco.data.entity.DocumentEntity.COLUMN_LAST_EDITION_TIME;
@@ -26,7 +28,7 @@ public interface DocumentDao {
 
     @Query("SELECT " + COLUMN_ID + ", " +COLUMN_NAME + ", " + COLUMN_WORKING_TIME +
             ", " + COLUMN_LAST_EDITION_TIME + ", " + COLUMN_WORDS + ", " + COLUMN_FAVORITE +
-            " FROM " + TABLE_NAME)
+            ", " + COLUMN_COVER_COLOR +  ", " + COLUMN_COVER_IMAGE + " FROM " + TABLE_NAME)
     LiveData<List<DocumentMetadata>> loadAllDocumentsMetadata();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

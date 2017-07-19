@@ -33,6 +33,8 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.jakewharton:butterknife:8.5.1'
 
+    compile 'com.pes.materialcolorpicker:library:1.2.0'
+
     compile 'android.arch.lifecycle:runtime:1.0.0-alpha3'
     compile 'android.arch.lifecycle:extensions:1.0.0-alpha3'
     compile 'android.arch.persistence.room:runtime:1.0.0-alpha3'
