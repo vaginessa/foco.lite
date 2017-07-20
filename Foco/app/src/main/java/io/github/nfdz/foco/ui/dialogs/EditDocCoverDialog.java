@@ -36,6 +36,7 @@ import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -56,6 +57,9 @@ import timber.log.Timber;
  * color or image for the document cover.
  */
 public class EditDocCoverDialog extends DialogFragment {
+
+    public static final int IMAGE_MAX_WIDTH_PX = 500;
+    public static final int IMAGE_MAX_HEIGHT_PX = 700;
 
     /**
      * Callback to be implemented to receive the new cover background color or image
@@ -167,8 +171,8 @@ public class EditDocCoverDialog extends DialogFragment {
                         String randomName = UUID.randomUUID().toString();
                         try {
                             File compressedImage = new Compressor(getActivity())
-                                    .setMaxWidth(500)
-                                    .setMaxHeight(700)
+                                    .setMaxWidth(IMAGE_MAX_WIDTH_PX)
+                                    .setMaxHeight(IMAGE_MAX_HEIGHT_PX)
                                     .setQuality(25)
                                     .setCompressFormat(Bitmap.CompressFormat.JPEG)
                                     .setDestinationDirectoryPath(directory.getAbsolutePath())
@@ -362,9 +366,16 @@ public class EditDocCoverDialog extends DialogFragment {
                         .load(R.drawable.image_placeholder)
                         .into(mImageView);
             } else {
+                // It is important to be very careful loading this image because it can be
+                // high resolution, very heavy and cause application memory problems
+                // (there is no danger of out of memory thanks to picasso)
                 Picasso.with(getActivity())
                         .load(new File(mImagePath))
                         .placeholder(R.drawable.image_placeholder)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .resize(IMAGE_MAX_WIDTH_PX, IMAGE_MAX_HEIGHT_PX)
+                        .centerInside()
+                        .onlyScaleDown()
                         .into(mImageView);
             }
         }
