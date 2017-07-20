@@ -25,6 +25,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,13 +51,22 @@ import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Document;
 import timber.log.Timber;
 
+/**
+ * This class is a DialogFragment implementaton that manages the selection of a new background
+ * color or image for the document cover.
+ */
 public class EditDocCoverDialog extends DialogFragment {
 
+    /**
+     * Callback to be implemented to receive the new cover background color or image
+     * if it has changed.
+     */
     public interface Callback {
         void onColorChanged(@ColorInt int color);
         void onImageChanged(String imagePath);
     }
 
+    /** Argument key of document metadata object stored in fragment arguments */
     public static final String DOC_ARG_KEY = "document";
 
     @BindView(R.id.dialog_edit_doc_tabs) TabLayout mTabLayout;
@@ -68,6 +78,11 @@ public class EditDocCoverDialog extends DialogFragment {
     private DocumentMetadata mDocument;
     private Callback mCallback;
 
+    /**
+     * Creates a new instance of the fragment with the given document metadata in its arguments.
+     * @param doc
+     * @return EditDocCoverDialog fragment
+     */
     public static EditDocCoverDialog newInstance(DocumentMetadata doc) {
         EditDocCoverDialog dialog = new EditDocCoverDialog();
         Bundle arg = new Bundle();
@@ -80,7 +95,9 @@ public class EditDocCoverDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        // get document metadata from arguments
         mDocument = getArguments().getParcelable(DOC_ARG_KEY);
+
         return inflater.inflate(R.layout.dialog_edit_cover, container, false);
     }
 
@@ -88,12 +105,13 @@ public class EditDocCoverDialog extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        getDialog().setTitle("Edit document cover");
+        getDialog().setTitle(R.string.dialog_edit_doc_cover);
 
         mAdapter = new PagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
+        // select tab depending of the current selected cover type
         if (savedInstanceState == null) {
             mViewPager.setCurrentItem(TextUtils.isEmpty(mDocument.coverImage) ? 0 : 1);
         }
@@ -104,8 +122,13 @@ public class EditDocCoverDialog extends DialogFragment {
         dismiss();
     }
 
+    /**
+     * This method processes current cover selection and performs needed operation (copy image
+     * from external storage to internal, compress it, etc) and finally notify through callback.
+     */
     @OnClick(R.id.dialog_edit_doc_ok)
     public void onOkClick() {
+        // if there is no callback, avoid performs useless operations
         if (mCallback == null) {
             dismiss();
             return;
@@ -113,29 +136,32 @@ public class EditDocCoverDialog extends DialogFragment {
         int position = mViewPager.getCurrentItem();
         switch (position) {
             case 0:
+                // color tab is selected
                 int currentColor = mDocument.coverColor;
                 int newColor = mAdapter.mColorFragment.mColor;
+                // notify only if color has changed
                 if (currentColor != newColor) {
                     mCallback.onColorChanged(mAdapter.mColorFragment.mColor);
                 }
                 dismiss();
                 return;
             case 1:
+                // image tab is selected
                 final String currentImage = mDocument.coverImage;
                 final String newImage = mAdapter.mImageFragment.mImagePath;
+                // notify only if image has changed
                 if (currentImage.equals(newImage)) {
                     dismiss();
                     return;
                 }
+                // disable dialog fragment buttons meanwhile it is processing image operations
+                // in background
                 mOkButton.setEnabled(false);
                 mCancelButton.setEnabled(false);
                 new AsyncTask<Void, Void, String>() {
                     @Override
                     protected String doInBackground(Void... params) {
-                        if (!TextUtils.isEmpty(currentImage)) {
-                            File file = new File(currentImage);
-                            file.delete();
-                        }
+                        // copy and compress selected image to internal storage
                         ContextWrapper cw = new ContextWrapper(getActivity());
                         File directory = cw.getDir("media", Context.MODE_PRIVATE);
                         String randomName = UUID.randomUUID().toString();
@@ -149,17 +175,19 @@ public class EditDocCoverDialog extends DialogFragment {
                                     .compressToFile(new File(newImage), randomName);
                             return compressedImage.getAbsolutePath();
                         } catch (IOException e) {
+                            Timber.d(e);
                             return null;
                         }
                     }
                     @Override
                     protected void onPostExecute(String imagePath) {
+                        // if image was processed correctly notify it
                         if (!TextUtils.isEmpty(imagePath)) {
                             mCallback.onImageChanged(imagePath);
                             dismiss();
                         } else {
                             Toast.makeText(getActivity(),
-                                    "Cannot create document image cover from selected image.",
+                                    R.string.dialog_edit_doc_cover_image_process_msg,
                                     Toast.LENGTH_SHORT).show();
                             mOkButton.setEnabled(true);
                             mCancelButton.setEnabled(true);
@@ -173,10 +201,17 @@ public class EditDocCoverDialog extends DialogFragment {
 
     }
 
+    /**
+     * Sets dialog fragment callback.
+     * @param callback
+     */
     public void setCallback(Callback callback) {
         mCallback = callback;
     }
 
+    /**
+     * Pager Adapter implementation with color and image fragment.
+     */
     public class PagerAdapter extends FragmentPagerAdapter {
 
         final ColorFragment mColorFragment = ColorFragment.newInstance(mDocument.coverColor);
@@ -208,9 +243,9 @@ public class EditDocCoverDialog extends DialogFragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Color";
+                    return getString(R.string.dialog_edit_doc_cover_color);
                 case 1:
-                    return "Image";
+                    return getString(R.string.dialog_edit_doc_cover_image);
                 default:
                     Timber.e("Unexpected get title page position: " + position);
                     return null;
@@ -218,6 +253,9 @@ public class EditDocCoverDialog extends DialogFragment {
         }
     }
 
+    /**
+     * Color inner fragment. It contains needed views to visualize and modify color.
+     */
     public static class ColorFragment extends Fragment {
 
         public static final String COLOR_ARG_KEY = "color";
@@ -233,7 +271,7 @@ public class EditDocCoverDialog extends DialogFragment {
         @BindView(R.id.edit_cover_color_text) TextView mColorText;
         @BindView(R.id.edit_cover_color_sample) View mSampleView;
 
-        private int mColor;
+        int mColor;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -247,6 +285,9 @@ public class EditDocCoverDialog extends DialogFragment {
             return view;
         }
 
+        /**
+         * Update color text and sample views.
+         */
         private void updateColorView() {
             String colorTextWithoutAlpha = String.format("#%06X", (0xFFFFFF & mColor));
             mColorText.setText(colorTextWithoutAlpha);
@@ -260,11 +301,13 @@ public class EditDocCoverDialog extends DialogFragment {
 
         @OnClick(R.id.edit_cover_color_button)
         public void onSelectColorClick() {
+            // opens a color picker dialog to ease to select a new color
             final ColorPicker cp = new ColorPicker(getActivity(),
                     Color.red(mColor),
                     Color.green(mColor),
                     Color.blue(mColor));
             cp.show();
+            ((Button)cp.findViewById(R.id.okColorButton)).setText(R.string.dialog_edit_doc_cover_color_select_ok);
             cp.setCallback(new ColorPickerCallback() {
                 @Override
                 public void onColorChosen(@ColorInt int color) {
@@ -276,6 +319,9 @@ public class EditDocCoverDialog extends DialogFragment {
         }
     }
 
+    /**
+     * Image inner fragment. It contains needed views to visualize and modify image.
+     */
     public static class ImageFragment extends Fragment {
 
         public static final String IMAGE_ARG_KEY = "image";
@@ -292,7 +338,7 @@ public class EditDocCoverDialog extends DialogFragment {
         @BindView(R.id.edit_cover_image_path) TextView mImagePathText;
         @BindView(R.id.edit_cover_image) ImageView mImageView;
 
-        private String mImagePath;
+        String mImagePath;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -305,9 +351,13 @@ public class EditDocCoverDialog extends DialogFragment {
             return view;
         }
 
+        /**
+         * Update image path text and image views.
+         */
         private void updateImage() {
             mImagePathText.setText(TextUtils.isEmpty(mImagePath) ? "-" : mImagePath);
             if (TextUtils.isEmpty(mImagePath)) {
+                // if there is no selected image, load image placeholder
                 Picasso.with(getActivity())
                         .load(R.drawable.image_placeholder)
                         .into(mImageView);
@@ -326,7 +376,7 @@ public class EditDocCoverDialog extends DialogFragment {
 
         @OnClick(R.id.edit_cover_image_button)
         public void onSelectImageClick() {
-
+            // if version is equals or greater than android M, ask permissions to access external storage
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(),
@@ -347,23 +397,31 @@ public class EditDocCoverDialog extends DialogFragment {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openFilePickerDialog();
                 } else {
+                    // if user rejects permission, notify it
                     Toast.makeText(getActivity(),
-                            "Permission is required for getting list of images",
+                            R.string.dialog_edit_doc_cover_image_permissions_msg,
                             Toast.LENGTH_SHORT).show();
                 }
             }
         }
 
+        /**
+         * Open a file picker dialog to ease select a new image from external storage.
+         */
         public void openFilePickerDialog() {
             DialogProperties properties = new DialogProperties();
 
             properties.selection_mode = DialogConfigs.SINGLE_MODE;
             properties.selection_type = DialogConfigs.FILE_SELECT;
+            // initial directory should be pictures directory
             properties.offset = new File("/mnt/sdcard" + File.separator + Environment.DIRECTORY_PICTURES);
+            // show accepted image format only
             properties.extensions = new String[]{"jpg","jpeg","png","gif","bmp","webp"};
 
             FilePickerDialog dialog = new FilePickerDialog(getActivity(), properties);
-            dialog.setTitle("Select a File");
+            dialog.setTitle(R.string.dialog_edit_doc_cover_image_select_title);
+            dialog.setPositiveBtnName(getString(R.string.dialog_edit_doc_cover_image_select_ok));
+            dialog.setNegativeBtnName(getString(android.R.string.cancel));
 
             dialog.setDialogSelectionListener(new DialogSelectionListener() {
                 @Override
@@ -377,6 +435,10 @@ public class EditDocCoverDialog extends DialogFragment {
 
             dialog.show();
 
+            // There is a problem with library dialog theme, it does not support a light
+            // primary color because header text color is always white.
+            // With this hack (we had to study library layout) it ensures that header background
+            // is ok.
             dialog.findViewById(R.id.header).setBackgroundColor(
                     ContextCompat.getColor(getActivity(), R.color.colorAccent));
         }

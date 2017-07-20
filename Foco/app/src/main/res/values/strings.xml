@@ -27,6 +27,19 @@
     <string name="dialog_edit_doc_title_ok_button">Edit</string>
     <string name="dialog_edit_doc_title_hint">Title</string>
 
+    <!-- Edit cover dialog -->
+    <string name="dialog_edit_doc_cover">Edit document cover</string>
+    <string name="dialog_edit_doc_cover_ok_button">Edit</string>
+    <string name="dialog_edit_doc_cover_color">Color</string>
+    <string name="dialog_edit_doc_cover_color_select">Select color</string>
+    <string name="dialog_edit_doc_cover_color_select_ok">Select</string>
+    <string name="dialog_edit_doc_cover_image">Image</string>
+    <string name="dialog_edit_doc_cover_image_select">Select image</string>
+    <string name="dialog_edit_doc_cover_image_select_title">Select an image</string>
+    <string name="dialog_edit_doc_cover_image_permissions_msg">Permission is required to select an image</string>
+    <string name="dialog_edit_doc_cover_image_process_msg">Cannot create document image cover from selected image</string>
+    <string name="dialog_edit_doc_cover_image_select_ok">Select</string>
+
     <!-- Preferences strings -->
     <string name="pref_sort_key" translatable="false">sort</string>
     <string name="pref_sort_default" translatable="false">@string/pref_sort_title_key</string>

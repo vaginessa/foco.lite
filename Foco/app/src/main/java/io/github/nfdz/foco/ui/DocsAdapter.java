@@ -28,11 +28,17 @@ import io.github.nfdz.foco.model.Document;
 import io.github.nfdz.foco.utils.DocItemUtils;
 import io.github.nfdz.foco.utils.FontChangeCrawler;
 
+/**
+ * Recycler view adapter implementation. It uses an inner custom view holder implementation.
+ */
 public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int DOCUMENT_TYPE = 0;
     private static final int ADD_DOCUMENT_TYPE = 1;
 
+    /**
+     * Clicks handler interface.
+     */
     public interface DocsClickHandler {
         void onDocumentClick(DocumentMetadata doc);
         void onDocumentLongClick(DocumentMetadata doc);
@@ -48,7 +54,6 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<DocumentMetadata> mDocs;
     private boolean mShowAddDoc;
     private Set<DocumentMetadata> mSelectedDocuments;
-
 
     public DocsAdapter(@NonNull Context context,
                        @Nullable Set<DocumentMetadata> selectedDocuments,
@@ -147,14 +152,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 docHolder.fav.setVisibility(View.INVISIBLE);
             }
 
-            boolean selected = false;
-            for (DocumentMetadata selectedDoc : mSelectedDocuments) {
-                if (selectedDoc.id == doc.id) {
-                    selected = true;
-                    break;
-                }
-            }
-
+            // if there is an image load image, if not load color
             if (!TextUtils.isEmpty(doc.coverImage)) {
                 Picasso.with(mContext)
                         .load(new File(doc.coverImage))
@@ -170,6 +168,14 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 docHolder.bg.setBackgroundColor(Document.DEFAULT_COVER_COLOR);;
             }
 
+            // check if document is selected
+            boolean selected = false;
+            for (DocumentMetadata selectedDoc : mSelectedDocuments) {
+                if (selectedDoc.id == doc.id) {
+                    selected = true;
+                    break;
+                }
+            }
             docHolder.itemView.setSelected(selected);
         }
     }
