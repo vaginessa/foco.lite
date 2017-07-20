@@ -6,12 +6,24 @@ import android.support.v7.app.AlertDialog;
 
 import io.github.nfdz.foco.R;
 
+/**
+ * This class eases to open a dialog asking a confirmation about the ongoing deletion to the user.
+ */
 public class DeleteDocDialog {
 
+    /**
+     * Callback to be implemented to receive the confirmation.
+     */
     public interface Callback {
         void onDeleteConfirmed();
     }
 
+    /**
+     * Opens an AlertDialog with a message text asking user confirmation.
+     * @param context
+     * @param selectionSize
+     * @param callback
+     */
     public static void showDialog(Context context,
                                   int selectionSize,
                                   final Callback callback) {

@@ -9,15 +9,26 @@ import android.support.v7.app.AlertDialog;
 import io.github.nfdz.foco.R;
 import io.github.nfdz.foco.data.PreferencesUtils;
 
+/**
+ * This class eases to open a dialog to change de sort of the documents grid.
+ */
 public class ChangeSortDialog {
 
+    /**
+     * Callback to be implemented to be notified if the sort has changed.
+     */
     public interface Callback {
         void onSortChanged();
     }
 
+    /**
+     * Opens a AlertDialog with a single choice list with all available sorts.
+     * @param context
+     * @param callback
+     */
     public static void showDialog(final Context context,
                                   final Callback callback) {
-
+        // get available sorts
         String titleLabel = context.getString(R.string.pref_sort_title_label);
         String editTimeLabel = context.getString(R.string.pref_sort_edit_time_label);
         String wordsLabel = context.getString(R.string.pref_sort_words_label);
@@ -33,7 +44,6 @@ public class ChangeSortDialog {
         builder.setSingleChoiceItems(options, selected, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, final int selection) {
-                dialog.cancel();
                 // if sort criteria has changed, saved it
                 if (selection != selected) {
                     new AsyncTask<Void, Void, Void>() {
@@ -50,6 +60,7 @@ public class ChangeSortDialog {
                         }
                     }.execute();
                 }
+                dialog.dismiss();
             }
         });
         builder.show();
