@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,7 +29,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -40,7 +38,6 @@ import io.github.nfdz.foco.R;
 import io.github.nfdz.foco.data.PreferencesUtils;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Callbacks;
-import io.github.nfdz.foco.model.Document;
 import io.github.nfdz.foco.model.DocumentLastEditionComparator;
 import io.github.nfdz.foco.model.DocumentNameComparator;
 import io.github.nfdz.foco.model.DocumentWordsComparator;
@@ -396,7 +393,14 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
             }
             @Override
             public void onImageChanged(String imagePath) {
-
+                TasksUtils.setCoverImage(MainActivity.this, doc, imagePath, new Callbacks.FinishCallback<Void>() {
+                    @Override
+                    public void onFinish(Void result) {
+                        mSelectedDocuments.clear();
+                        showNoSelectionMode();
+                        mAdapter.updateSelectedDocuments();
+                    }
+                });
             }
         });
         dialog.show(getSupportFragmentManager(), "EditDocDialogFragment");

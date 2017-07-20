@@ -2,7 +2,9 @@ package io.github.nfdz.foco.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +13,7 @@ import io.github.nfdz.foco.data.AppDatabase;
 import io.github.nfdz.foco.data.entity.DocumentEntity;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Callbacks;
+import io.github.nfdz.foco.model.Document;
 
 public class TasksUtils {
 
@@ -41,6 +44,10 @@ public class TasksUtils {
                 for (DocumentMetadata doc : docsToDelete) {
                     DocumentEntity entity = new DocumentEntity();
                     entity.id = doc.id;
+                    if (!TextUtils.isEmpty(doc.coverImage)) {
+                        File file = new File(doc.coverImage);
+                        file.delete();
+                    }
                     documents.add(entity);
                 }
                 AppDatabase.getInstance(context).documentDao().delete(documents.toArray(new DocumentEntity[]{}));
@@ -84,6 +91,37 @@ public class TasksUtils {
             protected Void doInBackground(Void[] params) {
                 DocumentEntity entity = AppDatabase.getInstance(context).documentDao().getDocument(doc.id);
                 entity.coverColor = color;
+                if (!TextUtils.isEmpty(entity.coverImage)) {
+                    File file = new File(entity.coverImage);
+                    file.delete();
+                    entity.coverImage = Document.NULL_COVER_IMAGE;
+                }
+                AppDatabase.getInstance(context).documentDao().update(entity);
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void v) {
+                callback.onFinish(null);
+            }
+        }.execute();
+    }
+
+
+
+    public static void setCoverImage(final Context context,
+                                     final DocumentMetadata doc,
+                                     final String imagePath,
+                                     final Callbacks.FinishCallback<Void> callback) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void[] params) {
+                DocumentEntity entity = AppDatabase.getInstance(context).documentDao().getDocument(doc.id);
+                if (!TextUtils.isEmpty(entity.coverImage)) {
+                    File file = new File(entity.coverImage);
+                    file.delete();
+                }
+                entity.coverImage = imagePath;
+                entity.coverColor = Document.NULL_COVER_COLOR;
                 AppDatabase.getInstance(context).documentDao().update(entity);
                 return null;
             }

@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -153,11 +156,18 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
             if (!TextUtils.isEmpty(doc.coverImage)) {
-
+                Picasso.with(mContext)
+                        .load(new File(doc.coverImage))
+                        .placeholder(R.drawable.image_placeholder)
+                        .into(docHolder.bg);
             } else if (doc.coverColor != Document.NULL_COVER_COLOR) {
+                Picasso.with(mContext).cancelRequest(docHolder.bg);
+                docHolder.bg.setImageDrawable(null);
                 docHolder.bg.setBackgroundColor(doc.coverColor);
             } else {
-                docHolder.bg.setBackgroundColor(Document.DEFAULT_COVER_COLOR);
+                Picasso.with(mContext).cancelRequest(docHolder.bg);
+                docHolder.bg.setImageDrawable(null);
+                docHolder.bg.setBackgroundColor(Document.DEFAULT_COVER_COLOR);;
             }
 
             docHolder.itemView.setSelected(selected);
