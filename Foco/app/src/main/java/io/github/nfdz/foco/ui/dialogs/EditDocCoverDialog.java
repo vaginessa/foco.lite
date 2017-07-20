@@ -50,11 +50,10 @@ import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Document;
 import timber.log.Timber;
 
-public class EditDocDialog extends DialogFragment {
+public class EditDocCoverDialog extends DialogFragment {
 
     public interface Callback {
         void onColorChanged(@ColorInt int color);
-
         void onImageChanged(String imagePath);
     }
 
@@ -69,8 +68,8 @@ public class EditDocDialog extends DialogFragment {
     private DocumentMetadata mDocument;
     private Callback mCallback;
 
-    public static EditDocDialog newInstance(DocumentMetadata doc) {
-        EditDocDialog dialog = new EditDocDialog();
+    public static EditDocCoverDialog newInstance(DocumentMetadata doc) {
+        EditDocCoverDialog dialog = new EditDocCoverDialog();
         Bundle arg = new Bundle();
         arg.putParcelable(DOC_ARG_KEY, doc);
         dialog.setArguments(arg);
@@ -82,7 +81,7 @@ public class EditDocDialog extends DialogFragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mDocument = getArguments().getParcelable(DOC_ARG_KEY);
-        return inflater.inflate(R.layout.dialog_edit_doc, container, false);
+        return inflater.inflate(R.layout.dialog_edit_cover, container, false);
     }
 
     @Override
@@ -95,9 +94,9 @@ public class EditDocDialog extends DialogFragment {
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-
-        mTabLayout = (TabLayout) view.findViewById(R.id.dialog_edit_doc_tabs);
-        mViewPager = (ViewPager) view.findViewById(R.id.dialog_edit_doc_pager);
+        if (savedInstanceState == null) {
+            mViewPager.setCurrentItem(TextUtils.isEmpty(mDocument.coverImage) ? 0 : 1);
+        }
     }
 
     @OnClick(R.id.dialog_edit_doc_cancel)
@@ -114,17 +113,25 @@ public class EditDocDialog extends DialogFragment {
         int position = mViewPager.getCurrentItem();
         switch (position) {
             case 0:
-                mCallback.onColorChanged(mAdapter.mColorFragment.mColor);
+                int currentColor = mDocument.coverColor;
+                int newColor = mAdapter.mColorFragment.mColor;
+                if (currentColor != newColor) {
+                    mCallback.onColorChanged(mAdapter.mColorFragment.mColor);
+                }
                 dismiss();
                 return;
             case 1:
+                final String currentImage = mDocument.coverImage;
+                final String newImage = mAdapter.mImageFragment.mImagePath;
+                if (currentImage.equals(newImage)) {
+                    dismiss();
+                    return;
+                }
                 mOkButton.setEnabled(false);
                 mCancelButton.setEnabled(false);
                 new AsyncTask<Void, Void, String>() {
                     @Override
                     protected String doInBackground(Void... params) {
-                        String currentImage = mDocument.coverImage;
-                        String newImage = mAdapter.mImageFragment.mImagePath;
                         if (!TextUtils.isEmpty(currentImage)) {
                             File file = new File(currentImage);
                             file.delete();
@@ -134,10 +141,10 @@ public class EditDocDialog extends DialogFragment {
                         String randomName = UUID.randomUUID().toString();
                         try {
                             File compressedImage = new Compressor(getActivity())
-                                    .setMaxWidth(700)
-                                    .setMaxHeight(800)
-                                    .setQuality(75)
-                                    .setCompressFormat(Bitmap.CompressFormat.PNG)
+                                    .setMaxWidth(500)
+                                    .setMaxHeight(700)
+                                    .setQuality(25)
+                                    .setCompressFormat(Bitmap.CompressFormat.JPEG)
                                     .setDestinationDirectoryPath(directory.getAbsolutePath())
                                     .compressToFile(new File(newImage), randomName);
                             return compressedImage.getAbsolutePath();

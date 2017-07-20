@@ -106,8 +106,6 @@ public class TasksUtils {
         }.execute();
     }
 
-
-
     public static void setCoverImage(final Context context,
                                      final DocumentMetadata doc,
                                      final String imagePath,
@@ -122,6 +120,25 @@ public class TasksUtils {
                 }
                 entity.coverImage = imagePath;
                 entity.coverColor = Document.NULL_COVER_COLOR;
+                AppDatabase.getInstance(context).documentDao().update(entity);
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void v) {
+                callback.onFinish(null);
+            }
+        }.execute();
+    }
+
+    public static void setTitle(final Context context,
+                                final DocumentMetadata doc,
+                                final String name,
+                                final Callbacks.FinishCallback<Void> callback) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void[] params) {
+                DocumentEntity entity = AppDatabase.getInstance(context).documentDao().getDocument(doc.id);
+                entity.name = name;
                 AppDatabase.getInstance(context).documentDao().update(entity);
                 return null;
             }

@@ -44,7 +44,8 @@ import io.github.nfdz.foco.model.DocumentWordsComparator;
 import io.github.nfdz.foco.ui.dialogs.ChangeSortDialog;
 import io.github.nfdz.foco.ui.dialogs.CreateDocDialog;
 import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
-import io.github.nfdz.foco.ui.dialogs.EditDocDialog;
+import io.github.nfdz.foco.ui.dialogs.EditDocCoverDialog;
+import io.github.nfdz.foco.ui.dialogs.EditDocTitleDialog;
 import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
 
@@ -82,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @BindView(R.id.main_selection_bar_cloud) ImageButton mCloudSelectionBar;
     @BindView(R.id.main_selection_bar_share) ImageButton mShareSelectionBar;
     @BindView(R.id.main_selection_bar_favorite) ImageButton mFavoriteSelectionBar;
-    @BindView(R.id.main_selection_bar_edit) ImageButton mEditSelectionBar;
+    @BindView(R.id.main_selection_bar_edit_cover) ImageButton mEditCoverSelectionBar;
+    @BindView(R.id.main_selection_bar_edit_title) ImageButton mEditTitleSelectionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +102,8 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         mCloudSelectionBar.setOnLongClickListener(handler);
         mShareSelectionBar.setOnLongClickListener(handler);
         mFavoriteSelectionBar.setOnLongClickListener(handler);
-        mEditSelectionBar.setOnLongClickListener(handler);
+        mEditCoverSelectionBar.setOnLongClickListener(handler);
+        mEditTitleSelectionBar.setOnLongClickListener(handler);
 
         // set up recycler view
         int spanCount = getResources().getInteger(R.integer.grid_doc_columns);
@@ -306,12 +309,14 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     }
 
     private void showSingleSelectionMode() {
-        mEditSelectionBar.setVisibility(View.VISIBLE);
+        mEditCoverSelectionBar.setVisibility(View.VISIBLE);
+        mEditTitleSelectionBar.setVisibility(View.VISIBLE);
         mSelectionBar.setVisibility(View.VISIBLE);
     }
 
     private void showMultipleSelectionMode() {
-        mEditSelectionBar.setVisibility(View.GONE);
+        mEditCoverSelectionBar.setVisibility(View.GONE);
+        mEditTitleSelectionBar.setVisibility(View.GONE);
         mSelectionBar.setVisibility(View.VISIBLE);
     }
 
@@ -375,11 +380,11 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 });
     }
 
-    @OnClick(R.id.main_selection_bar_edit)
-    public void onSelectionSettingsClick() {
+    @OnClick(R.id.main_selection_bar_edit_cover)
+    public void onSelectionEditCoverClick() {
         final DocumentMetadata doc = mSelectedDocuments.iterator().next();
-        EditDocDialog dialog = EditDocDialog.newInstance(doc);
-        dialog.setCallback(new EditDocDialog.Callback() {
+        EditDocCoverDialog dialog = EditDocCoverDialog.newInstance(doc);
+        dialog.setCallback(new EditDocCoverDialog.Callback() {
             @Override
             public void onColorChanged(@ColorInt int color) {
                 TasksUtils.setCoverColor(MainActivity.this, doc, color, new Callbacks.FinishCallback<Void>() {
@@ -404,6 +409,24 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
             }
         });
         dialog.show(getSupportFragmentManager(), "EditDocDialogFragment");
+    }
+
+    @OnClick(R.id.main_selection_bar_edit_title)
+    public void onSelectionEditTitleClick() {
+        final DocumentMetadata doc = mSelectedDocuments.iterator().next();
+        EditDocTitleDialog.showDialog(this, doc, new EditDocTitleDialog.Callback() {
+            @Override
+            public void onTitleChanged(String name) {
+                TasksUtils.setTitle(MainActivity.this, doc, name, new Callbacks.FinishCallback<Void>() {
+                    @Override
+                    public void onFinish(Void result) {
+                        mSelectedDocuments.clear();
+                        showNoSelectionMode();
+                        mAdapter.updateSelectedDocuments();
+                    }
+                });
+            }
+        });
     }
 
     @Override

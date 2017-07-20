@@ -22,6 +22,11 @@
     <string name="dialog_create_doc_ok_button">Create</string>
     <string name="dialog_create_doc_hint">Title</string>
 
+    <!-- Edit title dialog -->
+    <string name="dialog_edit_doc_title">Edit document title</string>
+    <string name="dialog_edit_doc_title_ok_button">Edit</string>
+    <string name="dialog_edit_doc_title_hint">Title</string>
+
     <!-- Preferences strings -->
     <string name="pref_sort_key" translatable="false">sort</string>
     <string name="pref_sort_default" translatable="false">@string/pref_sort_title_key</string>
