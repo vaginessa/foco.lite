@@ -4,11 +4,23 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_edit_doc_cover"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:layout_margin="@dimen/dialog_title_margin"/>
+
+    <!-- A blank view to force the layout to be full-width -->
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_gravity="fill_horizontal" />
+
     <android.support.design.widget.TabLayout
         android:id="@+id/dialog_edit_doc_tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/dialog_padding_top"  />
+        android:layout_height="wrap_content"  />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/dialog_edit_doc_pager"

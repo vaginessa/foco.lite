@@ -1,11 +1,13 @@
 package io.github.nfdz.foco.ui.dialogs;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -109,7 +112,6 @@ public class EditDocCoverDialog extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        getDialog().setTitle(R.string.dialog_edit_doc_cover);
 
         mAdapter = new PagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
@@ -118,6 +120,26 @@ public class EditDocCoverDialog extends DialogFragment {
         // select tab depending of the current selected cover type
         if (savedInstanceState == null) {
             mViewPager.setCurrentItem(TextUtils.isEmpty(mDocument.coverImage) ? 0 : 1);
+        }
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+        // request a window without the title and set background color
+        // (thus the integration of old and new sdk versions is better)
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(ContextCompat.getColor(getActivity(), R.color.colorPrimary)));
+        return dialog;
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            getDialog().dismiss();
         }
     }
 

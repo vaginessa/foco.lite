@@ -33,6 +33,7 @@
 
     <dimen name="dialog_padding">4dp</dimen>
     <dimen name="dialog_padding_top">16dp</dimen>
+    <dimen name="dialog_title_margin">22dp</dimen>
 
 
 </resources>
