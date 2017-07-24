@@ -102,12 +102,14 @@
 
         <ImageButton
             android:id="@+id/main_selection_bar_exit"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/selection_bar_item_size"
+            android:layout_height="@dimen/selection_bar_item_size"
+            android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+            android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
             android:adjustViewBounds="true"
-            android:layout_margin="@dimen/selection_bar_item_margin"
-            android:background="@android:color/transparent"
+            android:background="?android:attr/selectableItemBackground"
             android:scaleType="fitCenter"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/ic_discard"
             android:contentDescription="Discard selection" />
         <View
@@ -117,67 +119,79 @@
 
         <ImageButton
             android:id="@+id/main_selection_bar_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/selection_bar_item_size"
+            android:layout_height="@dimen/selection_bar_item_size"
+            android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+            android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
             android:adjustViewBounds="true"
-            android:layout_margin="@dimen/selection_bar_item_margin"
-            android:background="@android:color/transparent"
+            android:background="?android:attr/selectableItemBackground"
             android:scaleType="fitCenter"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/ic_delete"
             android:contentDescription="Delete" />
 
         <ImageButton
             android:id="@+id/main_selection_bar_cloud"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/selection_bar_item_size"
+            android:layout_height="@dimen/selection_bar_item_size"
+            android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+            android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
             android:adjustViewBounds="true"
-            android:layout_margin="@dimen/selection_bar_item_margin"
-            android:background="@android:color/transparent"
+            android:background="?android:attr/selectableItemBackground"
             android:scaleType="fitCenter"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/ic_cloud_upload"
             android:contentDescription="Upload" />
 
         <ImageButton
             android:id="@+id/main_selection_bar_share"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/selection_bar_item_size"
+            android:layout_height="@dimen/selection_bar_item_size"
+            android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+            android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
             android:adjustViewBounds="true"
-            android:layout_margin="@dimen/selection_bar_item_margin"
-            android:background="@android:color/transparent"
+            android:background="?android:attr/selectableItemBackground"
             android:scaleType="fitCenter"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/ic_share"
             android:contentDescription="Share" />
 
         <ImageButton
             android:id="@+id/main_selection_bar_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/selection_bar_item_size"
+            android:layout_height="@dimen/selection_bar_item_size"
+            android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+            android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
             android:adjustViewBounds="true"
-            android:layout_margin="@dimen/selection_bar_item_margin"
-            android:background="@android:color/transparent"
+            android:background="?android:attr/selectableItemBackground"
             android:scaleType="fitCenter"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/ic_fav_light"
             android:contentDescription="Toggle favorite"/>
 
         <ImageButton
             android:id="@+id/main_selection_bar_edit_cover"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/selection_bar_item_size"
+            android:layout_height="@dimen/selection_bar_item_size"
+            android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+            android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
             android:adjustViewBounds="true"
-            android:layout_margin="@dimen/selection_bar_item_margin"
-            android:background="@android:color/transparent"
+            android:background="?android:attr/selectableItemBackground"
             android:scaleType="fitCenter"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/ic_image"
             android:contentDescription="Edit cover"/>
 
         <ImageButton
             android:id="@+id/main_selection_bar_edit_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/selection_bar_item_size"
+            android:layout_height="@dimen/selection_bar_item_size"
+            android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+            android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
             android:adjustViewBounds="true"
-            android:layout_margin="@dimen/selection_bar_item_margin"
-            android:background="@android:color/transparent"
+            android:background="?android:attr/selectableItemBackground"
             android:scaleType="fitCenter"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/ic_title"
             android:contentDescription="Edit title"/>
 

@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -37,11 +40,13 @@ public class EditDocActivity extends AppCompatActivity {
     }
 
     @BindView(R.id.edit_toolbar) Toolbar mToolbar;
-    @BindView(R.id.edit_content_text) EditText mEditTextContent;
+    @BindView(R.id.edit_content_text) CustomEditText mEditTextContent;
     @BindView(R.id.edit_toolbar_title) TextView mToolbarTitle;
     @BindView(R.id.edit_loading) ProgressBar mLoading;
+    @BindView(R.id.edit_selection_bar) View mSelectionBar;
 
     private DocumentMetadata mDocumentMetadata;
+    private TextObserver mObserver = new TextObserver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +74,22 @@ public class EditDocActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             loadTextAsync();
         } else {
+            subscribeObserver();
             showContent();
         }
+
+        mSelectionBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_bold)
+    void asdf() {
+
     }
 
     @OnClick(R.id.edit_toolbar_back)
@@ -118,6 +137,7 @@ public class EditDocActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String text) {
                 mEditTextContent.setText(text);
+                subscribeObserver();
                 showContent();
             }
         }.execute();
@@ -131,5 +151,41 @@ public class EditDocActivity extends AppCompatActivity {
     private void showContent() {
         mLoading.setVisibility(View.INVISIBLE);
         mEditTextContent.setVisibility(View.VISIBLE);
+    }
+
+    private void subscribeObserver() {
+        mEditTextContent.setSelectionListener(mObserver);
+        mEditTextContent.addTextChangedListener(mObserver);
+    }
+
+    private void unsubscribeObserver() {
+        mEditTextContent.setSelectionListener(null);
+        mEditTextContent.removeTextChangedListener(mObserver);
+    }
+
+    private class TextObserver implements CustomEditText.SelectionListener, TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // nothing to do
+        }
+        @Override
+        public void afterTextChanged(Editable s) {
+            // nothing to do
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            Timber.d("#### onTextChanged "+start+","+before+","+count);
+        }
+
+        @Override
+        public void onSelectionChanged(int selStart, int selEnd) {
+            Timber.d("#### onSelectionChanged "+selStart+","+selEnd);
+            if (selStart == selEnd && mSelectionBar.getVisibility() == View.VISIBLE) {
+                mSelectionBar.setVisibility(View.INVISIBLE);
+            } else if (selStart != selEnd && mSelectionBar.getVisibility() == View.INVISIBLE) {
+                mSelectionBar.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

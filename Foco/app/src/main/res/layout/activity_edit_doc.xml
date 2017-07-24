@@ -26,8 +26,9 @@
 
                 <ImageButton
                     android:id="@+id/edit_toolbar_back"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:padding="10dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginEnd="8dp"
                     android:background="?android:attr/selectableItemBackground"
@@ -53,7 +54,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:scrollbars="vertical">
 
-        <EditText
+        <io.github.nfdz.foco.ui.CustomEditText
             android:id="@+id/edit_content_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,5 +75,181 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/app_bar_collapsed_height"
         android:visibility="invisible"/>
+
+    <!-- Text selection tool bar -->
+    <HorizontalScrollView
+        android:id="@+id/edit_selection_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/selection_bar_height"
+        android:background="@color/colorAccent"
+        android:layout_gravity="bottom"
+        android:scrollbars="horizontal"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_bold"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_bold"
+                android:contentDescription="Format bold" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_italic"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_italic"
+                android:contentDescription="Format italic" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_underlined"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_underlined"
+                android:contentDescription="Format underlined" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_strikethrough"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_strikethrough"
+                android:contentDescription="Format strikethrough" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_quote"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_quote"
+                android:contentDescription="Format quote" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_list_bulleted"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_list_bulleted"
+                android:contentDescription="Format list bulleted" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_link"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_link"
+                android:contentDescription="Format link" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_image"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_image"
+                android:contentDescription="Format image" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_video"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_video"
+                android:contentDescription="Format video" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_header"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_header"
+                android:contentDescription="Format header" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_header_2"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_header_2"
+                android:contentDescription="Format header 2" />
+
+            <ImageButton
+                android:id="@+id/edit_selection_bar_format_header_3"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_header_3"
+                android:contentDescription="Format header 3" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
 
 </android.support.design.widget.CoordinatorLayout>
