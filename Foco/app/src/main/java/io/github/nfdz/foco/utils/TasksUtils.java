@@ -19,17 +19,21 @@ public class TasksUtils {
 
     public static void createDocument(final Context context,
                                       final String name,
-                                      final Callbacks.FinishCallback<Long> callback) {
-        new AsyncTask<Void, Void, Long>() {
+                                      final Callbacks.FinishCallback<DocumentMetadata> callback) {
+        new AsyncTask<Void, Void, DocumentMetadata>() {
             @Override
-            protected Long doInBackground(Void[] params) {
+            protected DocumentMetadata doInBackground(Void[] params) {
                 DocumentEntity doc = new DocumentEntity();
                 doc.name = name;
-                return AppDatabase.getInstance(context).documentDao().insert(doc)[0];
+                long[] docId = AppDatabase.getInstance(context).documentDao().insert(doc);
+                if (docId.length > 0 && docId[0] > -1) {
+                    return AppDatabase.getInstance(context).documentDao().getDocumentMetadata(docId[0]);
+                }
+                return null;
             }
             @Override
-            protected void onPostExecute(Long id) {
-                callback.onFinish(id);
+            protected void onPostExecute(DocumentMetadata doc) {
+                callback.onFinish(doc);
             }
         }.execute();
     }

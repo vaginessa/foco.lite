@@ -43,8 +43,7 @@ Minimalist text editor for writing without distractions for Android. This applic
 </p>
 
 ## TODO
-* Mockup application
-* Define tasks and sprints
+* Add settings: font size, font family and default open doc click action (preview or edit)
 
 ## 3rd party software
 

@@ -37,6 +37,12 @@ public interface DocumentDao {
     @Query("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = :docId")
     DocumentEntity getDocument(long docId);
 
+    @Query("SELECT " + COLUMN_ID + ", " +COLUMN_NAME + ", " + COLUMN_WORKING_TIME +
+            ", " + COLUMN_LAST_EDITION_TIME + ", " + COLUMN_WORDS + ", " + COLUMN_FAVORITE +
+            ", " + COLUMN_COVER_COLOR +  ", " + COLUMN_COVER_IMAGE + " FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_ID + " = :docId")
+    DocumentMetadata getDocumentMetadata(long docId);
+
     @Update
     void update(DocumentEntity... documents);
 

@@ -25,27 +25,28 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+
+
+
+
+
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
-
     compile 'com.pes.materialcolorpicker:library:1.2.0'
     compile 'com.github.angads25:filepicker:1.1.1'
     compile 'id.zelory:compressor:2.1.0'
-
     compile 'android.arch.lifecycle:runtime:1.0.0-alpha3'
     compile 'android.arch.lifecycle:extensions:1.0.0-alpha3'
     compile 'android.arch.persistence.room:runtime:1.0.0-alpha3'
-
+    compile 'com.android.support:support-v4:25.3.1'
+    testCompile 'junit:junit:4.12'
     annotationProcessor 'android.arch.lifecycle:compiler:1.0.0-alpha3'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0-alpha3'
-
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
-    testCompile 'junit:junit:4.12'
 }

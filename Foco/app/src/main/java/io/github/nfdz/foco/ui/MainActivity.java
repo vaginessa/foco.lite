@@ -256,10 +256,12 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         CreateDocDialog.showDialog(this, new CreateDocDialog.Callback() {
             @Override
             public void onCreateDocument(String name) {
-                TasksUtils.createDocument(MainActivity.this, name, new Callbacks.FinishCallback<Long>() {
+                TasksUtils.createDocument(MainActivity.this, name, new Callbacks.FinishCallback<DocumentMetadata>() {
                     @Override
-                    public void onFinish(Long id) {
-                        // TODO open document
+                    public void onFinish(DocumentMetadata doc) {
+                        if (doc != null) {
+                            openDocument(doc);
+                        }
                     }
                 });
             }
@@ -268,7 +270,12 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     @Override
     public void onDocumentClick(DocumentMetadata doc) {
-        Toast.makeText(this, "TODO Doc click:"+doc.id, Toast.LENGTH_LONG).show();
+        openDocument(doc);
+    }
+
+    private void openDocument(DocumentMetadata doc) {
+        mSelectedDocuments.clear();
+        EditDocActivity.start(this, doc);
     }
 
     @Override
