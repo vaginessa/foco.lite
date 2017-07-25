@@ -3,42 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_more"
+        android:id="@+id/action_music"
         android:orderInCategory="100"
-        android:title="@string/action_more"
-        android:icon="@drawable/ic_more_menu"
-        app:showAsAction="always" >
-        <menu>
-            <item
-                android:id="@+id/action_undo"
-                android:orderInCategory="101"
-                android:title="@string/action_undo"
-                app:showAsAction="always" />
+        android:title="@string/action_music"
+        android:icon="@drawable/ic_music"
+        app:showAsAction="always" />
 
-            <item
-                android:id="@+id/action_redo"
-                android:orderInCategory="102"
-                android:title="@string/action_redo"
-                app:showAsAction="always" />
+    <item
+        android:id="@+id/action_preview"
+        android:orderInCategory="101"
+        android:title="@string/action_preview"
+        android:icon="@drawable/ic_preview"
+        app:showAsAction="always" />
 
-            <item
-                android:id="@+id/action_preview"
-                android:orderInCategory="103"
-                android:title="@string/action_preview"
-                app:showAsAction="always" />
-
-            <item
-                android:id="@+id/action_save"
-                android:orderInCategory="104"
-                android:title="@string/action_save"
-                app:showAsAction="always" />
-
-            <item
-                android:id="@+id/action_music"
-                android:orderInCategory="200"
-                android:title="@string/action_music"
-                app:showAsAction="always" />
-        </menu>
-    </item>
+    <item
+        android:id="@+id/action_save"
+        android:orderInCategory="102"
+        android:title="@string/action_save"
+        android:icon="@drawable/ic_save"
+        app:showAsAction="always" />
 
 </menu>

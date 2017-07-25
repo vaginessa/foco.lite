@@ -128,10 +128,6 @@ public class EditDocActivity extends AppCompatActivity {
                 return true;
             case R.id.action_save:
                 return true;
-            case R.id.action_undo:
-                return true;
-            case R.id.action_redo:
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }

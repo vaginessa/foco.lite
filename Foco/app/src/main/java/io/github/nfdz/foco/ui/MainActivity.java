@@ -24,7 +24,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -159,10 +158,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_music) {
-            Toast.makeText(this, "TODO MUSIC", Toast.LENGTH_LONG).show();
-            return true;
-        } else if (id == R.id.action_sort) {
+        if (id == R.id.action_sort) {
             ChangeSortDialog.showDialog(this, new ChangeSortDialog.Callback() {
                 @Override
                 public void onSortChanged() {
@@ -170,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 }
             });
             return true;
-        }
+        } // TODO search
         return super.onOptionsItemSelected(item);
     }
 
