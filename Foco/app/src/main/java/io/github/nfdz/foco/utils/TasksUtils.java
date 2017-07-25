@@ -153,4 +153,31 @@ public class TasksUtils {
         }.execute();
     }
 
+
+    public static void saveDocument(final Context context,
+                                    final DocumentMetadata doc,
+                                    final String text,
+                                    final long workingTime,
+                                    final Callbacks.FinishCallback<Void> callback) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void[] params) {
+                DocumentEntity entity = AppDatabase.getInstance(context).documentDao().getDocument(doc.id);
+                entity.text = text;
+                entity.workingTime += workingTime;
+                entity.lastEditionTime = System.currentTimeMillis();
+                entity.words = countWords(text);
+                AppDatabase.getInstance(context).documentDao().update(entity);
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void v) {
+                callback.onFinish(null);
+            }
+        }.execute();
+    }
+
+    private static int countWords(String text) {
+        return TextUtils.isEmpty(text) ? 0 : text.split("\\s+").length;
+    }
 }

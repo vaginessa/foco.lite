@@ -12,8 +12,10 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,15 +24,20 @@ import io.github.nfdz.foco.R;
 import io.github.nfdz.foco.data.AppDatabase;
 import io.github.nfdz.foco.data.entity.DocumentEntity;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
+import io.github.nfdz.foco.model.Callbacks;
+import io.github.nfdz.foco.ui.dialogs.AskSaveDialog;
 import io.github.nfdz.foco.utils.FontChangeCrawler;
 import io.github.nfdz.foco.utils.SelectionToolbarUtils;
+import io.github.nfdz.foco.utils.TasksUtils;
 import timber.log.Timber;
 
 public class EditDocActivity extends AppCompatActivity {
 
     public static final String EXTRA_DOC = "document";
 
-    private static final String TEXT_FLAG_KEY = "text-loaded";
+    private static final String TEXT_LOADED_KEY = "text-loaded";
+    private static final String START_TIME_KEY = "start-time";
+    private static final String TEXT_EDITED_KEY = "text-edited";
 
     public static void start(Context context, DocumentMetadata document) {
         Intent starter = new Intent(context, EditDocActivity.class);
@@ -47,6 +54,8 @@ public class EditDocActivity extends AppCompatActivity {
     private DocumentMetadata mDocumentMetadata;
     private TextObserver mObserver = new TextObserver();
     private boolean mTextLoaded = false;
+    private long mStartTime = -1;
+    private boolean mTextEdited = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,30 +95,101 @@ public class EditDocActivity extends AppCompatActivity {
                 R.id.edit_selection_bar_format_header_2,
                 R.id.edit_selection_bar_format_header_3);
 
-        if (savedInstanceState == null || !savedInstanceState.getBoolean(TEXT_FLAG_KEY, false)) {
+        if (savedInstanceState == null || !savedInstanceState.getBoolean(TEXT_LOADED_KEY, false)) {
             loadTextAsync();
         } else {
+            mStartTime = savedInstanceState.getLong(START_TIME_KEY, -1);
+            mTextEdited = savedInstanceState.getBoolean(TEXT_EDITED_KEY, false);
             mTextLoaded = true;
-            subscribeObserver();
             showContent();
+            mEditTextContent.post(new Runnable() {
+                @Override
+                public void run() {
+                    subscribeObserver();
+                }
+            });
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(TEXT_FLAG_KEY, mTextLoaded);
+        outState.putBoolean(TEXT_LOADED_KEY, mTextLoaded);
+        outState.putLong(START_TIME_KEY, mStartTime);
+        outState.putBoolean(TEXT_EDITED_KEY, mTextEdited);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mStartTime < 0) mStartTime = System.currentTimeMillis();
     }
 
     @OnClick(R.id.edit_toolbar_back)
     void onBackClick() {
+        // if text was edited ask save before
+        if (mTextEdited) {
+            AskSaveDialog.showDialog(this, new AskSaveDialog.Callback() {
+                @Override
+                public void onCloseWithoutSave() {
+                    EditDocActivity.super.onNavigateUp();
+                }
+                @Override
+                public void onSaveAndClose() {
+                    showLoading();
+                    saveDocument(new Callbacks.FinishCallback() {
+                        @Override
+                        public void onFinish(Object result) {
+                            EditDocActivity.super.onNavigateUp();
+                        }
+                    });
+                }
+            });
+        } else {
+            super.onNavigateUp();
+        }
+    }
 
-        // TODO ask if save
-
-        if (!super.onNavigateUp()) {
-            Timber.d("Cannot navigate up from edit activity");
+    @Override
+    public void onBackPressed() {
+        // if text was edited ask save before
+        if (mTextEdited) {
+            AskSaveDialog.showDialog(this, new AskSaveDialog.Callback() {
+                @Override
+                public void onCloseWithoutSave() {
+                    EditDocActivity.super.onBackPressed();
+                }
+                @Override
+                public void onSaveAndClose() {
+                    showLoading();
+                    saveDocument(new Callbacks.FinishCallback() {
+                        @Override
+                        public void onFinish(Object result) {
+                            EditDocActivity.super.onNavigateUp();
+                        }
+                    });
+                }
+            });
+        } else {
             super.onBackPressed();
         }
+    }
+
+    private void saveDocument(final Callbacks.FinishCallback callback) {
+        final Context context = this;
+        long now = System.currentTimeMillis();
+        long workingTime = mStartTime > 0 ? now - mStartTime : 0;
+        TasksUtils.saveDocument(context,
+                mDocumentMetadata,
+                mEditTextContent.getText().toString(),
+                workingTime,
+                new Callbacks.FinishCallback<Void>() {
+                    @Override
+                    public void onFinish(Void result) {
+                        mTextEdited = false;
+                        callback.onFinish(result);
+                    }
+                });
     }
 
     @Override
@@ -127,6 +207,12 @@ public class EditDocActivity extends AppCompatActivity {
             case R.id.action_preview:
                 return true;
             case R.id.action_save:
+                saveDocument(new Callbacks.FinishCallback<Void>() {
+                    @Override
+                    public void onFinish(Void result) {
+                        Toast.makeText(EditDocActivity.this, R.string.save_success_msg, Toast.LENGTH_LONG).show();
+                    }
+                });
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -166,25 +252,7 @@ public class EditDocActivity extends AppCompatActivity {
         mEditTextContent.addTextChangedListener(mObserver);
     }
 
-    private void unsubscribeObserver() {
-        mEditTextContent.setSelectionListener(null);
-        mEditTextContent.removeTextChangedListener(mObserver);
-    }
-
     private class TextObserver implements CustomEditText.SelectionListener, TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // nothing to do
-        }
-        @Override
-        public void afterTextChanged(Editable s) {
-            // nothing to do
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            Timber.d("#### onTextChanged "+start+","+before+","+count);
-        }
 
         @Override
         public void onSelectionChanged(int selStart, int selEnd) {
@@ -194,8 +262,25 @@ public class EditDocActivity extends AppCompatActivity {
                 mSelectionBar.setVisibility(View.VISIBLE);
             }
         }
-    }
 
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // nothing to do
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (before > 0 || count > 0) {
+                mTextEdited = true;
+            }
+            Timber.d("################## onTextChanged = "+start+" / "+before+" / "+count);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            // nothing to do
+        }
+    }
 
     // text selection toolbar click handlers
 
@@ -262,7 +347,8 @@ public class EditDocActivity extends AppCompatActivity {
             if (c == '\n') {
                 listIndex++;
                 builder.append(c);
-                builder.append(listIndex + ". ");
+                builder.append(listIndex);
+                builder.append(". ");
             } else {
                 builder.append(c);
             }

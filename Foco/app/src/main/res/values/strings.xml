@@ -10,10 +10,17 @@
     <string name="action_search">Search</string>
     <string name="action_more">More</string>
 
+    <string name="save_success_msg">Document saved successfully</string>
 
     <!-- Font names -->
     <string name="font_libre_baskerville_regular" translatable="false">LibreBaskerville-Regular.ttf</string>
     <string name="font_libre_baskerville_bold" translatable="false">LibreBaskerville-Bold.ttf</string>
+
+    <!-- Ask save dialog -->
+    <string name="dialog_ask_save_title">Save document changes</string>
+    <string name="dialog_ask_save_message">Do you want to save the changes before closing the document?</string>
+    <string name="dialog_ask_save_save_button">Save</string>
+    <string name="dialog_ask_save_close_button">Close</string>
 
     <!-- Delete dialog -->
     <string name="dialog_delete_title">Delete documents</string>
