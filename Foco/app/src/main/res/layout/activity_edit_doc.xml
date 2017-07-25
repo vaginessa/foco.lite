@@ -170,6 +170,19 @@
                 android:contentDescription="Format list bulleted" />
 
             <ImageButton
+                android:id="@+id/edit_selection_bar_format_list_numbered"
+                android:layout_width="@dimen/selection_bar_item_size"
+                android:layout_height="@dimen/selection_bar_item_size"
+                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
+                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_format_list_numbered"
+                android:contentDescription="Format list numbered" />
+
+            <ImageButton
                 android:id="@+id/edit_selection_bar_format_link"
                 android:layout_width="@dimen/selection_bar_item_size"
                 android:layout_height="@dimen/selection_bar_item_size"

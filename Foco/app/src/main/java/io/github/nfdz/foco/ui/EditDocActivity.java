@@ -79,6 +79,7 @@ public class EditDocActivity extends AppCompatActivity {
                 R.id.edit_selection_bar_format_strikethrough,
                 R.id.edit_selection_bar_format_quote,
                 R.id.edit_selection_bar_format_list_bulleted,
+                R.id.edit_selection_bar_format_list_numbered,
                 R.id.edit_selection_bar_format_link,
                 R.id.edit_selection_bar_format_image,
                 R.id.edit_selection_bar_format_video,
@@ -196,5 +197,73 @@ public class EditDocActivity extends AppCompatActivity {
                 mSelectionBar.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+
+    // text selection toolbar click handlers
+
+    @OnClick(R.id.edit_selection_bar_format_bold)
+    public void onSelectionFormatBoldClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_italic)
+    public void onSelectionFormatItalicClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_underlined)
+    public void onSelectionFormatUnderlinedClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_strikethrough)
+    public void onSelectionFormatStrikethroughClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_quote)
+    public void onSelectionFormatQuoteClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_list_bulleted)
+    public void onSelectionFormatListBulletedClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_list_numbered)
+    public void onSelectionFormatListNumberedClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_link)
+    public void onSelectionFormatLinkClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_image)
+    public void onSelectionFormatImageClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_video)
+    public void onSelectionFormatVideoClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_header)
+    public void onSelectionFormatHeaderClick() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_header_2)
+    public void onSelectionFormatHeader2Click() {
+
+    }
+
+    @OnClick(R.id.edit_selection_bar_format_header_3)
+    public void onSelectionFormatHeader3Click() {
+
     }
 }
