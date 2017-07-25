@@ -75,7 +75,6 @@ public class EditDocActivity extends AppCompatActivity {
         SelectionToolbarUtils.setDescriptionToToast(this,
                 R.id.edit_selection_bar_format_bold,
                 R.id.edit_selection_bar_format_italic,
-                R.id.edit_selection_bar_format_underlined,
                 R.id.edit_selection_bar_format_strikethrough,
                 R.id.edit_selection_bar_format_quote,
                 R.id.edit_selection_bar_format_list_bulleted,
@@ -104,7 +103,9 @@ public class EditDocActivity extends AppCompatActivity {
 
     @OnClick(R.id.edit_toolbar_back)
     void onBackClick() {
+
         // TODO ask if save
+
         if (!super.onNavigateUp()) {
             Timber.d("Cannot navigate up from edit activity");
             super.onBackPressed();
@@ -202,68 +203,113 @@ public class EditDocActivity extends AppCompatActivity {
 
     // text selection toolbar click handlers
 
+    private void wrapSelection(String prefix, String suffix) {
+        int selStart = mEditTextContent.getSelectionStart();
+        int selEnd = mEditTextContent.getSelectionEnd();
+        CharSequence selection = mEditTextContent.getText().subSequence(selStart, selEnd);
+        CharSequence formattedSelection = prefix + selection + suffix;
+        mEditTextContent.getText().replace(selStart, selEnd, formattedSelection);
+    }
+
     @OnClick(R.id.edit_selection_bar_format_bold)
     public void onSelectionFormatBoldClick() {
-
+        wrapSelection("**", "**");
     }
 
     @OnClick(R.id.edit_selection_bar_format_italic)
     public void onSelectionFormatItalicClick() {
-
-    }
-
-    @OnClick(R.id.edit_selection_bar_format_underlined)
-    public void onSelectionFormatUnderlinedClick() {
-
+        wrapSelection("_", "_");
     }
 
     @OnClick(R.id.edit_selection_bar_format_strikethrough)
     public void onSelectionFormatStrikethroughClick() {
+        wrapSelection("~~", "~~");
+    }
 
+    private void addBeginningPerLineSelection(String mark) {
+        int selStart = mEditTextContent.getSelectionStart();
+        int selEnd = mEditTextContent.getSelectionEnd();
+        CharSequence selection = mEditTextContent.getText().subSequence(selStart, selEnd);
+        StringBuilder builder = new StringBuilder(mark);
+        for (int i = 0; i < selection.length(); i++){
+            char c = selection.charAt(i);
+            if (c == '\n') {
+                builder.append(c);
+                builder.append(mark);
+            } else {
+                builder.append(c);
+            }
+        }
+        String formattedSelection = builder.toString();
+        mEditTextContent.getText().replace(selStart, selEnd, formattedSelection);
     }
 
     @OnClick(R.id.edit_selection_bar_format_quote)
     public void onSelectionFormatQuoteClick() {
-
+        addBeginningPerLineSelection("> ");
     }
 
     @OnClick(R.id.edit_selection_bar_format_list_bulleted)
     public void onSelectionFormatListBulletedClick() {
-
+        addBeginningPerLineSelection("- ");
     }
 
     @OnClick(R.id.edit_selection_bar_format_list_numbered)
     public void onSelectionFormatListNumberedClick() {
-
+        int selStart = mEditTextContent.getSelectionStart();
+        int selEnd = mEditTextContent.getSelectionEnd();
+        CharSequence selection = mEditTextContent.getText().subSequence(selStart, selEnd);
+        int listIndex = 1;
+        StringBuilder builder = new StringBuilder(listIndex + ". ");
+        for (int i = 0; i < selection.length(); i++){
+            char c = selection.charAt(i);
+            if (c == '\n') {
+                listIndex++;
+                builder.append(c);
+                builder.append(listIndex + ". ");
+            } else {
+                builder.append(c);
+            }
+        }
+        String formattedSelection = builder.toString();
+        mEditTextContent.getText().replace(selStart, selEnd, formattedSelection);
     }
 
     @OnClick(R.id.edit_selection_bar_format_link)
     public void onSelectionFormatLinkClick() {
-
+        wrapSelection("[", "](http://)");
     }
 
     @OnClick(R.id.edit_selection_bar_format_image)
     public void onSelectionFormatImageClick() {
-
+        wrapSelection("![", "](http://)");
     }
 
     @OnClick(R.id.edit_selection_bar_format_video)
     public void onSelectionFormatVideoClick() {
+        wrapSelection("@[youtube](", ")");
+    }
 
+    private void addBeginningSelection(String mark) {
+        int selStart = mEditTextContent.getSelectionStart();
+        int selEnd = mEditTextContent.getSelectionEnd();
+        CharSequence selection = mEditTextContent.getText().subSequence(selStart, selEnd);
+        CharSequence formattedSelection = mark + selection;
+        mEditTextContent.getText().replace(selStart, selEnd, formattedSelection);
     }
 
     @OnClick(R.id.edit_selection_bar_format_header)
     public void onSelectionFormatHeaderClick() {
-
+        addBeginningSelection("# ");
     }
 
     @OnClick(R.id.edit_selection_bar_format_header_2)
     public void onSelectionFormatHeader2Click() {
-
+        addBeginningSelection("## ");
     }
 
     @OnClick(R.id.edit_selection_bar_format_header_3)
     public void onSelectionFormatHeader3Click() {
-
+        addBeginningSelection("### ");
     }
 }

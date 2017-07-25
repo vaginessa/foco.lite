@@ -118,19 +118,6 @@
                 android:contentDescription="Format italic" />
 
             <ImageButton
-                android:id="@+id/edit_selection_bar_format_underlined"
-                android:layout_width="@dimen/selection_bar_item_size"
-                android:layout_height="@dimen/selection_bar_item_size"
-                android:paddingLeft="@dimen/selection_bar_item_padding_horizontal"
-                android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_format_underlined"
-                android:contentDescription="Format underlined" />
-
-            <ImageButton
                 android:id="@+id/edit_selection_bar_format_strikethrough"
                 android:layout_width="@dimen/selection_bar_item_size"
                 android:layout_height="@dimen/selection_bar_item_size"
