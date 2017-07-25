@@ -32,8 +32,8 @@
     <dimen name="doc_item_title_medium">14dp</dimen>
     <dimen name="doc_item_title_small">11dp</dimen>
 
-    <dimen name="dialog_padding">4dp</dimen>
-    <dimen name="dialog_padding_top">16dp</dimen>
+    <dimen name="dialog_horizontal_padding">22dp</dimen>
+    <dimen name="dialog_vertical_padding">16dp</dimen>
     <dimen name="dialog_title_margin">22dp</dimen>
 
     <dimen name="edit_doc_text_vertical_padding">16dp</dimen>

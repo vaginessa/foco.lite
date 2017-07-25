@@ -3,10 +3,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/dialog_padding_top"
-    android:paddingLeft="@dimen/dialog_padding"
-    android:paddingRight="@dimen/dialog_padding"
-    android:paddingBottom="@dimen/dialog_padding">
+    android:paddingTop="@dimen/dialog_vertical_padding"
+    android:paddingLeft="@dimen/dialog_horizontal_padding"
+    android:paddingRight="@dimen/dialog_horizontal_padding"
+    android:paddingBottom="@dimen/dialog_vertical_padding">
 
     <EditText
         android:id="@+id/dialog_create_doc_name"

@@ -46,6 +46,7 @@ import io.github.nfdz.foco.ui.dialogs.CreateDocDialog;
 import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
 import io.github.nfdz.foco.ui.dialogs.EditDocCoverDialog;
 import io.github.nfdz.foco.ui.dialogs.EditDocTitleDialog;
+import io.github.nfdz.foco.utils.SelectionToolbarUtils;
 import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
 
@@ -78,11 +79,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @BindView(R.id.main_collapsing_layout) CollapsingToolbarLayout mCollapsingLayout;
 
     @BindView(R.id.main_selection_bar) LinearLayout mSelectionBar;
-    @BindView(R.id.main_selection_bar_exit) ImageButton mExitSelectionBar;
-    @BindView(R.id.main_selection_bar_delete) ImageButton mDeleteSelectionBar;
-    @BindView(R.id.main_selection_bar_cloud) ImageButton mCloudSelectionBar;
-    @BindView(R.id.main_selection_bar_share) ImageButton mShareSelectionBar;
-    @BindView(R.id.main_selection_bar_favorite) ImageButton mFavoriteSelectionBar;
     @BindView(R.id.main_selection_bar_edit_cover) ImageButton mEditCoverSelectionBar;
     @BindView(R.id.main_selection_bar_edit_title) ImageButton mEditTitleSelectionBar;
 
@@ -96,14 +92,14 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         getSupportActionBar().setTitle(null);
 
         // set up selection tool bar
-        SelectionBarLongClickHandler handler = new SelectionBarLongClickHandler();
-        mExitSelectionBar.setOnLongClickListener(handler);
-        mDeleteSelectionBar.setOnLongClickListener(handler);
-        mCloudSelectionBar.setOnLongClickListener(handler);
-        mShareSelectionBar.setOnLongClickListener(handler);
-        mFavoriteSelectionBar.setOnLongClickListener(handler);
-        mEditCoverSelectionBar.setOnLongClickListener(handler);
-        mEditTitleSelectionBar.setOnLongClickListener(handler);
+        SelectionToolbarUtils.setDescriptionToToast(this,
+                R.id.main_selection_bar_exit,
+                R.id.main_selection_bar_delete,
+                R.id.main_selection_bar_cloud,
+                R.id.main_selection_bar_share,
+                R.id.main_selection_bar_favorite,
+                R.id.main_selection_bar_edit_cover,
+                R.id.main_selection_bar_edit_title);
 
         // set up recycler view
         int spanCount = getResources().getInteger(R.integer.grid_doc_columns);
@@ -275,6 +271,8 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     private void openDocument(DocumentMetadata doc) {
         mSelectedDocuments.clear();
+        mAdapter.updateSelectedDocuments();
+        showNoSelectionMode();
         EditDocActivity.start(this, doc);
     }
 
@@ -299,15 +297,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 break;
             default:
                 showMultipleSelectionMode();
-        }
-    }
-
-    private class SelectionBarLongClickHandler implements View.OnLongClickListener {
-        @Override
-        public boolean onLongClick(View v) {
-            Toast toast = Toast.makeText(MainActivity.this, v.getContentDescription(), Toast.LENGTH_SHORT);
-            toast.show();
-            return true;
         }
     }
 

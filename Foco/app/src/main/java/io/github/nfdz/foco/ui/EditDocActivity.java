@@ -8,16 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,11 +23,14 @@ import io.github.nfdz.foco.data.AppDatabase;
 import io.github.nfdz.foco.data.entity.DocumentEntity;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.utils.FontChangeCrawler;
+import io.github.nfdz.foco.utils.SelectionToolbarUtils;
 import timber.log.Timber;
 
 public class EditDocActivity extends AppCompatActivity {
 
     public static final String EXTRA_DOC = "document";
+
+    private static final String TEXT_FLAG_KEY = "text-loaded";
 
     public static void start(Context context, DocumentMetadata document) {
         Intent starter = new Intent(context, EditDocActivity.class);
@@ -47,6 +46,7 @@ public class EditDocActivity extends AppCompatActivity {
 
     private DocumentMetadata mDocumentMetadata;
     private TextObserver mObserver = new TextObserver();
+    private boolean mTextLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,25 +71,34 @@ public class EditDocActivity extends AppCompatActivity {
                 getString(R.string.font_libre_baskerville_regular));
         fontChanger.replaceFonts(mEditTextContent);
 
-        if (savedInstanceState == null) {
+        // set up selection tool bar
+        SelectionToolbarUtils.setDescriptionToToast(this,
+                R.id.edit_selection_bar_format_bold,
+                R.id.edit_selection_bar_format_italic,
+                R.id.edit_selection_bar_format_underlined,
+                R.id.edit_selection_bar_format_strikethrough,
+                R.id.edit_selection_bar_format_quote,
+                R.id.edit_selection_bar_format_list_bulleted,
+                R.id.edit_selection_bar_format_link,
+                R.id.edit_selection_bar_format_image,
+                R.id.edit_selection_bar_format_video,
+                R.id.edit_selection_bar_format_header,
+                R.id.edit_selection_bar_format_header_2,
+                R.id.edit_selection_bar_format_header_3);
+
+        if (savedInstanceState == null || !savedInstanceState.getBoolean(TEXT_FLAG_KEY, false)) {
             loadTextAsync();
         } else {
+            mTextLoaded = true;
             subscribeObserver();
             showContent();
         }
-
-        mSelectionBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
     }
 
-    @OnClick(R.id.edit_selection_bar_format_bold)
-    void asdf() {
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(TEXT_FLAG_KEY, mTextLoaded);
     }
 
     @OnClick(R.id.edit_toolbar_back)
@@ -139,6 +148,7 @@ public class EditDocActivity extends AppCompatActivity {
                 mEditTextContent.setText(text);
                 subscribeObserver();
                 showContent();
+                mTextLoaded = true;
             }
         }.execute();
     }
@@ -180,7 +190,6 @@ public class EditDocActivity extends AppCompatActivity {
 
         @Override
         public void onSelectionChanged(int selStart, int selEnd) {
-            Timber.d("#### onSelectionChanged "+selStart+","+selEnd);
             if (selStart == selEnd && mSelectionBar.getVisibility() == View.VISIBLE) {
                 mSelectionBar.setVisibility(View.INVISIBLE);
             } else if (selStart != selEnd && mSelectionBar.getVisibility() == View.INVISIBLE) {

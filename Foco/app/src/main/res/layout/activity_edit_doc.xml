@@ -84,7 +84,6 @@
         android:background="@color/colorAccent"
         android:layout_gravity="bottom"
         android:scrollbars="horizontal"
-        android:orientation="horizontal"
         android:visibility="invisible">
 
         <LinearLayout
