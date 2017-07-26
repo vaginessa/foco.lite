@@ -4,6 +4,7 @@
     <string name="action_music">Music</string>
     <string name="action_sort">Sort</string>
     <string name="action_preview">Preview</string>
+    <string name="action_edit">Edit</string>
     <string name="action_undo">Undo</string>
     <string name="action_redo">Redo</string>
     <string name="action_save">Save</string>
@@ -11,6 +12,7 @@
     <string name="action_more">More</string>
 
     <string name="save_success_msg">Document saved successfully</string>
+    <string name="preview_error_msg">The text has not yet been loaded, please wait a moment and try again</string>
 
     <!-- Font names -->
     <string name="font_libre_baskerville_regular" translatable="false">LibreBaskerville-Regular.ttf</string>

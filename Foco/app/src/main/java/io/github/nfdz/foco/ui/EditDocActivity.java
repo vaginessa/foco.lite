@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -12,11 +13,14 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import br.tiagohm.markdownview.MarkdownView;
+import br.tiagohm.markdownview.css.ExternalStyleSheet;
+import br.tiagohm.markdownview.css.InternalStyleSheet;
+import br.tiagohm.markdownview.css.styles.Github;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,7 +33,6 @@ import io.github.nfdz.foco.ui.dialogs.AskSaveDialog;
 import io.github.nfdz.foco.utils.FontChangeCrawler;
 import io.github.nfdz.foco.utils.SelectionToolbarUtils;
 import io.github.nfdz.foco.utils.TasksUtils;
-import timber.log.Timber;
 
 public class EditDocActivity extends AppCompatActivity {
 
@@ -38,6 +41,7 @@ public class EditDocActivity extends AppCompatActivity {
     private static final String TEXT_LOADED_KEY = "text-loaded";
     private static final String START_TIME_KEY = "start-time";
     private static final String TEXT_EDITED_KEY = "text-edited";
+    private static final String PREVIEW_MODE_KEY = "preview";
 
     public static void start(Context context, DocumentMetadata document) {
         Intent starter = new Intent(context, EditDocActivity.class);
@@ -45,17 +49,20 @@ public class EditDocActivity extends AppCompatActivity {
         context.startActivity(starter);
     }
 
+    @BindView(R.id.edit_app_bar) AppBarLayout mAppBar;
     @BindView(R.id.edit_toolbar) Toolbar mToolbar;
     @BindView(R.id.edit_content_text) CustomEditText mEditTextContent;
     @BindView(R.id.edit_toolbar_title) TextView mToolbarTitle;
     @BindView(R.id.edit_loading) ProgressBar mLoading;
     @BindView(R.id.edit_selection_bar) View mSelectionBar;
+    @BindView(R.id.edit_markdown_preview) MarkdownView mPreview;
 
     private DocumentMetadata mDocumentMetadata;
     private TextObserver mObserver = new TextObserver();
     private boolean mTextLoaded = false;
     private long mStartTime = -1;
     private boolean mTextEdited = false;
+    private boolean mPreviewMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,17 +102,30 @@ public class EditDocActivity extends AppCompatActivity {
                 R.id.edit_selection_bar_format_header_2,
                 R.id.edit_selection_bar_format_header_3);
 
+        // set up markdown
+        mPreview.addStyleSheet(new ExternalStyleSheet("https://fonts.googleapis.com/css?family=Libre+Baskerville"));
+        InternalStyleSheet css = new Github();
+        css.addRule("*", "color: black", "font-family: 'Libre Baskerville', serif");
+        mPreview.addStyleSheet(css);
+
         if (savedInstanceState == null || !savedInstanceState.getBoolean(TEXT_LOADED_KEY, false)) {
             loadTextAsync();
         } else {
+            mAppBar.setExpanded(true, true);
             mStartTime = savedInstanceState.getLong(START_TIME_KEY, -1);
             mTextEdited = savedInstanceState.getBoolean(TEXT_EDITED_KEY, false);
+            mPreviewMode = savedInstanceState.getBoolean(PREVIEW_MODE_KEY, false);
             mTextLoaded = true;
             showContent();
+            // post runnable to be executed after edit text restore its content
             mEditTextContent.post(new Runnable() {
                 @Override
                 public void run() {
                     subscribeObserver();
+
+                    if (mPreviewMode) {
+                        showPreviewMode();
+                    }
                 }
             });
         }
@@ -117,6 +137,7 @@ public class EditDocActivity extends AppCompatActivity {
         outState.putBoolean(TEXT_LOADED_KEY, mTextLoaded);
         outState.putLong(START_TIME_KEY, mStartTime);
         outState.putBoolean(TEXT_EDITED_KEY, mTextEdited);
+        outState.putBoolean(PREVIEW_MODE_KEY, mPreviewMode);
     }
 
     @Override
@@ -196,7 +217,41 @@ public class EditDocActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
+
+        if (mPreviewMode) {
+            MenuItem item = menu.findItem(R.id.action_preview);
+            item.setIcon(R.drawable.ic_edit);
+            item.setTitle(R.string.action_edit);
+        }
         return true;
+    }
+
+    private void showPreviewMode() {
+        mPreviewMode = true;
+        mPreview.loadMarkdown(mEditTextContent.getText().toString());
+        mEditTextContent.setVisibility(View.GONE);
+        mPreview.setVisibility(View.VISIBLE);
+        mEditTextContent.clearFocus();
+        mPreview.requestFocus();
+
+        mAppBar.setExpanded(true, true);
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
+        params.setScrollFlags(0);
+        mToolbar.setLayoutParams(params);
+    }
+
+    private void showEditMode() {
+        mPreviewMode = false;
+        mPreview.loadMarkdown("");
+        mEditTextContent.setVisibility(View.VISIBLE);
+        mPreview.setVisibility(View.GONE);
+        mPreview.clearFocus();
+        mEditTextContent.requestFocus();
+
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
+        params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL |
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+        mToolbar.setLayoutParams(params);
     }
 
     @Override
@@ -206,6 +261,19 @@ public class EditDocActivity extends AppCompatActivity {
             case R.id.action_music:
                 return true;
             case R.id.action_preview:
+                if (mTextLoaded) {
+                    if (!mPreviewMode) {
+                        showPreviewMode();
+                        item.setIcon(R.drawable.ic_edit);
+                        item.setTitle(R.string.action_edit);
+                    } else {
+                        showEditMode();
+                        item.setIcon(R.drawable.ic_preview);
+                        item.setTitle(R.string.action_preview);
+                    }
+                } else {
+                    Toast.makeText(this, R.string.preview_error_msg, Toast.LENGTH_LONG).show();
+                }
                 return true;
             case R.id.action_save:
                 saveDocument(new Callbacks.FinishCallback<Void>() {
@@ -274,7 +342,6 @@ public class EditDocActivity extends AppCompatActivity {
             if (before > 0 || count > 0) {
                 mTextEdited = true;
             }
-            Timber.d("################## onTextChanged = "+start+" / "+before+" / "+count);
         }
 
         @Override
@@ -313,7 +380,7 @@ public class EditDocActivity extends AppCompatActivity {
         int selEnd = mEditTextContent.getSelectionEnd();
         CharSequence selection = mEditTextContent.getText().subSequence(selStart, selEnd);
         StringBuilder builder = new StringBuilder(mark);
-        for (int i = 0; i < selection.length(); i++){
+        for (int i = 0; i < selection.length(); i++) {
             char c = selection.charAt(i);
             if (c == '\n') {
                 builder.append(c);
@@ -343,7 +410,7 @@ public class EditDocActivity extends AppCompatActivity {
         CharSequence selection = mEditTextContent.getText().subSequence(selStart, selEnd);
         int listIndex = 1;
         StringBuilder builder = new StringBuilder(listIndex + ". ");
-        for (int i = 0; i < selection.length(); i++){
+        for (int i = 0; i < selection.length(); i++) {
             char c = selection.charAt(i);
             if (c == '\n') {
                 listIndex++;

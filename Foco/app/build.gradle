@@ -27,10 +27,6 @@ dependencies {
     })
 
 
-
-
-
-
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
@@ -41,6 +37,7 @@ dependencies {
     compile 'com.pes.materialcolorpicker:library:1.2.0'
     compile 'com.github.angads25:filepicker:1.1.1'
     compile 'id.zelory:compressor:2.1.0'
+    compile 'com.github.tiagohm.MarkdownView:library:0.17.0'
     compile 'android.arch.lifecycle:runtime:1.0.0-alpha3'
     compile 'android.arch.lifecycle:extensions:1.0.0-alpha3'
     compile 'android.arch.persistence.room:runtime:1.0.0-alpha3'
