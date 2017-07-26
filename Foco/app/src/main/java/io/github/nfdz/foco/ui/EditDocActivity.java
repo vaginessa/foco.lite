@@ -186,6 +186,7 @@ public class EditDocActivity extends AppCompatActivity {
                 new Callbacks.FinishCallback<Void>() {
                     @Override
                     public void onFinish(Void result) {
+                        mStartTime = System.currentTimeMillis();
                         mTextEdited = false;
                         callback.onFinish(result);
                     }
