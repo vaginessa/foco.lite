@@ -44,6 +44,7 @@ Minimalist text editor for writing without distractions for Android. This applic
 
 ## TODO
 * Add settings: font size, font family and default open doc click action (preview or edit)
+* Implement Undo/Redo
 
 ## 3rd party software
 
