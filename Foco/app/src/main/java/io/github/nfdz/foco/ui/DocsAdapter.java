@@ -14,11 +14,14 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +39,8 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int DOCUMENT_TYPE = 0;
     private static final int ADD_DOCUMENT_TYPE = 1;
 
+    private static final String EDITION_TIME_PATTERN = "yyyy-MM-dd HH:mm";
+
     /**
      * Clicks handler interface.
      */
@@ -49,6 +54,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final DocsClickHandler mHandler;
     private final FontChangeCrawler mRegularFontChanger;
     private final FontChangeCrawler mBoldFontChanger;
+    private final SimpleDateFormat mTimeFormat = new SimpleDateFormat(EDITION_TIME_PATTERN);
 
     private Comparator<Document> mComparator;
     private List<DocumentMetadata> mDocs;
@@ -122,46 +128,52 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder.getItemViewType() == DOCUMENT_TYPE) {
             DocViewHolder docHolder = (DocViewHolder) holder;
             DocumentMetadata doc = mDocs.get(position);
-            DocItemUtils.resolveTitleSize(mContext, doc.name, docHolder.title);
-            docHolder.title.setText(doc.name);
+            DocItemUtils.resolveTitleSize(mContext, doc.getName(), docHolder.title);
+            docHolder.title.setText(doc.getName());
 
-            if (doc.words != Document.NULL_WORDS) {
-                docHolder.words.setText("1500 words");
+            if (doc.getWords() != Document.NULL_WORDS) {
+                int words = doc.getWords();
+                StringBuilder bld = new StringBuilder();
+                bld.append(words);
+                bld.append(words == 1 ? " word" : " words");
+                docHolder.words.setText(bld.toString());
                 docHolder.words.setVisibility(View.VISIBLE);
             } else {
                 docHolder.words.setVisibility(View.GONE);
             }
 
-            if (doc.workingTime != Document.NULL_WORKING_TIME) {
-                docHolder.workTime.setText("40 minutes");
+            if (doc.getWorkingTimeMillis() != Document.NULL_WORKING_TIME) {
+                docHolder.workTime.setText(getWorkingTimeText(doc.getWorkingTimeMillis()));
                 docHolder.workTime.setVisibility(View.VISIBLE);
             } else {
                 docHolder.workTime.setVisibility(View.GONE);
             }
 
-            if (doc.lastEditionTime != Document.NULL_LAST_EDITION_TIME) {
-                docHolder.editTime.setText("1999/12/31 00:00");
+            if (doc.getLastEditionTimeMillis() != Document.NULL_LAST_EDITION_TIME) {
+                Date editionDate = new Date(doc.getLastEditionTimeMillis());
+                String editionDateStr = mTimeFormat.format(editionDate);
+                docHolder.editTime.setText(editionDateStr);
                 docHolder.editTime.setVisibility(View.VISIBLE);
             } else {
                 docHolder.editTime.setVisibility(View.GONE);
             }
 
-            if (doc.isFavorite) {
+            if (doc.isFavorite()) {
                 docHolder.fav.setVisibility(View.VISIBLE);
             } else {
                 docHolder.fav.setVisibility(View.INVISIBLE);
             }
 
             // if there is an image load image, if not load color
-            if (!TextUtils.isEmpty(doc.coverImage)) {
+            if (!TextUtils.isEmpty(doc.getCoverImage())) {
                 Picasso.with(mContext)
-                        .load(new File(doc.coverImage))
+                        .load(new File(doc.getCoverImage()))
                         .placeholder(R.drawable.image_placeholder)
                         .into(docHolder.bg);
-            } else if (doc.coverColor != Document.NULL_COVER_COLOR) {
+            } else if (doc.getCoverColor() != Document.NULL_COVER_COLOR) {
                 Picasso.with(mContext).cancelRequest(docHolder.bg);
                 docHolder.bg.setImageDrawable(null);
-                docHolder.bg.setBackgroundColor(doc.coverColor);
+                docHolder.bg.setBackgroundColor(doc.getCoverColor());
             } else {
                 Picasso.with(mContext).cancelRequest(docHolder.bg);
                 docHolder.bg.setImageDrawable(null);
@@ -171,12 +183,29 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             // check if document is selected
             boolean selected = false;
             for (DocumentMetadata selectedDoc : mSelectedDocuments) {
-                if (selectedDoc.id == doc.id) {
+                if (selectedDoc.id == doc.getId()) {
                     selected = true;
                     break;
                 }
             }
             docHolder.itemView.setSelected(selected);
+        }
+    }
+
+    public static String getWorkingTimeText(long workingTime) {
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(workingTime);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(workingTime);
+        long hours = TimeUnit.MILLISECONDS.toHours(workingTime);
+        long days = TimeUnit.MILLISECONDS.toDays(workingTime);
+
+        if (days > 0) {
+            return days + (days == 1 ? " day" : " days");
+        } else if (hours > 0) {
+            return hours + (hours == 1 ? " hour" : " hours");
+        } else if (minutes > 0) {
+            return minutes + (minutes == 1 ? " minute" : " minutes");
+        } else {
+            return seconds + (seconds == 1 ? " second" : " seconds");
         }
     }
 

@@ -8,7 +8,7 @@ public interface Document {
     long NULL_LAST_EDITION_TIME = -1;
     long NULL_WORKING_TIME = -1;
     String NULL_TEXT = "";
-    int NULL_WORDS = -1;
+    int NULL_WORDS = 0;
     int NULL_COVER_COLOR = -1;
     String NULL_COVER_IMAGE = "";
     @ColorInt int DEFAULT_COVER_COLOR = Color.WHITE;
