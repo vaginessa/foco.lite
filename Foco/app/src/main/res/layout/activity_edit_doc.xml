@@ -60,6 +60,7 @@
 
     <!-- minHeight="1000dp" is a workaround for a bug related with keyboard resize and app bar -->
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/edit_content_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="1000dp"

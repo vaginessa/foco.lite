@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -51,6 +52,7 @@ public class EditDocActivity extends AppCompatActivity {
 
     @BindView(R.id.edit_app_bar) AppBarLayout mAppBar;
     @BindView(R.id.edit_toolbar) Toolbar mToolbar;
+    @BindView(R.id.edit_content_view) NestedScrollView mContent;
     @BindView(R.id.edit_content_text) CustomEditText mEditTextContent;
     @BindView(R.id.edit_toolbar_title) TextView mToolbarTitle;
     @BindView(R.id.edit_loading) ProgressBar mLoading;
@@ -228,29 +230,38 @@ public class EditDocActivity extends AppCompatActivity {
 
     private void showPreviewMode() {
         mPreviewMode = true;
-        mPreview.loadMarkdown(mEditTextContent.getText().toString());
-        mEditTextContent.setVisibility(View.GONE);
+        mContent.setVisibility(View.GONE);
         mPreview.setVisibility(View.VISIBLE);
-        mEditTextContent.clearFocus();
-        mPreview.requestFocus();
-
         mAppBar.setExpanded(true, true);
-        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
-        params.setScrollFlags(0);
-        mToolbar.setLayoutParams(params);
+        setAppBarExpandEnabled(false);
+
+        mPreview.loadMarkdown(mEditTextContent.getText().toString());
+        // there is a problem with this view as it does not refresh correctly sometimes
+        mPreview.post(new Runnable() {
+            @Override
+            public void run() {
+                mPreview.refreshDrawableState();
+            }
+        });
     }
 
     private void showEditMode() {
         mPreviewMode = false;
-        mPreview.loadMarkdown("");
-        mEditTextContent.setVisibility(View.VISIBLE);
+        mContent.setVisibility(View.VISIBLE);
         mPreview.setVisibility(View.GONE);
-        mPreview.clearFocus();
-        mEditTextContent.requestFocus();
+        mPreview.loadMarkdown("");
 
-        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
-        params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL |
-                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+        setAppBarExpandEnabled(true);
+    }
+
+    private void setAppBarExpandEnabled(boolean enabled) {
+        mAppBar.setActivated(enabled);
+        final AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
+        if (enabled) {
+            params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+        } else {
+            params.setScrollFlags(0);
+        }
         mToolbar.setLayoutParams(params);
     }
 
@@ -308,12 +319,12 @@ public class EditDocActivity extends AppCompatActivity {
 
     private void showLoading() {
         mLoading.setVisibility(View.VISIBLE);
-        mEditTextContent.setVisibility(View.INVISIBLE);
+        mContent.setVisibility(View.INVISIBLE);
     }
 
     private void showContent() {
         mLoading.setVisibility(View.INVISIBLE);
-        mEditTextContent.setVisibility(View.VISIBLE);
+        mContent.setVisibility(View.VISIBLE);
     }
 
     private void subscribeObserver() {
