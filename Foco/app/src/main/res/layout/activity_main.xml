@@ -111,7 +111,7 @@
             android:scaleType="fitCenter"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_discard"
-            android:contentDescription="Discard selection" />
+            android:contentDescription="@string/main_selection_bar_exit" />
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -128,7 +128,7 @@
             android:scaleType="fitCenter"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_delete"
-            android:contentDescription="Delete" />
+            android:contentDescription="@string/main_selection_bar_delete" />
 
         <ImageButton
             android:id="@+id/main_selection_bar_cloud"
@@ -141,7 +141,7 @@
             android:scaleType="fitCenter"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_cloud_upload"
-            android:contentDescription="Upload" />
+            android:contentDescription="@string/main_selection_bar_cloud" />
 
         <ImageButton
             android:id="@+id/main_selection_bar_share"
@@ -154,7 +154,7 @@
             android:scaleType="fitCenter"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_share"
-            android:contentDescription="Share" />
+            android:contentDescription="@string/main_selection_bar_share" />
 
         <ImageButton
             android:id="@+id/main_selection_bar_favorite"
@@ -167,7 +167,7 @@
             android:scaleType="fitCenter"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_fav_light"
-            android:contentDescription="Toggle favorite"/>
+            android:contentDescription="@string/main_selection_bar_favorite"/>
 
         <ImageButton
             android:id="@+id/main_selection_bar_edit_cover"
@@ -180,7 +180,7 @@
             android:scaleType="fitCenter"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_image"
-            android:contentDescription="Edit cover"/>
+            android:contentDescription="@string/main_selection_bar_edit_cover"/>
 
         <ImageButton
             android:id="@+id/main_selection_bar_edit_title"
@@ -193,7 +193,7 @@
             android:scaleType="fitCenter"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_title"
-            android:contentDescription="Edit title"/>
+            android:contentDescription="@string/main_selection_bar_edit_title"/>
 
     </LinearLayout>
 

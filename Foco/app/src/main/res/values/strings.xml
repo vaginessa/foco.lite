@@ -55,6 +55,30 @@
     <string name="dialog_edit_doc_cover_image_process_msg">Cannot create document image cover from selected image</string>
     <string name="dialog_edit_doc_cover_image_select_ok">Select</string>
 
+    <!-- Main activity strings -->
+    <string name="main_selection_bar_exit">Discard selection</string>
+    <string name="main_selection_bar_delete">Delete</string>
+    <string name="main_selection_bar_cloud">Upload</string>
+    <string name="main_selection_bar_share">Share</string>
+    <string name="main_selection_bar_favorite">Toggle favorite</string>
+    <string name="main_selection_bar_edit_cover">Edit cover</string>
+    <string name="main_selection_bar_edit_title">Edit title</string>
+
+    <!-- Edit activity strings -->
+    <string name="edit_toolbar_back">Back to main</string>
+    <string name="edit_selection_bar_format_bold">Format bold</string>
+    <string name="edit_selection_bar_format_italic">Format italic</string>
+    <string name="edit_selection_bar_format_strikethrough">Format strikethrough</string>
+    <string name="edit_selection_bar_format_quote">Format quote</string>
+    <string name="edit_selection_bar_format_list_bulleted">Format list bulleted</string>
+    <string name="edit_selection_bar_format_list_numbered">Format list numbered</string>
+    <string name="edit_selection_bar_format_link">Format link</string>
+    <string name="edit_selection_bar_format_image">Format image</string>
+    <string name="edit_selection_bar_format_video">Format video</string>
+    <string name="edit_selection_bar_format_header">Format header</string>
+    <string name="edit_selection_bar_format_header_2">Format header 2</string>
+    <string name="edit_selection_bar_format_header_3">Format header 3</string>
+
     <!-- Preferences strings -->
     <string name="pref_sort_key" translatable="false">sort</string>
     <string name="pref_sort_default" translatable="false">@string/pref_sort_title_key</string>

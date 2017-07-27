@@ -85,12 +85,16 @@ public class EditDocActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mToolbarTitle.setText(mDocumentMetadata.getName());
+        mToolbarTitle.setContentDescription(mDocumentMetadata.getName());
+
         FontChangeCrawler fontChanger = new FontChangeCrawler(getAssets(),
                 getString(R.string.font_libre_baskerville_regular));
         fontChanger.replaceFonts(mEditTextContent);
 
         // set up selection tool bar
         SelectionToolbarUtils.setDescriptionToToast(this,
+                R.id.edit_toolbar_title,
+                R.id.edit_toolbar_back,
                 R.id.edit_selection_bar_format_bold,
                 R.id.edit_selection_bar_format_italic,
                 R.id.edit_selection_bar_format_strikethrough,

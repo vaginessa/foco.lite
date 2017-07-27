@@ -33,6 +33,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginEnd="8dp"
                     android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/edit_toolbar_back"
                     app:srcCompat="@drawable/ic_arrow_back"/>
 
                 <TextView
@@ -115,7 +116,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_bold"
-                android:contentDescription="Format bold" />
+                android:contentDescription="@string/edit_selection_bar_format_bold" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_italic"
@@ -128,7 +129,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_italic"
-                android:contentDescription="Format italic" />
+                android:contentDescription="@string/edit_selection_bar_format_italic" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_strikethrough"
@@ -141,7 +142,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_strikethrough"
-                android:contentDescription="Format strikethrough" />
+                android:contentDescription="@string/edit_selection_bar_format_strikethrough" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_quote"
@@ -154,7 +155,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_quote"
-                android:contentDescription="Format quote" />
+                android:contentDescription="@string/edit_selection_bar_format_quote" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_list_bulleted"
@@ -167,7 +168,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_list_bulleted"
-                android:contentDescription="Format list bulleted" />
+                android:contentDescription="@string/edit_selection_bar_format_list_bulleted" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_list_numbered"
@@ -180,7 +181,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_list_numbered"
-                android:contentDescription="Format list numbered" />
+                android:contentDescription="@string/edit_selection_bar_format_list_numbered" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_link"
@@ -193,7 +194,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_link"
-                android:contentDescription="Format link" />
+                android:contentDescription="@string/edit_selection_bar_format_link" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_image"
@@ -206,7 +207,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_image"
-                android:contentDescription="Format image" />
+                android:contentDescription="@string/edit_selection_bar_format_image" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_video"
@@ -219,7 +220,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_video"
-                android:contentDescription="Format video" />
+                android:contentDescription="@string/edit_selection_bar_format_video" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_header"
@@ -232,7 +233,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_header"
-                android:contentDescription="Format header" />
+                android:contentDescription="@string/edit_selection_bar_format_header" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_header_2"
@@ -245,7 +246,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_header_2"
-                android:contentDescription="Format header 2" />
+                android:contentDescription="@string/edit_selection_bar_format_header_2" />
 
             <ImageButton
                 android:id="@+id/edit_selection_bar_format_header_3"
@@ -258,7 +259,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_header_3"
-                android:contentDescription="Format header 3" />
+                android:contentDescription="@string/edit_selection_bar_format_header_3" />
 
         </LinearLayout>
     </HorizontalScrollView>
