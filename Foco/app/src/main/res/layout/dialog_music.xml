@@ -24,6 +24,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
+        android:scrollbars="vertical"
         android:paddingLeft="@dimen/dialog_horizontal_padding"
         android:paddingRight="@dimen/dialog_horizontal_padding"
         android:paddingBottom="@dimen/dialog_vertical_padding"/>

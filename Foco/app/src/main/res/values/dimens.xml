@@ -39,9 +39,13 @@
     <dimen name="edit_doc_text_vertical_padding">16dp</dimen>
     <dimen name="edit_doc_text_horizontal_padding">16dp</dimen>
 
-    <dimen name="music_dialog_control_button_size">64dp</dimen>
+    <dimen name="music_dialog_control_button_size">54dp</dimen>
     <dimen name="music_dialog_control_button_horizontal_margin">8dp</dimen>
     <dimen name="music_dialog_control_button_vertical_margin">16dp</dimen>
+
+    <dimen name="song_item_horizontal_padding">28dp</dimen>
+    <dimen name="song_item_vertical_padding">16dp</dimen>
+    <dimen name="song_item_icon_size">30dp</dimen>
 
     <!-- This value must be edit_doc_text_vertical_padding + edit_doc_controls_bar_height
          in order to ensure that controls could be show in any situation -->
