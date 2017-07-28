@@ -1,5 +1,6 @@
 package io.github.nfdz.foco.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,6 +32,7 @@ import io.github.nfdz.foco.data.entity.DocumentEntity;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Callbacks;
 import io.github.nfdz.foco.ui.dialogs.AskSaveDialog;
+import io.github.nfdz.foco.utils.AnimationUtils;
 import io.github.nfdz.foco.utils.FontChangeCrawler;
 import io.github.nfdz.foco.utils.SelectionToolbarUtils;
 import io.github.nfdz.foco.utils.TasksUtils;
@@ -44,10 +46,12 @@ public class EditDocActivity extends AppCompatActivity {
     private static final String TEXT_EDITED_KEY = "text-edited";
     private static final String PREVIEW_MODE_KEY = "preview";
 
-    public static void start(Context context, DocumentMetadata document) {
-        Intent starter = new Intent(context, EditDocActivity.class);
+    public static void start(Activity activity, DocumentMetadata document) {
+        Intent starter = new Intent(activity, EditDocActivity.class);
         starter.putExtra(EXTRA_DOC, document);
-        context.startActivity(starter);
+        AnimationUtils.addTransitionFlags(starter);
+        activity.startActivity(starter);
+        activity.overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
     }
 
     @BindView(R.id.edit_app_bar) AppBarLayout mAppBar;
@@ -160,6 +164,8 @@ public class EditDocActivity extends AppCompatActivity {
                 @Override
                 public void onCloseWithoutSave() {
                     EditDocActivity.super.onNavigateUp();
+                    EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
+                            R.anim.slide_out_to_right);
                 }
                 @Override
                 public void onSaveAndClose() {
@@ -168,12 +174,16 @@ public class EditDocActivity extends AppCompatActivity {
                         @Override
                         public void onFinish(Object result) {
                             EditDocActivity.super.onNavigateUp();
+                            EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
+                                    R.anim.slide_out_to_right);
                         }
                     });
                 }
             });
         } else {
             super.onNavigateUp();
+            EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
+                    R.anim.slide_out_to_right);
         }
     }
 
@@ -185,6 +195,8 @@ public class EditDocActivity extends AppCompatActivity {
                 @Override
                 public void onCloseWithoutSave() {
                     EditDocActivity.super.onBackPressed();
+                    EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
+                            R.anim.slide_out_to_right);
                 }
                 @Override
                 public void onSaveAndClose() {
@@ -192,13 +204,17 @@ public class EditDocActivity extends AppCompatActivity {
                     saveDocument(new Callbacks.FinishCallback() {
                         @Override
                         public void onFinish(Object result) {
-                            EditDocActivity.super.onNavigateUp();
+                            EditDocActivity.super.onBackPressed();
+                            EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
+                                    R.anim.slide_out_to_right);
                         }
                     });
                 }
             });
         } else {
             super.onBackPressed();
+            EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
+                    R.anim.slide_out_to_right);
         }
     }
 
