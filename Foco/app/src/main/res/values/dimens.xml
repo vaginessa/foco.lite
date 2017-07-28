@@ -39,8 +39,9 @@
     <dimen name="edit_doc_text_vertical_padding">16dp</dimen>
     <dimen name="edit_doc_text_horizontal_padding">16dp</dimen>
 
-    <dimen name="music_dialog_control_button_size">54dp</dimen>
-    <dimen name="music_dialog_control_button_horizontal_margin">8dp</dimen>
+    <dimen name="music_dialog_control_button_size">58dp</dimen>
+    <dimen name="music_dialog_control_button_padding">8dp</dimen>
+    <dimen name="music_dialog_control_button_horizontal_margin">4dp</dimen>
     <dimen name="music_dialog_control_button_vertical_margin">16dp</dimen>
 
     <dimen name="song_item_horizontal_padding">28dp</dimen>

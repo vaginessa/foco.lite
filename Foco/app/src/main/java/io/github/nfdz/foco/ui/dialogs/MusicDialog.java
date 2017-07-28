@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -36,7 +35,6 @@ import io.github.nfdz.foco.services.MusicService;
 public class MusicDialog extends DialogFragment implements MusicService.MusicCallback {
 
     @BindView(R.id.dialog_music_rv) RecyclerView mRecyclerView;
-    @BindView(R.id.dialog_music_loading) ProgressBar mLoading;
     @BindView(R.id.dialog_music_controls) View mControls;
     @BindView(R.id.dialog_music_mute) ImageButton mMuteButton;
     @BindView(R.id.dialog_music_loop) ImageButton mLoopButton;
@@ -70,10 +68,7 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new SongsAdapter();
         mRecyclerView.setAdapter(mAdapter);
-
-        showLoading();
-        showContent();
-        //view.findViewById(R.id.dialog_music_play).setSelected(true);
+        hideContent();
     }
 
     @Override
@@ -100,6 +95,7 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
     public void onStart() {
         super.onStart();
 
+        hideContent();
         mServiceStarter = new Intent(getActivity(), MusicService.class);
         mServiceConnection = new MusicConnection();
         getActivity().bindService(mServiceStarter, mServiceConnection, Context.BIND_AUTO_CREATE);
@@ -143,14 +139,12 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
         mLoopButton.setSelected(mMusicService.isLooping());
     }
 
-    private void showLoading() {
-        mLoading.setVisibility(View.VISIBLE);
-        mRecyclerView.setVisibility(View.GONE);
-        mControls.setVisibility(View.GONE);
+    private void hideContent() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mControls.setVisibility(View.INVISIBLE);
     }
 
     private void showContent() {
-        mLoading.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
         mControls.setVisibility(View.VISIBLE);
     }
@@ -262,10 +256,13 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
             mMuteButton.setSelected(mMusicService.isMuted());
 
             showContent();
+            // it must refresh recycler view content because there is a problem with item width
+            // sometimes (it does not fill according with match_parent)
+            mAdapter.notifyDataSetChanged();
         }
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            showLoading();
+            hideContent();
             mMusicService = null;
         }
     }
