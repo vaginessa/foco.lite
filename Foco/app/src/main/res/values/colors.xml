@@ -7,4 +7,7 @@
     <color name="selectedLight">#E0E0E0</color>
 
     <color name="coverShadow">#B3330033</color>
+
+    <color name="selectedColorLight">#f0f0f0</color>
+    <color name="selectedColorDark">@color/colorPrimaryDark</color>
 </resources>

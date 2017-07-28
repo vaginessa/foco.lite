@@ -32,7 +32,7 @@
                     android:padding="10dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginEnd="8dp"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:background="@drawable/selectable_item_selector_dark"
                     android:contentDescription="@string/edit_toolbar_back"
                     app:srcCompat="@drawable/ic_arrow_back"/>
 
@@ -113,7 +113,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_bold"
                 android:contentDescription="@string/edit_selection_bar_format_bold" />
@@ -126,7 +126,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_italic"
                 android:contentDescription="@string/edit_selection_bar_format_italic" />
@@ -139,7 +139,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_strikethrough"
                 android:contentDescription="@string/edit_selection_bar_format_strikethrough" />
@@ -152,7 +152,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_quote"
                 android:contentDescription="@string/edit_selection_bar_format_quote" />
@@ -165,7 +165,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_list_bulleted"
                 android:contentDescription="@string/edit_selection_bar_format_list_bulleted" />
@@ -178,7 +178,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_list_numbered"
                 android:contentDescription="@string/edit_selection_bar_format_list_numbered" />
@@ -191,7 +191,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_link"
                 android:contentDescription="@string/edit_selection_bar_format_link" />
@@ -204,7 +204,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_image"
                 android:contentDescription="@string/edit_selection_bar_format_image" />
@@ -217,7 +217,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_video"
                 android:contentDescription="@string/edit_selection_bar_format_video" />
@@ -230,7 +230,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_header"
                 android:contentDescription="@string/edit_selection_bar_format_header" />
@@ -243,7 +243,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_header_2"
                 android:contentDescription="@string/edit_selection_bar_format_header_2" />
@@ -256,7 +256,7 @@
                 android:paddingRight="@dimen/selection_bar_item_padding_horizontal"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_selector_dark"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_format_header_3"
                 android:contentDescription="@string/edit_selection_bar_format_header_3" />

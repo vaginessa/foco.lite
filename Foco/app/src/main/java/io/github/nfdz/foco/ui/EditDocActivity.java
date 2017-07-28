@@ -32,6 +32,7 @@ import io.github.nfdz.foco.data.entity.DocumentEntity;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Callbacks;
 import io.github.nfdz.foco.ui.dialogs.AskSaveDialog;
+import io.github.nfdz.foco.ui.dialogs.MusicDialog;
 import io.github.nfdz.foco.utils.AnimationUtils;
 import io.github.nfdz.foco.utils.FontChangeCrawler;
 import io.github.nfdz.foco.utils.SelectionToolbarUtils;
@@ -290,6 +291,8 @@ public class EditDocActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_music:
+                MusicDialog dialog = MusicDialog.newInstance();
+                dialog.show(getSupportFragmentManager(), "MusicDialogFragment");
                 return true;
             case R.id.action_preview:
                 if (mTextLoaded) {

@@ -42,6 +42,15 @@
     <string name="dialog_edit_doc_title_ok_button">Edit</string>
     <string name="dialog_edit_doc_title_hint">Title</string>
 
+    <!-- Music dialog -->
+    <string name="dialog_music_title">Music player</string>
+    <string name="dialog_music_close_button">Close</string>
+    <string name="dialog_music_play_description">Play</string>
+    <string name="dialog_music_pause_description">Pause</string>
+    <string name="dialog_music_stop_description">Stop</string>
+    <string name="dialog_music_mute_description">Mute</string>
+    <string name="dialog_music_loop_description">Loop</string>
+
     <!-- Edit cover dialog -->
     <string name="dialog_edit_doc_cover">Edit document cover</string>
     <string name="dialog_edit_doc_cover_ok_button">Edit</string>
