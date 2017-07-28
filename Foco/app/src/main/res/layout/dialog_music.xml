@@ -18,6 +18,13 @@
         android:layout_height="1dp"
         android:layout_gravity="fill_horizontal" />
 
+    <ProgressBar
+        android:id="@+id/dialog_music_loading"
+        android:layout_width="@dimen/loading_size"
+        android:layout_height="@dimen/loading_size"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dialog_music_rv"
         android:layout_width="match_parent"
@@ -30,6 +37,7 @@
         android:paddingBottom="@dimen/dialog_vertical_padding"/>
 
     <LinearLayout
+        android:id="@+id/dialog_music_controls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

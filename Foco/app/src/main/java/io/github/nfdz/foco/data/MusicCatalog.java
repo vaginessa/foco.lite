@@ -18,7 +18,7 @@ public class MusicCatalog {
             new Song("Approaching storm", R.drawable.ic_storm, "music/nature/approaching-storm.ogg"),
             new Song("Crashing waves", R.drawable.ic_waves, "music/nature/crashing-waves.ogg"),
             new Song("Farm ambience", R.drawable.ic_cow, "music/nature/farm-ambience.ogg"),
-            new Song("Ocean music", R.drawable.ic_starfish, "music/nature/ocean-music.ogg"),
+            new Song("Ocean music", R.drawable.ic_sailboat, "music/nature/ocean-music.ogg"),
             new Song("Forest sounds", R.drawable.ic_trees, "music/nature/relaxing-forest-sounds.ogg"),
             new Song("Ocean sounds", R.drawable.ic_starfish, "music/nature/sounds-of-the-ocean.ogg"),
             new Song("Thunder rumble sounds", R.drawable.ic_storm, "music/nature/thunder-rumble-ambience-sound.ogg"),

@@ -4,7 +4,6 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
@@ -41,7 +40,6 @@ import io.github.nfdz.foco.model.Callbacks;
 import io.github.nfdz.foco.model.DocumentLastEditionComparator;
 import io.github.nfdz.foco.model.DocumentNameComparator;
 import io.github.nfdz.foco.model.DocumentWordsComparator;
-import io.github.nfdz.foco.services.MusicService;
 import io.github.nfdz.foco.ui.dialogs.ChangeSortDialog;
 import io.github.nfdz.foco.ui.dialogs.CreateDocDialog;
 import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
@@ -119,9 +117,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         showLoading();
         DocListViewModel viewModel = ViewModelProviders.of(this).get(DocListViewModel.class);
         subscribeUi(viewModel);
-
-        // TODO remove
-        startService(new Intent(this, MusicService.class));
     }
 
     @Override
