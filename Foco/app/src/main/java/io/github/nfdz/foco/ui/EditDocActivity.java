@@ -164,9 +164,7 @@ public class EditDocActivity extends AppCompatActivity {
             AskSaveDialog.showDialog(this, new AskSaveDialog.Callback() {
                 @Override
                 public void onCloseWithoutSave() {
-                    EditDocActivity.super.onNavigateUp();
-                    EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
-                            R.anim.slide_out_to_right);
+                    navigateUp();
                 }
                 @Override
                 public void onSaveAndClose() {
@@ -174,18 +172,21 @@ public class EditDocActivity extends AppCompatActivity {
                     saveDocument(new Callbacks.FinishCallback() {
                         @Override
                         public void onFinish(Object result) {
-                            EditDocActivity.super.onNavigateUp();
-                            EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
-                                    R.anim.slide_out_to_right);
+                            navigateUp();
                         }
                     });
                 }
             });
         } else {
-            super.onNavigateUp();
-            EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
-                    R.anim.slide_out_to_right);
+            navigateUp();
         }
+    }
+
+    private void navigateUp() {
+        mAppBar.setExpanded(true, true);
+        super.onNavigateUp();
+        EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
+                R.anim.slide_out_to_right);
     }
 
     @Override
@@ -195,9 +196,7 @@ public class EditDocActivity extends AppCompatActivity {
             AskSaveDialog.showDialog(this, new AskSaveDialog.Callback() {
                 @Override
                 public void onCloseWithoutSave() {
-                    EditDocActivity.super.onBackPressed();
-                    EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
-                            R.anim.slide_out_to_right);
+                    navigateBack();
                 }
                 @Override
                 public void onSaveAndClose() {
@@ -205,18 +204,21 @@ public class EditDocActivity extends AppCompatActivity {
                     saveDocument(new Callbacks.FinishCallback() {
                         @Override
                         public void onFinish(Object result) {
-                            EditDocActivity.super.onBackPressed();
-                            EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
-                                    R.anim.slide_out_to_right);
+                            navigateBack();
                         }
                     });
                 }
             });
         } else {
-            super.onBackPressed();
-            EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
-                    R.anim.slide_out_to_right);
+            navigateBack();
         }
+    }
+
+    private void navigateBack() {
+        mAppBar.setExpanded(true, true);
+        super.onBackPressed();
+        EditDocActivity.super.overridePendingTransition(R.anim.slide_in_from_left,
+                R.anim.slide_out_to_right);
     }
 
     private void saveDocument(final Callbacks.FinishCallback callback) {
