@@ -1,8 +1,11 @@
 package io.github.nfdz.foco.data;
 
 
+import android.content.Context;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,31 +15,42 @@ import io.reactivex.annotations.NonNull;
 
 public class MusicCatalog {
 
-    public static final Song[] SONGS = {
-            new Song("Raindrops noise", R.drawable.ic_rain, "music/nature/raindrops-noise.ogg"),
-            new Song("Fireplace", R.drawable.ic_fire, "music/nature/fireplace-sound.ogg"),
-            new Song("Approaching storm", R.drawable.ic_storm, "music/nature/approaching-storm.ogg"),
-            new Song("Crashing waves", R.drawable.ic_waves, "music/nature/crashing-waves.ogg"),
-            new Song("Farm ambience", R.drawable.ic_cow, "music/nature/farm-ambience.ogg"),
-            new Song("Ocean music", R.drawable.ic_sailboat, "music/nature/ocean-music.ogg"),
-            new Song("Forest sounds", R.drawable.ic_trees, "music/nature/relaxing-forest-sounds.ogg"),
-            new Song("Ocean sounds", R.drawable.ic_starfish, "music/nature/sounds-of-the-ocean.ogg"),
-            new Song("Thunder rumble sounds", R.drawable.ic_storm, "music/nature/thunder-rumble-ambience-sound.ogg"),
-            new Song("Water stream", R.drawable.ic_water_drop, "music/nature/water-stream.ogg"),
-            new Song("Building construction", R.drawable.ic_constructor, "music/city/building-construction-sound-effect.ogg"),
-            new Song("Metro inside sound", R.drawable.ic_metro, "music/city/metro-inside-sound.ogg"),
-            new Song("Traffic noise", R.drawable.ic_car, "music/city/traffic-noise.ogg"),
-            new Song("Classic music", R.drawable.ic_piano, "music/classic/classic-music.ogg"),
+    public static class SongResource {
+        public final @StringRes int titleRes;
+        public final @DrawableRes int artRes;
+        public final String assetPath;
+
+        public SongResource(@StringRes int titleRes, @DrawableRes int artRes, String assetPath) {
+            this.titleRes = titleRes;
+            this.artRes = artRes;
+            this.assetPath = assetPath;
+        }
+    }
+
+    public static final SongResource[] SONGS = {
+            new SongResource(R.string.song_raindrops, R.drawable.ic_rain, "music/nature/raindrops-noise.ogg"),
+            new SongResource(R.string.song_fireplace, R.drawable.ic_fire, "music/nature/fireplace-sound.ogg"),
+            new SongResource(R.string.song_storm, R.drawable.ic_storm, "music/nature/approaching-storm.ogg"),
+            new SongResource(R.string.song_waves, R.drawable.ic_waves, "music/nature/crashing-waves.ogg"),
+            new SongResource(R.string.song_farm, R.drawable.ic_cow, "music/nature/farm-ambience.ogg"),
+            new SongResource(R.string.song_ocean_music, R.drawable.ic_sailboat, "music/nature/ocean-music.ogg"),
+            new SongResource(R.string.song_forest, R.drawable.ic_trees, "music/nature/relaxing-forest-sounds.ogg"),
+            new SongResource(R.string.song_ocean_sounds, R.drawable.ic_starfish, "music/nature/sounds-of-the-ocean.ogg"),
+            new SongResource(R.string.song_thunder, R.drawable.ic_storm, "music/nature/thunder-rumble-ambience-sound.ogg"),
+            new SongResource(R.string.song_water_stream, R.drawable.ic_water_drop, "music/nature/water-stream.ogg"),
+            new SongResource(R.string.song_construction, R.drawable.ic_constructor, "music/city/building-construction-sound-effect.ogg"),
+            new SongResource(R.string.song_metro, R.drawable.ic_metro, "music/city/metro-inside-sound.ogg"),
+            new SongResource(R.string.song_traffic, R.drawable.ic_car, "music/city/traffic-noise.ogg")
     };
 
     // singleton instantiation
     private static MusicCatalog sInstance;
     private static final Object LOCK = new Object();
-    public synchronized static MusicCatalog getInstance() {
+    public synchronized static MusicCatalog getInstance(@NonNull Context context) {
         if (sInstance == null) {
             synchronized (LOCK) {
                 if (sInstance == null) {
-                    sInstance = new MusicCatalog();
+                    sInstance = new MusicCatalog(context);
                 }
             }
         }
@@ -45,9 +59,12 @@ public class MusicCatalog {
 
     private final List<Song> mCatalog;
 
-    public MusicCatalog() {
-        // sort songs by natural order (title) and initialize map
-        List<Song> songs = new ArrayList<>(Arrays.asList(SONGS));
+    public MusicCatalog(Context context) {
+        // sort songs by natural order (title) and initialize
+        List<Song> songs = new ArrayList<>();
+        for (SongResource songRes : SONGS) {
+            songs.add(new Song(context.getString(songRes.titleRes), songRes.artRes, songRes.assetPath));
+        }
         Collections.sort(songs);
         mCatalog = Collections.unmodifiableList(songs);
     }

@@ -93,7 +93,7 @@ public class MusicService extends Service implements
     @Override
     public void onCompletion(MediaPlayer mp) {
         int nextSong = mCurrentSong + 1;
-        if (nextSong >= MusicCatalog.getInstance().getCatalog().size()) {
+        if (nextSong >= MusicCatalog.getInstance(this).getCatalog().size()) {
             nextSong = 0;
         }
         playSong(nextSong);
@@ -117,7 +117,7 @@ public class MusicService extends Service implements
 
         mCurrentSong = songPos;
         try {
-            Song song = MusicCatalog.getInstance().getCatalog().get(mCurrentSong);
+            Song song = MusicCatalog.getInstance(this).getCatalog().get(mCurrentSong);
             AssetFileDescriptor afd = getAssets().openFd(song.getAssetPath());
             if (afd == null) {
                 Timber.e("Cannot open asset file descriptor for song = "+song.getAssetPath());

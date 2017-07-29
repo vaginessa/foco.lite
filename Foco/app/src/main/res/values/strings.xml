@@ -98,4 +98,20 @@
     <string name="pref_sort_words_label">Number of words</string>
     <string name="pref_sort_words_key" translatable="false">sort-words</string>
 
+    <!-- Songs titles -->
+    <string name="song_raindrops">Raindrops noise</string>
+    <string name="song_fireplace">Fireplace</string>
+    <string name="song_storm">Approaching storm</string>
+    <string name="song_waves">Crashing waves</string>
+    <string name="song_farm">Farm ambience</string>
+    <string name="song_ocean_music">Ocean music</string>
+    <string name="song_forest">Forest sounds</string>
+    <string name="song_ocean_sounds">Ocean sounds</string>
+    <string name="song_thunder">Thunder rumble sounds</string>
+    <string name="song_water_stream">Water stream</string>
+    <string name="song_construction">Building construction</string>
+    <string name="song_metro">Metro inside sound</string>
+    <string name="song_traffic">Traffic noise</string>
+
+
 </resources>

@@ -186,7 +186,7 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
 
     public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder> {
 
-        private List<Song> mCatalog = MusicCatalog.getInstance().getCatalog();
+        private List<Song> mCatalog = MusicCatalog.getInstance(getActivity()).getCatalog();
         private int mSelectedSong = -1;
 
         public void selectSong(int selectedSong) {
