@@ -52,6 +52,8 @@ import io.github.nfdz.foco.viewmodel.DocListViewModel;
 public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,
         DocsAdapter.DocsClickHandler, LifecycleRegistryOwner {
 
+    public static final String OPEN_MUSIC_ACTION = "OPEN_MUSIC";
+
     private static final String SELECTED_DOCUMENTS_KEY = "selected-documents";
 
     private static final float PERCENTAGE_ADD_DOC_THRESHOLD = 0.7f;

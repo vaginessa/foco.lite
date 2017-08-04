@@ -38,7 +38,6 @@ public class MusicCatalog {
             new SongResource(R.string.song_ocean_sounds, R.drawable.ic_starfish, "music/nature/sounds-of-the-ocean.ogg"),
             new SongResource(R.string.song_thunder, R.drawable.ic_storm, "music/nature/thunder-rumble-ambience-sound.ogg"),
             new SongResource(R.string.song_water_stream, R.drawable.ic_water_drop, "music/nature/water-stream.ogg"),
-            new SongResource(R.string.song_construction, R.drawable.ic_constructor, "music/city/building-construction-sound-effect.ogg"),
             new SongResource(R.string.song_metro, R.drawable.ic_metro, "music/city/metro-inside-sound.ogg"),
             new SongResource(R.string.song_traffic, R.drawable.ic_car, "music/city/traffic-noise.ogg")
     };
