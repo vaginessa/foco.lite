@@ -10,4 +10,8 @@
 
     <color name="selectedColorLight">#f0f0f0</color>
     <color name="selectedColorDark">@color/colorPrimaryDark</color>
+
+    <color name="highlightTextColor">#FFFF00</color>
+
+
 </resources>

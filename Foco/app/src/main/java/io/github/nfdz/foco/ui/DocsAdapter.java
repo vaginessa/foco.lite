@@ -1,10 +1,15 @@
 package io.github.nfdz.foco.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,6 +111,10 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return !TextUtils.isEmpty(mFilterText);
     }
 
+    public String getFilterText() {
+        return mFilterText;
+    }
+
     public boolean getShowAddDoc() {
         return mShowAddDoc;
     }
@@ -124,7 +133,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (!TextUtils.isEmpty(mFilterText) && mDocs != null && !mDocs.isEmpty()) {
             mFilteredDocs = new ArrayList<>();
             for (DocumentMetadata doc : mDocs) {
-                if (doc.getName().toLowerCase().contains(mFilterText)) {
+                if (doc.getName().toLowerCase().indexOf(mFilterText) > -1) {
                     mFilteredDocs.add(doc);
                 }
             }
@@ -155,8 +164,22 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder.getItemViewType() == DOCUMENT_TYPE) {
             DocViewHolder docHolder = (DocViewHolder) holder;
             DocumentMetadata doc = mFilteredDocs.get(position);
+
             DocItemUtils.resolveTitleSize(mContext, doc.getName(), docHolder.title);
-            docHolder.title.setText(doc.getName());
+
+            if (TextUtils.isEmpty(mFilterText)) {
+                docHolder.title.setText(doc.getName());
+            } else {
+                Spannable titleSpan = new SpannableString(doc.getName());
+                int color = ContextCompat.getColor(mContext, R.color.highlightTextColor);
+                int startHighlight = doc.getName().toLowerCase().indexOf(mFilterText);
+                int endHighlight = startHighlight + mFilterText.length();
+                titleSpan.setSpan(new ForegroundColorSpan(color),
+                        startHighlight,
+                        endHighlight,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                docHolder.title.setText(titleSpan);
+            }
 
             if (doc.getWords() != Document.NULL_WORDS) {
                 int words = doc.getWords();

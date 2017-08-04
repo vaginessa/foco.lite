@@ -52,7 +52,6 @@ import io.github.nfdz.foco.ui.dialogs.SearchTextDialog;
 import io.github.nfdz.foco.utils.SelectionToolbarUtils;
 import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
-import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,
         DocsAdapter.DocsClickHandler, LifecycleRegistryOwner {
@@ -60,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     public static final String OPEN_MUSIC_ACTION = "OPEN_MUSIC";
 
     private static final String SELECTED_DOCUMENTS_KEY = "selected-documents";
+    private static final String SEARCH_TEXT_KEY = "search-text-document";
 
     private static final float PERCENTAGE_ADD_DOC_THRESHOLD = 0.7f;
     private static final float PERCENTAGE_LOGO_THRESHOLD = 0.3f;
@@ -136,6 +136,9 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
             outState.putParcelableArrayList(SELECTED_DOCUMENTS_KEY,
                     new ArrayList<>(mSelectedDocuments));
         }
+        if (mAdapter.hasFilter()) {
+            outState.putString(SEARCH_TEXT_KEY, mAdapter.getFilterText());
+        }
     }
 
     @Override
@@ -147,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
             mSelectedDocuments.addAll(docs);
             mAdapter.updateSelectedDocuments();
             updateSelectionBar();
+        }
+        if (savedInstanceState.containsKey(SEARCH_TEXT_KEY)) {
+            String filterText = savedInstanceState.getString(SEARCH_TEXT_KEY);
+            if (!TextUtils.isEmpty(filterText)) {
+                mAdapter.setFilter(filterText);
+            }
         }
     }
 
@@ -192,6 +201,11 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        if (mAdapter.hasFilter()) {
+            item.setIcon(R.drawable.ic_search_cancel);
+            item.setTitle(R.string.action_search_cancel);
+        }
         return true;
     }
 
@@ -218,14 +232,12 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 SearchTextDialog.showDialog(this, new SearchTextDialog.Callback() {
                     @Override
                     public void onSearch(String text) {
-                        Timber.d("############ SEARCH: " + text);
                         mAdapter.setFilter(text);
                         item.setIcon(R.drawable.ic_search_cancel);
                         item.setTitle(R.string.action_search_cancel);
                     }
                     @Override
                     public void onSearchTextChanged(String text) {
-                        Timber.d("############ SEARCH TEXT CHANGED: " + text);
                         mAdapter.setFilter(text);
                     }
                     @Override
