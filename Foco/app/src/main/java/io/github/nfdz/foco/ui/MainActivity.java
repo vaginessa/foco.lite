@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +47,7 @@ import io.github.nfdz.foco.ui.dialogs.CreateDocDialog;
 import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
 import io.github.nfdz.foco.ui.dialogs.EditDocCoverDialog;
 import io.github.nfdz.foco.ui.dialogs.EditDocTitleDialog;
+import io.github.nfdz.foco.ui.dialogs.MusicDialog;
 import io.github.nfdz.foco.utils.SelectionToolbarUtils;
 import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
@@ -66,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     private boolean mToolbarLogoVisible = false;
     private boolean mLayoutLogoVisible = true;
+
+    private boolean mProcessedStartAction = false;
+    private MusicDialog mMusicDialog;
 
     private DocsAdapter mAdapter;
     private GridLayoutManager mLayoutManager;
@@ -143,6 +149,36 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String action = intent.getAction();
+        if (!TextUtils.isEmpty(action) && action.equals(OPEN_MUSIC_ACTION)) {
+            openMusicDialog();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String action = getIntent().getAction();
+        if (!mProcessedStartAction &&
+                !TextUtils.isEmpty(action) &&
+                action.equals(OPEN_MUSIC_ACTION)) {
+            mProcessedStartAction = true;
+            openMusicDialog();
+        }
+    }
+
+    private void openMusicDialog() {
+        if (mMusicDialog == null ||
+                mMusicDialog.getDialog() == null ||
+                !mMusicDialog.getDialog().isShowing()) {
+            mMusicDialog = MusicDialog.newInstance();
+            mMusicDialog.show(getSupportFragmentManager(), "MusicDialogFragment");
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if (mSelectedDocuments.size() != 0) {
             onSelectionExitClick();
@@ -168,7 +204,12 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 }
             });
             return true;
-        } // TODO search
+        } else if (id == R.id.action_music) {
+            openMusicDialog();
+            return true;
+        } else if (id == R.id.action_search) {
+            // TODO search
+        }
         return super.onOptionsItemSelected(item);
     }
 
