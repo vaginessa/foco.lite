@@ -9,6 +9,7 @@
     <string name="action_redo">Redo</string>
     <string name="action_save">Save</string>
     <string name="action_search">Search</string>
+    <string name="action_search_cancel">Cancel search</string>
     <string name="action_more">More</string>
 
     <string name="save_success_msg">Document saved successfully</string>
@@ -36,6 +37,11 @@
     <string name="dialog_create_doc_title">New document</string>
     <string name="dialog_create_doc_ok_button">Create</string>
     <string name="dialog_create_doc_hint">Title</string>
+
+    <!-- Search dialog -->
+    <string name="dialog_search_doc_title">Search document</string>
+    <string name="dialog_search_doc_ok_button">Search</string>
+    <string name="dialog_search_doc_hint">Title</string>
 
     <!-- Edit title dialog -->
     <string name="dialog_edit_doc_title">Edit document title</string>

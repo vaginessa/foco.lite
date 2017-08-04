@@ -48,9 +48,11 @@ import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
 import io.github.nfdz.foco.ui.dialogs.EditDocCoverDialog;
 import io.github.nfdz.foco.ui.dialogs.EditDocTitleDialog;
 import io.github.nfdz.foco.ui.dialogs.MusicDialog;
+import io.github.nfdz.foco.ui.dialogs.SearchTextDialog;
 import io.github.nfdz.foco.utils.SelectionToolbarUtils;
 import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,
         DocsAdapter.DocsClickHandler, LifecycleRegistryOwner {
@@ -194,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_sort) {
             ChangeSortDialog.showDialog(this, new ChangeSortDialog.Callback() {
@@ -208,7 +210,31 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
             openMusicDialog();
             return true;
         } else if (id == R.id.action_search) {
-            // TODO search
+            if (mAdapter.hasFilter()) {
+                mAdapter.setFilter(null);
+                item.setIcon(R.drawable.ic_search);
+                item.setTitle(R.string.action_search);
+            } else {
+                SearchTextDialog.showDialog(this, new SearchTextDialog.Callback() {
+                    @Override
+                    public void onSearch(String text) {
+                        Timber.d("############ SEARCH: " + text);
+                        mAdapter.setFilter(text);
+                        item.setIcon(R.drawable.ic_search_cancel);
+                        item.setTitle(R.string.action_search_cancel);
+                    }
+                    @Override
+                    public void onSearchTextChanged(String text) {
+                        Timber.d("############ SEARCH TEXT CHANGED: " + text);
+                        mAdapter.setFilter(text);
+                    }
+                    @Override
+                    public void onSearchCancel() {
+                        mAdapter.setFilter(null);
+                    }
+                });
+            }
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

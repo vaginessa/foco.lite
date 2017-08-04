@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -57,7 +58,9 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final SimpleDateFormat mTimeFormat = new SimpleDateFormat(EDITION_TIME_PATTERN);
 
     private Comparator<Document> mComparator;
+    private String mFilterText;
     private List<DocumentMetadata> mDocs;
+    private List<DocumentMetadata> mFilteredDocs;
     private boolean mShowAddDoc;
     private Set<DocumentMetadata> mSelectedDocuments;
 
@@ -78,6 +81,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setDocumentList(List<DocumentMetadata> docs) {
         mDocs = docs;
         sort();
+        filter();
         notifyDataSetChanged();
     }
 
@@ -86,10 +90,20 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void setComparator(Comparator<Document> comparator) {
+    public void setComparator(@Nullable Comparator<Document> comparator) {
         mComparator = comparator;
         sort();
         notifyDataSetChanged();
+    }
+
+    public void setFilter(@Nullable String filterText) {
+        mFilterText = filterText != null ? filterText.toLowerCase() : null;
+        filter();
+        notifyDataSetChanged();
+    }
+
+    public boolean hasFilter() {
+        return !TextUtils.isEmpty(mFilterText);
     }
 
     public boolean getShowAddDoc() {
@@ -101,8 +115,21 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void sort() {
-        if (mComparator != null && mDocs != null) {
+        if (mComparator != null && mDocs != null && !mDocs.isEmpty()) {
             Collections.sort(mDocs, mComparator);
+        }
+    }
+
+    private void filter() {
+        if (!TextUtils.isEmpty(mFilterText) && mDocs != null && !mDocs.isEmpty()) {
+            mFilteredDocs = new ArrayList<>();
+            for (DocumentMetadata doc : mDocs) {
+                if (doc.getName().toLowerCase().contains(mFilterText)) {
+                    mFilteredDocs.add(doc);
+                }
+            }
+        } else {
+            mFilteredDocs = mDocs;
         }
     }
 
@@ -127,7 +154,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == DOCUMENT_TYPE) {
             DocViewHolder docHolder = (DocViewHolder) holder;
-            DocumentMetadata doc = mDocs.get(position);
+            DocumentMetadata doc = mFilteredDocs.get(position);
             DocItemUtils.resolveTitleSize(mContext, doc.getName(), docHolder.title);
             docHolder.title.setText(doc.getName());
 
@@ -215,13 +242,13 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private boolean isTheLastOne(int position) {
-        int listSize = mDocs != null ? mDocs.size() : 0;
+        int listSize = mFilteredDocs != null ? mFilteredDocs.size() : 0;
         return position == listSize;
     }
 
     @Override
     public int getItemCount() {
-        int listSize = mDocs != null ? mDocs.size() : 0;
+        int listSize = mFilteredDocs != null ? mFilteredDocs.size() : 0;
         return listSize + (mShowAddDoc ? 1 : 0);
     }
 
@@ -250,7 +277,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View v) {
                     if (mHandler != null) {
                         int pos = getAdapterPosition();
-                        mHandler.onDocumentClick(mDocs.get(pos));
+                        mHandler.onDocumentClick(mFilteredDocs.get(pos));
                     }
                 }
             });
@@ -259,7 +286,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public boolean onLongClick(View v) {
                     if (mHandler != null) {
                         int pos = getAdapterPosition();
-                        mHandler.onDocumentLongClick(mDocs.get(pos));
+                        mHandler.onDocumentLongClick(mFilteredDocs.get(pos));
                     }
                     return true;
                 }

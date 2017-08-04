@@ -10,22 +10,16 @@ Minimalist text editor for writing without distractions for Android. This applic
 
 * Scrolling bar like completion bar
 
-* Folder support
 * Markdown format
-* Writing statistics (time, words and chars count)
+* Writing statistics (time, words count)
 * Ambient music
 * Undo and Redo
 * Google Drive integration
-* Focus current paragraph/line
-* Dictionary
 * Starred files
 * Import and Export
 * Search
-* Dark mode
 * Right to left support
 * Tiny and battery friendly application
-* Daily goals
-* Timers and alarms
 * Keyboard shortcuts
 * Secret files (file encryption)
 * Starred files widget
@@ -45,6 +39,9 @@ Minimalist text editor for writing without distractions for Android. This applic
 ## TODO
 * Add settings: font size, font family and default open doc click action (preview or edit)
 * Implement Undo/Redo
+* Keyboard shortcuts
+* Secret files
+* Starred files widget
 
 ## 3rd party software
 
