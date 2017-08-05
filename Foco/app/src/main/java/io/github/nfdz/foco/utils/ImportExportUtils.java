@@ -27,6 +27,9 @@ import io.github.nfdz.foco.model.DocumentSerializer;
 import io.github.nfdz.foco.model.SerializationException;
 import timber.log.Timber;
 
+/**
+ * This class has static methods to manage import/export operations.
+ */
 public class ImportExportUtils {
 
     private static final int READ_REQUEST_CODE = 921;

@@ -32,6 +32,10 @@ import io.github.nfdz.foco.data.MusicCatalog;
 import io.github.nfdz.foco.model.Song;
 import io.github.nfdz.foco.services.MusicService;
 
+/**
+ * This class is a DialogFragment implementation that binds to music service,
+ * shows the current state of it and allows user to interact with the service from its interface.
+ */
 public class MusicDialog extends DialogFragment implements MusicService.MusicCallback {
 
     @BindView(R.id.dialog_music_rv) RecyclerView mRecyclerView;
@@ -68,6 +72,8 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new SongsAdapter();
         mRecyclerView.setAdapter(mAdapter);
+
+        // hide whole interface until the fragment is connected with the service
         hideContent();
     }
 
@@ -86,6 +92,9 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+        // dismiss dialog when configuration changes
+        // they are not expected to live long and thus replicate the behavior of
+        // the rest of the application dialogs (mostly based on AlertDialog)
         if (savedInstanceState != null) {
             getDialog().dismiss();
         }
@@ -95,6 +104,7 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
     public void onStart() {
         super.onStart();
 
+        // bind service
         hideContent();
         mServiceStarter = new Intent(getActivity(), MusicService.class);
         mServiceConnection = new MusicConnection();
@@ -112,6 +122,7 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
     @Override
     public void onPlayMusic(int songPos) {
         mPlayButton.setImageResource(R.drawable.ic_pause);
+        mPlayButton.setContentDescription(getString(R.string.dialog_music_pause_description));
         mAdapter.selectSong(songPos);
         mRecyclerView.smoothScrollToPosition(songPos);
     }
@@ -120,11 +131,13 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
     public void onStopMusic() {
         mAdapter.selectSong(-1);
         mPlayButton.setImageResource(R.drawable.ic_play);
+        mPlayButton.setContentDescription(getString(R.string.dialog_music_play_description));
     }
 
     @Override
     public void onPauseMusic(int songPos) {
         mPlayButton.setImageResource(R.drawable.ic_play);
+        mPlayButton.setContentDescription(getString(R.string.dialog_music_play_description));
         mAdapter.selectSong(songPos);
         mRecyclerView.smoothScrollToPosition(songPos);
     }
@@ -241,21 +254,22 @@ public class MusicDialog extends DialogFragment implements MusicService.MusicCal
             mMusicService = binder.getService();
             mMusicService.setCallback(MusicDialog.this);
 
-            // get initial data
+            // get initial data and update interface with current state: play/pause, mute, looping
+            int currentSong = mMusicService.getCurrentSong();
+            mAdapter.selectSong(currentSong);
+            mRecyclerView.smoothScrollToPosition(currentSong);
             if (mMusicService.isPlaying()) {
-                int currentSong = mMusicService.getCurrentSong();
-                mAdapter.selectSong(currentSong);
-                mRecyclerView.smoothScrollToPosition(currentSong);
+                mPlayButton.setContentDescription(getString(R.string.dialog_music_pause_description));
+                mPlayButton.setImageResource(R.drawable.ic_pause);
             } else {
-                mRecyclerView.smoothScrollToPosition(0);
+                mPlayButton.setContentDescription(getString(R.string.dialog_music_play_description));
+                mPlayButton.setImageResource(R.drawable.ic_play);
             }
-
-            mPlayButton.setImageResource(mMusicService.isPlaying() ? R.drawable.ic_pause :
-            R.drawable.ic_play);
             mLoopButton.setSelected(mMusicService.isLooping());
             mMuteButton.setSelected(mMusicService.isMuted());
 
             showContent();
+
             // it must refresh recycler view content because there is a problem with item width
             // sometimes (it does not fill according with match_parent)
             mAdapter.notifyDataSetChanged();

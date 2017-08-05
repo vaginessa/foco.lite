@@ -47,8 +47,6 @@ public class DatabaseManager {
 
     public void initDbAsync(final Context context) {
 
-        Timber.d("Creating DB from " + Thread.currentThread().getName());
-
         if (!mInitializing.compareAndSet(true, false)) {
             return;
         }

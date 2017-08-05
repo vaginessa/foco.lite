@@ -9,6 +9,9 @@ import io.github.nfdz.foco.model.Document;
 
 import static io.github.nfdz.foco.data.entity.DocumentEntity.TABLE_NAME;
 
+/**
+ * This Document implementation POJO class defines document fields to be stored in database.
+ */
 @Entity(tableName = TABLE_NAME)
 public class DocumentEntity implements Document {
 
@@ -60,9 +63,9 @@ public class DocumentEntity implements Document {
     @ColumnInfo(name = COLUMN_COVER_IMAGE)
     public String coverImage = Document.NULL_COVER_IMAGE;
 
+    /** Default constructor */
     public DocumentEntity() {
     }
-
 
     /**
      * This constructor copy all fields of given document excepts ID field.
@@ -123,6 +126,5 @@ public class DocumentEntity implements Document {
     public String getCoverImage() {
         return coverImage;
     }
-
 
 }

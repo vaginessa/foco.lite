@@ -7,6 +7,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+/**
+ * This class has static methods with common functionalities of any kind of selection toolbars.
+ */
 public class SelectionToolbarUtils {
 
     public static void setDescriptionToToast(Activity activity, @IdRes int... viewIds) {

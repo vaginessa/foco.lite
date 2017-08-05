@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ * This class has static methods that ease work with custom fonts and text views.
+ */
 public class FontChangeCrawler {
 
     public static final String ASSETS_FONT_FOLDER = "font";

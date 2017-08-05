@@ -4,6 +4,9 @@ package io.github.nfdz.foco.model;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
+/**
+ * Song POJO class. It implements Comparable interface with title criteria.
+ */
 public class Song implements Comparable<Song> {
 
     private final String mTitle;
@@ -16,14 +19,26 @@ public class Song implements Comparable<Song> {
         mAssetPath = assetPath;
     }
 
+    /**
+     * Returns title of song string.
+     * @return title
+     */
     public String getTitle() {
         return mTitle;
     }
 
+    /**
+     * Returns drawable resource integer ID of the art of the song.
+     * @return drawable resource
+     */
     public int getArt() {
         return mArt;
     }
 
+    /**
+     * Returns raw audio file asset path string.
+     * @return asset path
+     */
     public String getAssetPath() {
         return mAssetPath;
     }

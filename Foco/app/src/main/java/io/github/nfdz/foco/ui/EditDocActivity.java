@@ -38,6 +38,10 @@ import io.github.nfdz.foco.utils.FontChangeCrawler;
 import io.github.nfdz.foco.utils.SelectionToolbarUtils;
 import io.github.nfdz.foco.utils.TasksUtils;
 
+/**
+ * Edit document activity implementation. It has edit document text view and preview markdown view.
+ * It has to provide several shortcuts for common markdown operations (bold, header, image, etc).
+ */
 public class EditDocActivity extends AppCompatActivity {
 
     public static final String EXTRA_DOC = "document";
@@ -47,6 +51,12 @@ public class EditDocActivity extends AppCompatActivity {
     private static final String TEXT_EDITED_KEY = "text-edited";
     private static final String PREVIEW_MODE_KEY = "preview";
 
+    /**
+     * This method should be called in order to start this activity because it manages how to
+     * pass given document metadata inside intent and transitions easily.
+     * @param activity
+     * @param document
+     */
     public static void start(Activity activity, DocumentMetadata document) {
         Intent starter = new Intent(activity, EditDocActivity.class);
         starter.putExtra(EXTRA_DOC, document);
@@ -127,13 +137,13 @@ public class EditDocActivity extends AppCompatActivity {
             mTextEdited = savedInstanceState.getBoolean(TEXT_EDITED_KEY, false);
             mPreviewMode = savedInstanceState.getBoolean(PREVIEW_MODE_KEY, false);
             mTextLoaded = true;
-            showContent();
+            showLoading();
             // post runnable to be executed after edit text restore its content
             mEditTextContent.post(new Runnable() {
                 @Override
                 public void run() {
                     subscribeObserver();
-
+                    showContent();
                     if (mPreviewMode) {
                         showPreviewMode();
                     }

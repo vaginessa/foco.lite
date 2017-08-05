@@ -25,10 +25,14 @@ import io.github.nfdz.foco.model.Song;
 import io.github.nfdz.foco.ui.MainActivity;
 import timber.log.Timber;
 
+/**
+ * This class is a bounded service that manages the playing of ambient music.
+ */
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         MediaPlayer.OnCompletionListener {
 
+    // intent actions
     public static final String STOP_MUSIC_ACTION = "STOP_MUSIC";
     public static final String PLAY_MUSIC_ACTION = "PLAY_MUSIC";
     public static final String PAUSE_MUSIC_ACTION = "PAUSE_MUSIC";
@@ -37,6 +41,9 @@ public class MusicService extends Service implements
 
     private static final int NOTIFICATION_ID = 8948;
 
+    /**
+     * Service callback interface to be implemented to receive music events.
+     */
     public interface MusicCallback {
         void onStopMusic();
         void onPlayMusic(int songPos);
@@ -90,6 +97,9 @@ public class MusicService extends Service implements
         return super.onStartCommand(intent, flags, startId);
     }
 
+    /**
+     * This method initializes music player object. It sets volume, looping flag and etc.
+     */
     private void initMediaPlayer() {
         mPlayer.setLooping(mIsLooping);
         if (mIsMuted) {
@@ -110,6 +120,7 @@ public class MusicService extends Service implements
     public void onDestroy() {
         super.onDestroy();
         stopNotification();
+        // ensure that removes music player reference in order to avoid memory leaks
         mPlayer.reset();
         mPlayer.release();
         mPlayer = null;
@@ -121,6 +132,9 @@ public class MusicService extends Service implements
         return mMusicBind;
     }
 
+    /**
+     * Simple implementation inner class with single method that exposes the whole service.
+     */
     public class MusicBinder extends Binder {
         public MusicService getService() {
             return MusicService.this;
@@ -155,8 +169,15 @@ public class MusicService extends Service implements
         updateNotification();
     }
 
+    /**
+     * This method plays given song (contained in music catalog and retrieved
+     * using its position there).
+     * @param songPos song position in music catalog.
+     */
     public void playSong(int songPos){
         if (mPlayer.isPlaying()) mPlayer.stop();
+
+        // restart music player
         mPlayer.reset();
         initMediaPlayer();
 
@@ -168,6 +189,7 @@ public class MusicService extends Service implements
                 Timber.e("Cannot open asset file descriptor for song = "+song.getAssetPath());
             } else {
                 mPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                afd.close();
                 mPlayer.prepareAsync();
             }
         } catch (IOException e) {
@@ -175,6 +197,9 @@ public class MusicService extends Service implements
         }
     }
 
+    /**
+     * This method stops current song if it is playing.
+     */
     public void stop() {
         if (mPlayer.isPlaying()) {
             mPlayer.stop();
@@ -214,9 +239,12 @@ public class MusicService extends Service implements
     }
 
     public boolean isPlaying() {
-        return mPlayer.isPlaying();
+        return mPlayerInitialized && mPlayer.isPlaying();
     }
 
+    /**
+     * This method plays the next song.
+     */
     public void playNextSong() {
         int nextSong = mCurrentSong + 1;
         if (nextSong >= MusicCatalog.getInstance(this).getCatalog().size()) {
@@ -225,6 +253,9 @@ public class MusicService extends Service implements
         playSong(nextSong);
     }
 
+    /**
+     * This method plays the previous song.
+     */
     public void playPreviousSong() {
         int previousSong = mCurrentSong - 1;
         if (previousSong < 0) {
@@ -233,6 +264,10 @@ public class MusicService extends Service implements
         playSong(previousSong);
     }
 
+    /**
+     * This method resumes playback of the song. If it is not playing nothing (paused state),
+     * it starts to play the last played song (stopped state).
+     */
     public void resume() {
         if (mPlayerInitialized) {
             mPlayer.start();
@@ -243,18 +278,27 @@ public class MusicService extends Service implements
         }
     }
 
+    /**
+     * This method pauses current song.
+     */
     public void pause() {
         if (mPlayer.isPlaying()) mPlayer.pause();
         if (mCallback != null) mCallback.onPauseMusic(mCurrentSong);
         updateNotification();
     }
 
+    /**
+     * This method clears the notification of music service.
+     */
     private void stopNotification() {
         NotificationManager manager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancel(NOTIFICATION_ID);
     }
 
+    /**
+     * this method updates the notification of music service with the current state.
+     */
     private void updateNotification() {
         final Song song = MusicCatalog.getInstance(this).getCatalog().get(mCurrentSong);
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);

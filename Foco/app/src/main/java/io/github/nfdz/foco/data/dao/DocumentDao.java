@@ -23,6 +23,9 @@ import static io.github.nfdz.foco.data.entity.DocumentEntity.COLUMN_WORDS;
 import static io.github.nfdz.foco.data.entity.DocumentEntity.COLUMN_WORKING_TIME;
 import static io.github.nfdz.foco.data.entity.DocumentEntity.TABLE_NAME;
 
+/**
+ * This interface defines the way in which it interacts with the database.
+ */
 @Dao
 public interface DocumentDao {
 

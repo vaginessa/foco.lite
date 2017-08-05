@@ -3,11 +3,20 @@ package io.github.nfdz.foco.model;
 import io.github.nfdz.foco.R;
 import timber.log.Timber;
 
+/**
+ * Document String serializer static class.
+ */
 public class DocumentSerializer {
 
+    /** Readable friendly metadata separator (to be placed before and after metadata) */
     private static final String METADATA_SEPARATOR = "--- DOCUMENT METADATA ---";
+
+    /** Number of lines that uses metadata */
     private static final int METADATA_LINES = 9;
 
+    /**
+     * Inner static class Document implementation.
+     */
     private static class DocumentImpl implements Document {
 
         public String name;
@@ -18,14 +27,6 @@ public class DocumentSerializer {
         public int coverColor = Document.NULL_COVER_COLOR;
         public String coverImage = Document.NULL_COVER_IMAGE;
 
-        /**
-         * This field is not stored in exported documents (it depends of each database).
-         * @return Document.NULL_ID
-         */
-        @Override
-        public long getId() {
-            return Document.NULL_ID;
-        }
         @Override
         public String getName() {
             return name;
@@ -42,15 +43,6 @@ public class DocumentSerializer {
         public String getText() {
             return text;
         }
-
-        /**
-         * This field is not stored in exported documents (it could be computed with text).
-         * @return Document.NULL_WORDS
-         */
-        @Override
-        public int getWords() {
-            return Document.NULL_WORDS;
-        }
         @Override
         public boolean isFavorite() {
             return favorite;
@@ -62,6 +54,22 @@ public class DocumentSerializer {
         @Override
         public String getCoverImage() {
             return coverImage;
+        }
+        /**
+         * This field is not stored in exported documents (it could be computed with text).
+         * @return Document.NULL_WORDS
+         */
+        @Override
+        public int getWords() {
+            return Document.NULL_WORDS;
+        }
+        /**
+         * This field is not stored in exported documents (it depends of each database).
+         * @return Document.NULL_ID
+         */
+        @Override
+        public long getId() {
+            return Document.NULL_ID;
         }
     }
 
@@ -88,7 +96,7 @@ public class DocumentSerializer {
             result.favorite = Boolean.parseBoolean(lines[4]);
             result.coverColor = Integer.parseInt(lines[5]);
             result.coverImage = lines[6];
-            result.text = joinLines(lines, 9);
+            result.text = joinLines(lines, METADATA_LINES);
 
             return result;
         } catch (NumberFormatException ex) {

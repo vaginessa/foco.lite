@@ -2,6 +2,11 @@ package io.github.nfdz.foco.model;
 
 import java.util.Comparator;
 
+/**
+ * Document comparator implementation with last edition time criteria (last edition time first).
+ * This meets the favorite criteria (as the first ordering criteria)
+ * and name comparator (when times are equals).
+ */
 public class DocumentLastEditionComparator implements Comparator<Document> {
 
     private final Comparator<Document> mDefaultComparator = new DocumentNameComparator();
@@ -18,7 +23,7 @@ public class DocumentLastEditionComparator implements Comparator<Document> {
             if (time1 == time2) {
                 return mDefaultComparator.compare(doc1, doc2);
             } else {
-                return (time1 < time2) ? -1 : 1;
+                return (time1 > time2) ? -1 : 1;
             }
         }
     }

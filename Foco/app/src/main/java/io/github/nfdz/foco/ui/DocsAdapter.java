@@ -1,7 +1,6 @@
 package io.github.nfdz.foco.ui;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -69,6 +68,12 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private boolean mShowAddDoc;
     private Set<DocumentMetadata> mSelectedDocuments;
 
+    /**
+     * Default constructor.
+     * @param context
+     * @param selectedDocuments This set is used to add/remove selected documents.
+     * @param clickHandler
+     */
     public DocsAdapter(@NonNull Context context,
                        @Nullable Set<DocumentMetadata> selectedDocuments,
                        @Nullable DocsClickHandler clickHandler) {
@@ -83,6 +88,10 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 mContext.getString(R.string.font_libre_baskerville_bold));
     }
 
+    /**
+     * Sets document list data. It performs notifyDataSetChanged.
+     * @param docs
+     */
     public void setDocumentList(List<DocumentMetadata> docs) {
         mDocs = docs;
         sort();
@@ -90,17 +99,31 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    /**
+     * Enables/Disables add document placeholder feature. It performs notifyDataSetChanged.
+     * @param showAddDoc
+     */
     public void setShowAddDoc(boolean showAddDoc) {
         mShowAddDoc = showAddDoc;
         notifyDataSetChanged();
     }
 
+    /**
+     * This method updates document comparator. It sorts and filters data and
+     * performs notifyDataSetChanged.
+     * @param comparator
+     */
     public void setComparator(@Nullable Comparator<Document> comparator) {
         mComparator = comparator;
         sort();
+        filter();
         notifyDataSetChanged();
     }
 
+    /**
+     * This method updates document filter text. It filter data and performs notifyDataSetChanged.
+     * @param filterText
+     */
     public void setFilter(@Nullable String filterText) {
         mFilterText = filterText != null ? filterText.toLowerCase() : null;
         filter();
@@ -119,16 +142,26 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return mShowAddDoc;
     }
 
-    public void updateSelectedDocuments() {
+    /**
+     * This method refreshes views with the information of the selected document set.
+     * This really only performs notifyDataSetChanged.
+     */
+    public void refreshSelectedDocuments() {
         notifyDataSetChanged();
     }
 
+    /**
+     * Sorts unfiltered data set.
+     */
     private void sort() {
         if (mComparator != null && mDocs != null && !mDocs.isEmpty()) {
             Collections.sort(mDocs, mComparator);
         }
     }
 
+    /**
+     * Filters unfiltered data set.
+     */
     private void filter() {
         if (!TextUtils.isEmpty(mFilterText) && mDocs != null && !mDocs.isEmpty()) {
             mFilteredDocs = new ArrayList<>();
@@ -161,15 +194,17 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        // update view only if its type is DOCUMENT_TYPE
         if (holder.getItemViewType() == DOCUMENT_TYPE) {
             DocViewHolder docHolder = (DocViewHolder) holder;
             DocumentMetadata doc = mFilteredDocs.get(position);
 
+            // update title label
             DocItemUtils.resolveTitleSize(mContext, doc.getName(), docHolder.title);
-
             if (TextUtils.isEmpty(mFilterText)) {
                 docHolder.title.setText(doc.getName());
             } else {
+                // highlight text
                 Spannable titleSpan = new SpannableString(doc.getName());
                 int color = ContextCompat.getColor(mContext, R.color.highlightTextColor);
                 int startHighlight = doc.getName().toLowerCase().indexOf(mFilterText);
@@ -181,6 +216,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 docHolder.title.setText(titleSpan);
             }
 
+            // update number of words label
             if (doc.getWords() != Document.NULL_WORDS) {
                 int words = doc.getWords();
                 StringBuilder bld = new StringBuilder();
@@ -192,6 +228,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 docHolder.words.setVisibility(View.GONE);
             }
 
+            // update working time label
             if (doc.getWorkingTimeMillis() != Document.NULL_WORKING_TIME) {
                 docHolder.workTime.setText(getWorkingTimeText(doc.getWorkingTimeMillis()));
                 docHolder.workTime.setVisibility(View.VISIBLE);
@@ -199,6 +236,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 docHolder.workTime.setVisibility(View.GONE);
             }
 
+            // update last edition time label
             if (doc.getLastEditionTimeMillis() != Document.NULL_LAST_EDITION_TIME) {
                 Date editionDate = new Date(doc.getLastEditionTimeMillis());
                 String editionDateStr = mTimeFormat.format(editionDate);
@@ -208,6 +246,7 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 docHolder.editTime.setVisibility(View.GONE);
             }
 
+            // show/hide favorite icon
             if (doc.isFavorite()) {
                 docHolder.fav.setVisibility(View.VISIBLE);
             } else {

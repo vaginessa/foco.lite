@@ -6,10 +6,14 @@ import android.os.Parcelable;
 
 import io.github.nfdz.foco.model.Document;
 
+/**
+ * This Document implementation POJO class has got all document metadata fields.
+ * This is actually a subset of DocumentEntity, the only field that does not contain is the text.
+ */
 public class DocumentMetadata implements Parcelable, Document {
 
+    /** Default constructor */
     public DocumentMetadata() {
-
     }
 
     @ColumnInfo(name = DocumentEntity.COLUMN_ID)

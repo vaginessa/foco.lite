@@ -13,8 +13,14 @@ import io.github.nfdz.foco.R;
 import io.github.nfdz.foco.model.Song;
 import io.reactivex.annotations.NonNull;
 
+/**
+ * This singleton class defines the available song resources.
+ */
 public class MusicCatalog {
 
+    /**
+     * Inner static class that defines a song resource regardless of the specific platform.
+     */
     public static class SongResource {
         public final @StringRes int titleRes;
         public final @DrawableRes int artRes;
@@ -27,6 +33,9 @@ public class MusicCatalog {
         }
     }
 
+    /**
+     * Available song resources hardcoded array.
+     */
     public static final SongResource[] SONGS = {
             new SongResource(R.string.song_raindrops, R.drawable.ic_rain, "music/nature/raindrops-noise.ogg"),
             new SongResource(R.string.song_fireplace, R.drawable.ic_fire, "music/nature/fireplace-sound.ogg"),
@@ -58,6 +67,11 @@ public class MusicCatalog {
 
     private final List<Song> mCatalog;
 
+    /**
+     * Default constructor. It retrieves all strings using given context, build Song catalog List
+     * and sort it (default comparator that has title string criteria).
+     * @param context
+     */
     public MusicCatalog(Context context) {
         // sort songs by natural order (title) and initialize
         List<Song> songs = new ArrayList<>();
@@ -68,10 +82,13 @@ public class MusicCatalog {
         mCatalog = Collections.unmodifiableList(songs);
     }
 
+    /**
+     * It returns Song catalog List. It could be empty but not empty.
+     * @return List<Song>
+     */
     @NonNull
     public List<Song> getCatalog() {
         return mCatalog;
     }
-
 
 }

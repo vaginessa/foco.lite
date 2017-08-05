@@ -15,6 +15,10 @@ import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Callbacks;
 import io.github.nfdz.foco.model.Document;
 
+/**
+ * This class has static methods that ease perform common document operations
+ * (create document, edit, delete, etc).
+ */
 public class TasksUtils {
 
     public static void createDocument(final Context context,

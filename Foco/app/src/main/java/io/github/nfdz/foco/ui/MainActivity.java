@@ -55,6 +55,10 @@ import io.github.nfdz.foco.utils.SelectionToolbarUtils;
 import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
 
+/**
+ * Main activity implementation. It has recycler grid view and provides several document actions
+ * (edit title, cover, mark as favorite, delete, etc).
+ */
 public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,
         DocsAdapter.DocsClickHandler, LifecycleRegistryOwner {
 
@@ -135,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         startAlphaAnimation(mToolbarLogo, 0, View.INVISIBLE);
 
         showLoading();
+        // subscribe to view model
         DocListViewModel viewModel = ViewModelProviders.of(this).get(DocListViewModel.class);
         subscribeUi(viewModel);
     }
@@ -158,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         if (savedInstanceState.containsKey(SELECTED_DOCUMENTS_KEY)) {
             ArrayList<DocumentMetadata> docs = savedInstanceState.getParcelableArrayList(SELECTED_DOCUMENTS_KEY);
             mSelectedDocuments.addAll(docs);
-            mAdapter.updateSelectedDocuments();
+            mAdapter.refreshSelectedDocuments();
             updateSelectionBar();
         }
         if (savedInstanceState.containsKey(SEARCH_TEXT_KEY)) {
@@ -372,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     private void openDocument(DocumentMetadata doc) {
         mSelectedDocuments.clear();
-        mAdapter.updateSelectedDocuments();
+        mAdapter.refreshSelectedDocuments();
         showNoSelectionMode();
         EditDocActivity.start(this, doc);
     }
@@ -384,7 +389,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         } else {
             mSelectedDocuments.add(doc);
         }
-        mAdapter.updateSelectedDocuments();
+        mAdapter.refreshSelectedDocuments();
         updateSelectionBar();
     }
 
@@ -431,7 +436,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @OnClick(R.id.main_selection_bar_exit)
     public void onSelectionExitClick() {
         mSelectedDocuments.clear();
-        mAdapter.updateSelectedDocuments();
+        mAdapter.refreshSelectedDocuments();
         showNoSelectionMode();
     }
 
@@ -470,7 +475,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                     public void onFinish(Void result) {
                         mSelectedDocuments.clear();
                         showNoSelectionMode();
-                        mAdapter.updateSelectedDocuments();
+                        mAdapter.refreshSelectedDocuments();
                     }
                 });
     }
@@ -487,7 +492,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                     public void onFinish(Void result) {
                         mSelectedDocuments.clear();
                         showNoSelectionMode();
-                        mAdapter.updateSelectedDocuments();
+                        mAdapter.refreshSelectedDocuments();
                     }
                 });
             }
@@ -498,7 +503,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                     public void onFinish(Void result) {
                         mSelectedDocuments.clear();
                         showNoSelectionMode();
-                        mAdapter.updateSelectedDocuments();
+                        mAdapter.refreshSelectedDocuments();
                     }
                 });
             }
@@ -517,7 +522,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                     public void onFinish(Void result) {
                         mSelectedDocuments.clear();
                         showNoSelectionMode();
-                        mAdapter.updateSelectedDocuments();
+                        mAdapter.refreshSelectedDocuments();
                     }
                 });
             }
@@ -534,6 +539,10 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         return mRegistry;
     }
 
+    /**
+     * Subscribes this activity to LiveData view model.
+     * @param viewModel
+     */
     private void subscribeUi(DocListViewModel viewModel) {
         viewModel.getDocumentsMetadata().observe(this, new Observer<List<DocumentMetadata>>() {
             @Override

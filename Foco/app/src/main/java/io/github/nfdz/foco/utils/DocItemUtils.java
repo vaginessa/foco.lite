@@ -8,6 +8,9 @@ import android.widget.TextView;
 import io.github.nfdz.foco.R;
 import timber.log.Timber;
 
+/**
+ * This class has static methods that ease work with document recycler view item views.
+ */
 public class DocItemUtils {
 
     private static final int TITLE_SIZE_LARGE_TO_MEDIUM_THRESHOLD_CHARS = 18;

@@ -6,6 +6,9 @@ import android.preference.PreferenceManager;
 
 import io.github.nfdz.foco.R;
 
+/**
+ * This class has static methods that ease work with shared preferences.
+ */
 public class PreferencesUtils {
 
     /**

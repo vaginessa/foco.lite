@@ -55,7 +55,7 @@ import io.github.nfdz.foco.model.Document;
 import timber.log.Timber;
 
 /**
- * This class is a DialogFragment implementaton that manages the selection of a new background
+ * This class is a DialogFragment implementation that manages the selection of a new background
  * color or image for the document cover.
  */
 public class EditDocCoverDialog extends DialogFragment {

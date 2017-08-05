@@ -12,6 +12,9 @@ import java.util.List;
 import io.github.nfdz.foco.data.DatabaseManager;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 
+/**
+ * Document metadata list view model implementation.
+ */
 public class DocListViewModel extends AndroidViewModel {
 
     private static final MutableLiveData ABSENT = new MutableLiveData();
@@ -21,11 +24,17 @@ public class DocListViewModel extends AndroidViewModel {
 
     private final LiveData<List<DocumentMetadata>> mObservableDocuments;
 
+    /**
+     * Default constructor.
+     * @param application
+     */
     public DocListViewModel(Application application) {
         super(application);
 
+        // transform database created flag to live data.
+        // if it is not created, it will return ABSENT field.
+        // if it is created, it will return room live data.
         final DatabaseManager databaseManager = DatabaseManager.getInstance(application);
-
         LiveData<Boolean> databaseCreated = databaseManager.isDatabaseCreated();
         mObservableDocuments = Transformations.switchMap(databaseCreated,
                 new Function<Boolean, LiveData<List<DocumentMetadata>>>() {

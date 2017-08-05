@@ -3,6 +3,9 @@ package io.github.nfdz.foco.utils;
 
 import android.content.Intent;
 
+/**
+ * This class eases work with animations and transitions.
+ */
 public class AnimationUtils {
 
     public static void addTransitionFlags(Intent intent) {
