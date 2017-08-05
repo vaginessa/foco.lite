@@ -37,6 +37,7 @@ Minimalist text editor for writing without distractions for Android. This applic
 </p>
 
 ## TODO
+* Add cover image to exported documents.
 * Add settings: font size, font family and default open doc click action (preview or edit)
 * Implement Undo/Redo
 * Keyboard shortcuts

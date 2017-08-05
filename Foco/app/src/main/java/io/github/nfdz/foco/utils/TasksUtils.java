@@ -180,4 +180,25 @@ public class TasksUtils {
     private static int countWords(String text) {
         return TextUtils.isEmpty(text) ? 0 : text.split("\\s+").length;
     }
+
+    public static void importDocument(final Context context,
+                                      final Document document,
+                                      final Callbacks.FinishCallback<DocumentMetadata> callback) {
+        new AsyncTask<Void, Void, DocumentMetadata>() {
+            @Override
+            protected DocumentMetadata doInBackground(Void[] params) {
+                DocumentEntity doc = new DocumentEntity(document);
+                doc.words = countWords(doc.getText());
+                long[] docId = AppDatabase.getInstance(context).documentDao().insert(doc);
+                if (docId.length > 0 && docId[0] > -1) {
+                    return AppDatabase.getInstance(context).documentDao().getDocumentMetadata(docId[0]);
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(DocumentMetadata doc) {
+                callback.onFinish(doc);
+            }
+        }.execute();
+    }
 }

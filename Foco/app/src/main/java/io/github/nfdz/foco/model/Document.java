@@ -5,6 +5,7 @@ import android.support.annotation.ColorInt;
 
 public interface Document {
 
+    long NULL_ID = -1;
     long NULL_LAST_EDITION_TIME = -1;
     long NULL_WORKING_TIME = -1;
     String NULL_TEXT = "";

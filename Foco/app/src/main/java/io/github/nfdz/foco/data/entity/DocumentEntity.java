@@ -63,12 +63,20 @@ public class DocumentEntity implements Document {
     public DocumentEntity() {
     }
 
+
+    /**
+     * This constructor copy all fields of given document excepts ID field.
+     * @param document
+     */
     public DocumentEntity(Document document) {
-        this.id = document.getId();
         this.name = document.getName();
         this.workingTime = document.getWorkingTimeMillis();
         this.lastEditionTime = document.getLastEditionTimeMillis();
         this.text = document.getText();
+        this.words = document.getWords();
+        this.favorite = document.isFavorite();
+        this.coverColor = document.getCoverColor();
+        this.coverImage = document.getCoverImage();
     }
 
     @Override

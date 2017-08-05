@@ -2,6 +2,7 @@
     <string name="app_name">Foco</string>
 
     <string name="action_music">Music</string>
+    <string name="action_import">Import</string>
     <string name="action_sort">Sort</string>
     <string name="action_preview">Preview</string>
     <string name="action_edit">Edit</string>
@@ -73,8 +74,7 @@
     <!-- Main activity strings -->
     <string name="main_selection_bar_exit">Discard selection</string>
     <string name="main_selection_bar_delete">Delete</string>
-    <string name="main_selection_bar_cloud">Upload</string>
-    <string name="main_selection_bar_share">Share</string>
+    <string name="main_selection_bar_export">Export</string>
     <string name="main_selection_bar_favorite">Toggle favorite</string>
     <string name="main_selection_bar_edit_cover">Edit cover</string>
     <string name="main_selection_bar_edit_title">Edit title</string>
@@ -126,5 +126,15 @@
     <string name="notification_pause_action">Pause</string>
     <string name="notification_stop_action">Stop</string>
 
+    <!-- Import/Export messages -->
+    <string name="deserialize_error">There was an error deserializing the document</string>
+    <string name="import_error_reading">There was an error reading the document</string>
+    <string name="import_error_format">Import document error: %s</string>
+    <string name="import_success">The document was imported successfully</string>
+    <string name="import_error_db">There was an error storing document</string>
+    <string name="import_error_empty">The file is empty</string>
+    <string name="file_error">There was an error selecting file</string>
+    <string name="export_success">The document was exported successfully</string>
+    <string name="export_error">Export document error: There was an error writing file</string>
 
 </resources>

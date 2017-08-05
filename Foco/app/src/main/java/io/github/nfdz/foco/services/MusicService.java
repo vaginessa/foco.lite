@@ -61,6 +61,9 @@ public class MusicService extends Service implements
         mIsMuted = false;
         mIsLooping = true;
         mPlayerInitialized = false;
+
+        // ensure that there is no old notification
+        stopNotification();
     }
 
     /**
@@ -70,7 +73,7 @@ public class MusicService extends Service implements
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String action = intent.getAction();
+        String action = intent != null ? intent.getAction() : null;
         if (!TextUtils.isEmpty(action)) {
             if (action.equals(STOP_MUSIC_ACTION)) {
                 stop();
@@ -106,7 +109,10 @@ public class MusicService extends Service implements
     @Override
     public void onDestroy() {
         super.onDestroy();
+        stopNotification();
+        mPlayer.reset();
         mPlayer.release();
+        mPlayer = null;
     }
 
     @Nullable
@@ -124,7 +130,7 @@ public class MusicService extends Service implements
     @Override
     public boolean onUnbind(Intent intent) {
         mCallback = null; // to avoid memory leaks
-        return super.onUnbind(intent);
+        return true;
     }
 
     public void setCallback(MusicCallback callback) {
@@ -250,10 +256,6 @@ public class MusicService extends Service implements
     }
 
     private void updateNotification() {
-        if (!mPlayerInitialized) {
-            return;
-        }
-
         final Song song = MusicCatalog.getInstance(this).getCatalog().get(mCurrentSong);
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
 

@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
@@ -49,6 +50,7 @@ import io.github.nfdz.foco.ui.dialogs.EditDocCoverDialog;
 import io.github.nfdz.foco.ui.dialogs.EditDocTitleDialog;
 import io.github.nfdz.foco.ui.dialogs.MusicDialog;
 import io.github.nfdz.foco.ui.dialogs.SearchTextDialog;
+import io.github.nfdz.foco.utils.ImportExportUtils;
 import io.github.nfdz.foco.utils.SelectionToolbarUtils;
 import io.github.nfdz.foco.utils.TasksUtils;
 import io.github.nfdz.foco.viewmodel.DocListViewModel;
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     private static final String SELECTED_DOCUMENTS_KEY = "selected-documents";
     private static final String SEARCH_TEXT_KEY = "search-text-document";
+
+    private static final int PERMISSION_REQUEST_CODE = 9384;
 
     private static final float PERCENTAGE_ADD_DOC_THRESHOLD = 0.7f;
     private static final float PERCENTAGE_LOGO_THRESHOLD = 0.3f;
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     private boolean mProcessedStartAction = false;
     private MusicDialog mMusicDialog;
+
+    private boolean mExportEnabled;
 
     private DocsAdapter mAdapter;
     private GridLayoutManager mLayoutManager;
@@ -90,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @BindView(R.id.main_selection_bar) LinearLayout mSelectionBar;
     @BindView(R.id.main_selection_bar_edit_cover) ImageButton mEditCoverSelectionBar;
     @BindView(R.id.main_selection_bar_edit_title) ImageButton mEditTitleSelectionBar;
+    @BindView(R.id.main_selection_bar_export) ImageButton mExportSelectionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +111,14 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         SelectionToolbarUtils.setDescriptionToToast(this,
                 R.id.main_selection_bar_exit,
                 R.id.main_selection_bar_delete,
-                R.id.main_selection_bar_cloud,
-                R.id.main_selection_bar_share,
+                R.id.main_selection_bar_export,
                 R.id.main_selection_bar_favorite,
                 R.id.main_selection_bar_edit_cover,
                 R.id.main_selection_bar_edit_title);
+
+        // disable export feature if SDK version is not valid
+        mExportEnabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        if (!mExportEnabled) mExportSelectionBar.setVisibility(View.GONE);
 
         // set up recycler view
         int spanCount = getResources().getInteger(R.integer.grid_doc_columns);
@@ -247,8 +257,22 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 });
             }
             return true;
+        } else if (id == R.id.action_import) {
+            // assume that this code will be only reached if sdk >= 19
+            ImportExportUtils.importBookmarks(this);
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (ImportExportUtils.onImportActivityResult(requestCode, resultCode, resultData, this)) return;
+        if (mSelectedDocuments.size() == 1) {
+            DocumentMetadata doc = mSelectedDocuments.iterator().next();
+            if (ImportExportUtils.onExportActivityResult(requestCode, resultCode, resultData, this, doc)) return;
+        }
+        super.onActivityResult(requestCode, resultCode, resultData);
     }
 
     private void updateAdapterComparator() {
@@ -384,12 +408,14 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     private void showSingleSelectionMode() {
         mEditCoverSelectionBar.setVisibility(View.VISIBLE);
         mEditTitleSelectionBar.setVisibility(View.VISIBLE);
+        if (mExportEnabled) mExportSelectionBar.setVisibility(View.VISIBLE);
         mSelectionBar.setVisibility(View.VISIBLE);
     }
 
     private void showMultipleSelectionMode() {
         mEditCoverSelectionBar.setVisibility(View.GONE);
         mEditTitleSelectionBar.setVisibility(View.GONE);
+        if (mExportEnabled) mExportSelectionBar.setVisibility(View.GONE);
         mSelectionBar.setVisibility(View.VISIBLE);
     }
 
@@ -429,14 +455,10 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 });
     }
 
-    @OnClick(R.id.main_selection_bar_cloud)
-    public void onSelectionCloudClick() {
-        // TODO
-    }
-
-    @OnClick(R.id.main_selection_bar_share)
-    public void onSelectionShareClick() {
-        // TODO
+    @OnClick(R.id.main_selection_bar_export)
+    public void onSelectionExportClick() {
+        DocumentMetadata doc = mSelectedDocuments.iterator().next();
+        ImportExportUtils.exportDocument(this, doc);
     }
 
     @OnClick(R.id.main_selection_bar_favorite)
