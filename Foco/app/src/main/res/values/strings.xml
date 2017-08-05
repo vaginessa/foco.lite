@@ -137,4 +137,41 @@
     <string name="export_success">The document was exported successfully</string>
     <string name="export_error">Export document error: There was an error writing file</string>
 
+    <!-- Sample document strings -->
+    <string name="sample_doc_title">Sample document</string>
+    <string name="sample_doc_text">
+        <![CDATA[
+
+            # Lorem Ipsum\n\n
+            _Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..._\n\n
+
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. **Nulla feugiat** eleifend dapibus.
+            Aliquam lacinia luctus nunc et feugiat. In hac habitasse platea dictumst.
+            Vivamus et velit lobortis, vestibulum ~~nulla~~ nec, commodo magna.\n\n
+
+            ## Cras purus quam\n\n
+            Maecenas pellentesque metus non eros fringilla elementum.
+            Aenean iaculis lectus ut leo tincidunt, sed volutpat justo aliquet.
+            Mauris malesuada aliquet nibh:\n
+            - Aenean posuere\n
+            - Hendrerit diam\n
+            - Nec porttitor\n
+            - Leo finibus ut\n\n
+
+            ## Aenean congue\n\n
+            Ut imperdiet suscipit sem in venenatis. Praesent et ullamcorper enim.\n
+            [Aliquam fermentum](http://lipsum.com) commodo sem eget suscipit.\n\n
+
+            ![Pellentesque ex metus](http://via.placeholder.com/350x150)\n\n
+
+            Donec a ex congue, porttitor neque at, faucibus turpis. Donec accumsan odio dui,
+            non egestas lacus gravida non. In faucibus arcu eu ultricies consequat.\n\n
+
+            ## Youtube\n\n
+            youtube.com/watch?v=**7X8II6J-6mU**\n\n
+            @[youtube](7X8II6J-6mU)\n
+
+        ]]>
+    </string>
+
 </resources>

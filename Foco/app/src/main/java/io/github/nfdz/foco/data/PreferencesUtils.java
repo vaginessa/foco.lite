@@ -11,6 +11,21 @@ import io.github.nfdz.foco.R;
  */
 public class PreferencesUtils {
 
+    private static final String INSERTED_SAMPLE_DOCUMENT_KEY = "inserted-sample-document";
+    private static final boolean INSERTED_SAMPLE_DOCUMENT_DEFAULT = false;
+
+    public static boolean getInsertedSampleFlag(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(INSERTED_SAMPLE_DOCUMENT_KEY, INSERTED_SAMPLE_DOCUMENT_DEFAULT);
+    }
+
+    public static void setInsertedSampleFlag(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(INSERTED_SAMPLE_DOCUMENT_KEY, true);
+        editor.commit();
+    }
+
     /**
      * Retrieves sort preference.
      * @param context
@@ -37,4 +52,6 @@ public class PreferencesUtils {
         editor.putString(keyForSort, sort);
         return editor.commit();
     }
+
+
 }

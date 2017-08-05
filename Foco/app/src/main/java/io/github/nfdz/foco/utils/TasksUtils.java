@@ -181,7 +181,7 @@ public class TasksUtils {
         }.execute();
     }
 
-    private static int countWords(String text) {
+    public static int countWords(String text) {
         return TextUtils.isEmpty(text) ? 0 : text.split("\\s+").length;
     }
 
