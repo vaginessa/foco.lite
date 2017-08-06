@@ -119,6 +119,7 @@
     <string name="notification_stop_action">Parar</string>
 
     <!-- Import/Export messages -->
+    <string name="import_warning_metadata">El documento se ha importado pero hubo un error leyendo los metadatos de la aplicación. El archivo fue tratado como un fichero de texto externo.</string>
     <string name="deserialize_error">Se ha producido un error al deserializar el documento</string>
     <string name="import_error_reading">Se produjo un error al leer el documento</string>
     <string name="import_error_format">Error al importar documento: %s</string>

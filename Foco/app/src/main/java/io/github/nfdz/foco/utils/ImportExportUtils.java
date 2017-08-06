@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class ImportExportUtils {
     private static final int READ_REQUEST_CODE = 921;
     private static final int WRITE_REQUEST_CODE = 886;
 
-    private static final String MIME_TYPE = "text/plain";
+    private static final String MIME_TYPE = "text/*";
     private static final String SUGGESTED_NAME_FORMAT = "%s-%s.foco";
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
@@ -74,6 +75,7 @@ public class ImportExportUtils {
                 new AsyncTask<Void, Void, Void>(){
                     private Document document;
                     private String error;
+                    private String warning;
                     @Override
                     protected Void doInBackground(Void... params) {
                         InputStream in = null;
@@ -82,15 +84,28 @@ public class ImportExportUtils {
                             in = context.getContentResolver().openInputStream(file.getUri());
                             if (in.available() != 0) {
                                 String inputStreamString = new Scanner(in, "UTF-8").useDelimiter("\\A").next();
-                                document = DocumentSerializer.deserializeDocument(inputStreamString);;
+                                try {
+                                    document = DocumentSerializer.deserializeDocument(inputStreamString);
+                                } catch (SerializationException e) {
+                                    DocumentSerializer.DocumentImpl documentImpl = new DocumentSerializer.DocumentImpl();
+                                    documentImpl.text = inputStreamString;
+                                    String name = file.getName();
+                                    if (TextUtils.isEmpty(name)) {
+                                        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+                                        String currentDate = sdf.format(new Date());
+                                        documentImpl.name = currentDate;
+                                    } else {
+                                        documentImpl.name = name;
+                                    }
+                                    document = documentImpl;
+                                    warning = context.getString(R.string.import_warning_metadata);
+                                }
                             } else {
                                 error = context.getString(R.string.import_error_empty);
                             }
                         } catch (IOException e) {
                             Timber.e(e, "Error reading document");
                             error = context.getString(R.string.import_error_reading);
-                        } catch (SerializationException e) {
-                            error = context.getString(e.getMessageId());
                         } finally {
                             if (in != null) {
                                 try {
@@ -111,7 +126,11 @@ public class ImportExportUtils {
                                 @Override
                                 public void onFinish(DocumentMetadata result) {
                                     if (result != null) {
-                                        Toast.makeText(context, R.string.import_success, Toast.LENGTH_LONG).show();
+                                        if (warning != null) {
+                                            Toast.makeText(context, warning, Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(context, R.string.import_success, Toast.LENGTH_LONG).show();
+                                        }
                                     } else {
                                         String msg = context.getString(R.string.import_error_format,
                                                 context.getString(R.string.import_error_db));

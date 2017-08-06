@@ -128,7 +128,7 @@
     <string name="notification_stop_action">Stop</string>
 
     <!-- Import/Export messages -->
-    <string name="deserialize_error">There was an error deserializing the document</string>
+    <string name="import_warning_metadata">The document was imported but there was an error reading foco metadata. This file was treated as an external text file.</string>
     <string name="import_error_reading">There was an error reading the document</string>
     <string name="import_error_format">Import document error: %s</string>
     <string name="import_success">The document was imported successfully</string>

@@ -1,6 +1,5 @@
 package io.github.nfdz.foco.model;
 
-import io.github.nfdz.foco.R;
 import timber.log.Timber;
 
 /**
@@ -17,7 +16,7 @@ public class DocumentSerializer {
     /**
      * Inner static class Document implementation.
      */
-    private static class DocumentImpl implements Document {
+    public static class DocumentImpl implements Document {
 
         public String name;
         public long workingTime = Document.NULL_WORKING_TIME;
@@ -86,7 +85,7 @@ public class DocumentSerializer {
         String[] lines = serializedDoc.split("\\r?\\n", -1);
         if (lines == null || lines.length < METADATA_LINES) {
             Timber.e("There is an error with metadata lines in serialized document: " + serializedDoc);
-            throw new SerializationException(R.string.deserialize_error);
+            throw new SerializationException();
         }
 
         try {
@@ -101,7 +100,7 @@ public class DocumentSerializer {
             return result;
         } catch (NumberFormatException ex) {
             Timber.e(ex, "There is an error parsing metadata in serialized document");
-            throw new SerializationException(R.string.deserialize_error);
+            throw new SerializationException();
         }
     }
 
