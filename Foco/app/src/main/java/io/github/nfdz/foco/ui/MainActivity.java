@@ -248,16 +248,24 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                     @Override
                     public void onSearch(String text) {
                         mAdapter.setFilter(text);
-                        item.setIcon(R.drawable.ic_search_cancel);
-                        item.setTitle(R.string.action_search_cancel);
                     }
                     @Override
                     public void onSearchTextChanged(String text) {
+                        boolean noFilter = TextUtils.isEmpty(text);
+                        if (!noFilter && !mAdapter.hasFilter()) {
+                            item.setIcon(R.drawable.ic_search_cancel);
+                            item.setTitle(R.string.action_search_cancel);
+                        } else if (noFilter && mAdapter.hasFilter()) {
+                            item.setIcon(R.drawable.ic_search);
+                            item.setTitle(R.string.action_search);
+                        }
                         mAdapter.setFilter(text);
                     }
                     @Override
                     public void onSearchCancel() {
                         mAdapter.setFilter(null);
+                        item.setIcon(R.drawable.ic_search);
+                        item.setTitle(R.string.action_search);
                     }
                 });
             }
