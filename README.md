@@ -8,27 +8,40 @@ Minimalist text editor for writing without distractions for Android. This applic
 
 ## Features
 
-* Scrolling bar like completion bar
-
-* Markdown format
 * Writing statistics (time, words count)
 * Ambient music
-* Undo and Redo
-* Google Drive integration
 * Starred files
 * Import and Export
 * Search
+* Markdown format ([preview support](https://github.com/tiagohm/MarkdownView#support))
 * Right to left support
 * Tiny and battery friendly application
-* Keyboard shortcuts
-* Secret files (file encryption)
-* Starred files widget
 
-### Markdown format support
+### Markdown format shortcuts
 * H1, H2 and H3
-* Bold, italic, underlined and strikethrough
+* Bold, italic and strikethrough
 * Quote
-* List
+* List (bulleted and numbered)
+* Link
+* Image and video (Youtube)
+
+## Screenshots
+
+<p align="center">
+  <img src="screenshots/1_main.png?raw=true" width="250""/>
+  <img src="screenshots/2_main.png?raw=true" width="250"/>
+  <img src="screenshots/3_edit_cover.png?raw=true" width="250"/>
+</p>
+<p align="center">
+  <img src="screenshots/4_edit_document.png?raw=true" width="250"/>
+  <img src="screenshots/5_edit_document.png?raw=true" width="250"/>
+  <img src="screenshots/6_preview_document.png?raw=true" width="250"/>
+</p>
+<p align="center">
+  <img src="screenshots/7_preview_document_video.png?raw=true" width="250"/>
+  <img src="screenshots/8_music_player.png?raw=true" width="250"/>
+  <img src="screenshots/9_music_player_notification.png?raw=true" width="250"/>
+</p>
 
 ## Mockup
 
@@ -49,6 +62,11 @@ Minimalist text editor for writing without distractions for Android. This applic
 * [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) (Room, LiveData, ViewModel, LifecycleObserver and LifecycleOwner)
 * [Butter Knife](http://jakewharton.github.io/butterknife/)
 * [Timber](https://github.com/JakeWharton/timber)
+* [Picasso](http://square.github.io/picasso/)
+* [Material Color Picker Dialog](https://github.com/Pes8/android-material-color-picker-dialog)
+* [FilePicker](https://github.com/Angads25/android-filepicker)
+* [Compressor](https://github.com/zetbaitsu/Compressor)
+* [MarkdownView](https://github.com/tiagohm/MarkdownView)
 
 ## License
 
