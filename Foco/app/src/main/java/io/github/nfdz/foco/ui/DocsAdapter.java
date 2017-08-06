@@ -221,7 +221,8 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 int words = doc.getWords();
                 StringBuilder bld = new StringBuilder();
                 bld.append(words);
-                bld.append(words == 1 ? " word" : " words");
+                bld.append(' ');
+                bld.append(mContext.getString(words == 1 ? R.string.unit_word : R.string.unit_words));
                 docHolder.words.setText(bld.toString());
                 docHolder.words.setVisibility(View.VISIBLE);
             } else {
@@ -281,20 +282,33 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public static String getWorkingTimeText(long workingTime) {
+    private String getWorkingTimeText(long workingTime) {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(workingTime);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(workingTime);
         long hours = TimeUnit.MILLISECONDS.toHours(workingTime);
         long days = TimeUnit.MILLISECONDS.toDays(workingTime);
 
+        StringBuilder bld = new StringBuilder();
         if (days > 0) {
-            return days + (days == 1 ? " day" : " days");
+            bld.append(days)
+                .append(' ')
+                .append(mContext.getString(days == 1 ? R.string.unit_day : R.string.unit_days));
+            return bld.toString();
         } else if (hours > 0) {
-            return hours + (hours == 1 ? " hour" : " hours");
+            bld.append(hours)
+                    .append(' ')
+                    .append(mContext.getString(hours == 1 ? R.string.unit_hour : R.string.unit_hours));
+            return bld.toString();
         } else if (minutes > 0) {
-            return minutes + (minutes == 1 ? " minute" : " minutes");
+            bld.append(minutes)
+                    .append(' ')
+                    .append(mContext.getString(minutes == 1 ? R.string.unit_minute : R.string.unit_minutes));
+            return bld.toString();
         } else {
-            return seconds + (seconds == 1 ? " second" : " seconds");
+            bld.append(seconds)
+                    .append(' ')
+                    .append(mContext.getString(seconds == 1 ? R.string.unit_second : R.string.unit_seconds));
+            return bld.toString();
         }
     }
 

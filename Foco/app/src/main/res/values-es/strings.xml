@@ -13,8 +13,16 @@
     <string name="action_search_cancel">Cancelar busqueda</string>
     <string name="action_more">Más</string>
 
-    <string name="save_success_msg">Documento guardado con éxito</string>
-    <string name="preview_error_msg">El texto del documento no ha sido cargado aún, por favor espera un momento y vuélvelo a intentar</string>
+    <string name="unit_word">palabra</string>
+    <string name="unit_words">palabras</string>
+    <string name="unit_day">día</string>
+    <string name="unit_days">días</string>
+    <string name="unit_hour">hora</string>
+    <string name="unit_hours">horas</string>
+    <string name="unit_minute">minuto</string>
+    <string name="unit_minutes">minutos</string>
+    <string name="unit_second">segundo</string>
+    <string name="unit_seconds">segundos</string>
 
     <!-- Ask save dialog -->
     <string name="dialog_ask_save_title">Guardar cambios</string>
@@ -77,6 +85,9 @@
     <string name="main_selection_bar_edit_title">Editar título</string>
 
     <!-- Edit activity strings -->
+    <string name="save_success_msg">Documento guardado con éxito</string>
+    <string name="preview_error_msg">El texto del documento no ha sido cargado aún, por favor espera un momento y vuélvelo a intentar</string>
+
     <string name="edit_toolbar_back">Volver al inicio</string>
     <string name="edit_selection_bar_format_bold">Formato negrita</string>
     <string name="edit_selection_bar_format_italic">Formato cursiva</string>
