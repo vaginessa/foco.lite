@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_music">Música</string>
+    <string name="action_import">Importar</string>
+    <string name="action_sort">Ordenar</string>
+    <string name="action_preview">Previsualizar</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_undo">Deshacer</string>
+    <string name="action_redo">Rehacer</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_search_cancel">Cancelar busqueda</string>
+    <string name="action_more">Más</string>
+
+    <string name="save_success_msg">Documento guardado con éxito</string>
+    <string name="preview_error_msg">El texto del documento no ha sido cargado aún, por favor espera un momento y vuélvelo a intentar</string>
+
+    <!-- Ask save dialog -->
+    <string name="dialog_ask_save_title">Guardar cambios</string>
+    <string name="dialog_ask_save_message">¿Quieres guardar los cambios del documento antes de cerrarlo?</string>
+    <string name="dialog_ask_save_save_button">Guardar</string>
+    <string name="dialog_ask_save_close_button">Cerrar</string>
+
+    <!-- Delete dialog -->
+    <string name="dialog_delete_document_title">Eliminar documento</string>
+    <string name="dialog_delete_documents_title">Eliminar documentos</string>
+    <string name="dialog_delete_document_message">¿Estas seguro de que quieres eliminar este documento?</string>
+    <string name="dialog_delete_documents_message">¿Estas seguro de que quieres eliminar estos documentos?</string>
+
+    <!-- Sort dialog -->
+    <string name="dialog_sort_title">Ordenar por</string>
+
+    <!-- Create dialog -->
+    <string name="dialog_create_doc_title">Nuevo documento</string>
+    <string name="dialog_create_doc_ok_button">Crear</string>
+    <string name="dialog_create_doc_hint">Título</string>
+
+    <!-- Search dialog -->
+    <string name="dialog_search_doc_title">Buscar documento</string>
+    <string name="dialog_search_doc_ok_button">Buscar</string>
+    <string name="dialog_search_doc_hint">Título</string>
+
+    <!-- Edit title dialog -->
+    <string name="dialog_edit_doc_title">Editar título</string>
+    <string name="dialog_edit_doc_title_ok_button">Editar</string>
+    <string name="dialog_edit_doc_title_hint">Título</string>
+
+    <!-- Music dialog -->
+    <string name="dialog_music_title">Reproductor</string>
+    <string name="dialog_music_close_button">Cerrar</string>
+    <string name="dialog_music_play_description">Reproducir</string>
+    <string name="dialog_music_pause_description">Pausar</string>
+    <string name="dialog_music_stop_description">Parar</string>
+    <string name="dialog_music_mute_description">Silenciar</string>
+    <string name="dialog_music_loop_description">Bucle</string>
+
+    <!-- Edit cover dialog -->
+    <string name="dialog_edit_doc_cover">Editar portada</string>
+    <string name="dialog_edit_doc_cover_ok_button">Editar</string>
+    <string name="dialog_edit_doc_cover_color">Color</string>
+    <string name="dialog_edit_doc_cover_color_select">Seleccionar color</string>
+    <string name="dialog_edit_doc_cover_color_select_ok">Seleccionar</string>
+    <string name="dialog_edit_doc_cover_image">Imagen</string>
+    <string name="dialog_edit_doc_cover_image_select">Seleccionar imagen</string>
+    <string name="dialog_edit_doc_cover_image_select_title">Seleccionar imagen</string>
+    <string name="dialog_edit_doc_cover_image_permissions_msg">Se requiere permiso para poder seleccionar una imagen</string>
+    <string name="dialog_edit_doc_cover_image_process_msg">No se puede crear una portada con la imagen seleccionada</string>
+    <string name="dialog_edit_doc_cover_image_select_ok">Seleccionar</string>
+
+    <!-- Main activity strings -->
+    <string name="main_selection_bar_exit">Descartar selección</string>
+    <string name="main_selection_bar_delete">Eliminar</string>
+    <string name="main_selection_bar_export">Exportar</string>
+    <string name="main_selection_bar_favorite">Marcar/Desmarcar como favorito</string>
+    <string name="main_selection_bar_edit_cover">Editar portada</string>
+    <string name="main_selection_bar_edit_title">Editar título</string>
+
+    <!-- Edit activity strings -->
+    <string name="edit_toolbar_back">Volver al inicio</string>
+    <string name="edit_selection_bar_format_bold">Formato negrita</string>
+    <string name="edit_selection_bar_format_italic">Formato cursiva</string>
+    <string name="edit_selection_bar_format_strikethrough">Formato tachado</string>
+    <string name="edit_selection_bar_format_quote">Formato cita</string>
+    <string name="edit_selection_bar_format_list_bulleted">Formato lista con viñetas</string>
+    <string name="edit_selection_bar_format_list_numbered">Formato lista numerada</string>
+    <string name="edit_selection_bar_format_link">Formato enlace</string>
+    <string name="edit_selection_bar_format_image">Formato imagen</string>
+    <string name="edit_selection_bar_format_video">Formato vídeo</string>
+    <string name="edit_selection_bar_format_header">Formato cabecera</string>
+    <string name="edit_selection_bar_format_header_2">Formato cabecera 2</string>
+    <string name="edit_selection_bar_format_header_3">Formato cabecera 3</string>
+
+    <!-- Preferences strings -->
+    <string name="pref_sort_title_label">Título</string>
+    <string name="pref_sort_edit_time_label">Última hora de edición</string>
+    <string name="pref_sort_words_label">Número de palabras</string>
+
+    <!-- Songs titles -->
+    <string name="song_raindrops">Gotas de lluvia</string>
+    <string name="song_fireplace">Chimenea</string>
+    <string name="song_storm">Tormenta acercándose</string>
+    <string name="song_waves">Olas</string>
+    <string name="song_farm">Granja</string>
+    <string name="song_ocean_music">Música del océano</string>
+    <string name="song_forest">Sonidos del bosque</string>
+    <string name="song_ocean_sounds">Sonidos del océano</string>
+    <string name="song_thunder">Tormenta de truenos</string>
+    <string name="song_water_stream">Flujo de agua</string>
+    <string name="song_metro">Metro</string>
+    <string name="song_traffic">Tráfico</string>
+
+    <!-- Notification strings -->
+    <string name="notification_text">Música de ambiente</string>
+    <string name="notification_previous_action">Anterior</string>
+    <string name="notification_next_action">Siguiente</string>
+    <string name="notification_play_action">Reproducir</string>
+    <string name="notification_pause_action">Pausar</string>
+    <string name="notification_stop_action">Parar</string>
+
+    <!-- Import/Export messages -->
+    <string name="deserialize_error">Se ha producido un error al deserializar el documento</string>
+    <string name="import_error_reading">Se produjo un error al leer el documento</string>
+    <string name="import_error_format">Error al importar documento: %s</string>
+    <string name="import_success">El documento se ha importado correctamente</string>
+    <string name="import_error_db">Se ha producido un error al guardar el documento</string>
+    <string name="import_error_empty">El archivo está vacío</string>
+    <string name="file_error">Se ha producido un error al seleccionar el archivo</string>
+    <string name="export_success">El documento se exportó correctamente</string>
+    <string name="export_error">Error al exportar documento: Se produjo un error al escribir el archivo</string>
+
+    <!-- Sample document strings -->
+    <string name="sample_doc_title">Documento de ejemplo</string>
+</resources>

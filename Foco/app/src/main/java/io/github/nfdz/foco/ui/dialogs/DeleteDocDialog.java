@@ -28,10 +28,11 @@ public class DeleteDocDialog {
                                   int selectionSize,
                                   final Callback callback) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.dialog_delete_title);
         if (selectionSize == 1) {
+            builder.setTitle(R.string.dialog_delete_document_title);
             builder.setMessage(R.string.dialog_delete_document_message);
         } else {
+            builder.setTitle(R.string.dialog_delete_documents_title);
             builder.setMessage(R.string.dialog_delete_documents_message);
         }
         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

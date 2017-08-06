@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Foco</string>
+    <string name="app_name" translatable="false">Foco</string>
 
     <string name="action_music">Music</string>
     <string name="action_import">Import</string>
@@ -27,7 +27,8 @@
     <string name="dialog_ask_save_close_button">Close</string>
 
     <!-- Delete dialog -->
-    <string name="dialog_delete_title">Delete documents</string>
+    <string name="dialog_delete_document_title">Delete document</string>
+    <string name="dialog_delete_documents_title">Delete documents</string>
     <string name="dialog_delete_document_message">Are you sure that you want to delete this document?</string>
     <string name="dialog_delete_documents_message">Are you sure that you want to delete these documents?</string>
 
@@ -139,7 +140,7 @@
 
     <!-- Sample document strings -->
     <string name="sample_doc_title">Sample document</string>
-    <string name="sample_doc_text">
+    <string name="sample_doc_text" translatable="false">
         <![CDATA[
 
             # Lorem Ipsum\n\n
