@@ -6,6 +6,16 @@ Minimalist text editor for writing without distractions for Android. This applic
   <img src="dev/icon.png?raw=true" width="250" alt="App Icon"/>
 </p>
 
+## Download
+
+<p align="center"><a href="https://play.google.com/store/apps/details?id=io.github.nfdz.foco">
+  <img width="250" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png?raw=true" alt="Get it on Google Play"/>
+</a></p>
+<p align="center"><a href="https://github.com/nfdz/foco/releases">
+  <img width="250" src="dev/githubBadge.png?raw=true" alt="Get it on Github"/>
+</a></p>
+
+
 ## Features
 
 * Writing statistics (time, words count)
@@ -71,4 +81,7 @@ Minimalist text editor for writing without distractions for Android. This applic
 ## License
 
 [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.en.html "GNU General Public License v3")
+
+Google Play and the Google Play logo are trademarks of Google Inc.
+Github and the Github logo are trademarks of Github Inc.
 
