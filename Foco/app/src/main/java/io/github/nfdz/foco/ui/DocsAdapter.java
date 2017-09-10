@@ -27,7 +27,7 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.lite.R;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Document;
 import io.github.nfdz.foco.utils.FontChangeCrawler;

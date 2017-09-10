@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.lite.R;
 import io.github.nfdz.foco.data.AppDatabase;
 import io.github.nfdz.foco.data.entity.DocumentEntity;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;

@@ -14,7 +14,7 @@ public class FocoApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG) {
+        if (io.github.nfdz.foco.lite.BuildConfig.DEBUG) {
             Timber.uprootAll();
             Timber.plant(new Timber.DebugTree());
         }
@@ -33,8 +33,8 @@ public class FocoApp extends Application {
             @Override
             protected Void doInBackground(Void... params) {
                 DocumentEntity doc = new DocumentEntity();
-                doc.name = context.getString(R.string.sample_doc_title);
-                doc.text = context.getString(R.string.sample_doc_text);
+                doc.name = context.getString(io.github.nfdz.foco.lite.R.string.sample_doc_title);
+                doc.text = context.getString(io.github.nfdz.foco.lite.R.string.sample_doc_text);
                 long[] docId = AppDatabase.getInstance(context).documentDao().insert(doc);
                 if (docId.length == 0 || docId[0] <= -1) {
                     Timber.e("There was an error inserting sample document");

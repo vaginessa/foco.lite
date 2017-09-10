@@ -26,7 +26,7 @@ import br.tiagohm.markdownview.css.styles.Github;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.lite.R;
 import io.github.nfdz.foco.data.AppDatabase;
 import io.github.nfdz.foco.data.entity.DocumentEntity;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;

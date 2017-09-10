@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
-import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.lite.R;
 
 /**
  * This class eases to open a dialog asking a confirmation about the ongoing deletion to the user.

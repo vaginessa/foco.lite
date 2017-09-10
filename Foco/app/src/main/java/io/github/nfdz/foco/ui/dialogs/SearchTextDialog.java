@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.lite.R;
 
 /**
  * This class eases to open a dialog with an edit text input to get search text.

@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 
-import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.lite.R;
 import io.github.nfdz.foco.data.PreferencesUtils;
 
 /**

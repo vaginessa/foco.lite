@@ -35,7 +35,7 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.lite.R;
 import io.github.nfdz.foco.data.PreferencesUtils;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Callbacks;

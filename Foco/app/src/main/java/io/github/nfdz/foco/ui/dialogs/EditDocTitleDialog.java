@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.lite.R;
 import io.github.nfdz.foco.data.entity.DocumentMetadata;
 
 /**

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import io.github.nfdz.foco.R;
+import io.github.nfdz.foco.lite.R;
 
 /**
  * This class has static methods that ease work with shared preferences.
