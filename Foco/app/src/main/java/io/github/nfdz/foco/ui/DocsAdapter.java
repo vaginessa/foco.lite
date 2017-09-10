@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -171,13 +172,19 @@ public class DocsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else {
             // highlight text
             Spannable titleSpan = new SpannableString(doc.getName());
-            int color = ContextCompat.getColor(mContext, R.color.highlightTextColor);
+            int fgColor = ContextCompat.getColor(mContext, R.color.highlightTextColor);
+            int bgColor = ContextCompat.getColor(mContext, R.color.highlightBgColor);
             int startHighlight = doc.getName().toLowerCase().indexOf(mFilterText);
             int endHighlight = startHighlight + mFilterText.length();
-            titleSpan.setSpan(new ForegroundColorSpan(color),
+            titleSpan.setSpan(new ForegroundColorSpan(fgColor),
                     startHighlight,
                     endHighlight,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleSpan.setSpan(new BackgroundColorSpan(bgColor),
+                    startHighlight,
+                    endHighlight,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
             docHolder.title.setText(titleSpan);
         }
 
