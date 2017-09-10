@@ -1,6 +1,8 @@
-# foco
+# foco.lite
 
 Minimalist text editor for writing without distractions for Android. This application can be considered a professional writing application without distractions and fuss since it has many useful features, or also as a simple notes application because it is easy to use and tiny.
+
+This Android application is a fork of [foco](https://github.com/nfdz/foco). The application is as small as possible, keeping only the features that are fundamental.
 
 <p align="center">
   <img src="dev/icon.png?raw=true" width="250" alt="App Icon"/>
@@ -18,8 +20,6 @@ Minimalist text editor for writing without distractions for Android. This applic
 
 ## Features
 
-* Writing statistics (time, words count)
-* Ambient music
 * Starred files
 * Import and Export
 * Search
@@ -35,7 +35,7 @@ Minimalist text editor for writing without distractions for Android. This applic
 * Link
 * Image and video (Youtube)
 
-## Screenshots
+## TODO: update Screenshots
 
 <p align="center">
   <img src="screenshots/1_main.png?raw=true" width="250""/>
@@ -59,23 +59,11 @@ Minimalist text editor for writing without distractions for Android. This applic
   <img src="dev/mockup.png?raw=true" width="300" alt="App Mockup"/>
 </p>
 
-## TODO
-* Add cover image to exported documents.
-* Add settings: font size, font family and default open doc click action (preview or edit)
-* Implement Undo/Redo
-* Keyboard shortcuts
-* Secret files
-* Starred files widget
-
 ## 3rd party software
 
 * [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) (Room, LiveData, ViewModel, LifecycleObserver and LifecycleOwner)
 * [Butter Knife](http://jakewharton.github.io/butterknife/)
 * [Timber](https://github.com/JakeWharton/timber)
-* [Picasso](http://square.github.io/picasso/)
-* [Material Color Picker Dialog](https://github.com/Pes8/android-material-color-picker-dialog)
-* [FilePicker](https://github.com/Angads25/android-filepicker)
-* [Compressor](https://github.com/zetbaitsu/Compressor)
 * [MarkdownView](https://github.com/tiagohm/MarkdownView)
 
 ## License
