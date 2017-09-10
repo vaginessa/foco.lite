@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Foco</string>
+    <string name="app_name" translatable="false">Foco.Lite</string>
 
     <string name="action_music">Music</string>
     <string name="action_import">Import</string>
