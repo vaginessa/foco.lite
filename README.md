@@ -35,22 +35,17 @@ This Android application is a fork of [foco](https://github.com/nfdz/foco). The 
 * Link
 * Image and video (Youtube)
 
-## TODO: update Screenshots
+## Screenshots
 
 <p align="center">
   <img src="screenshots/1_main.png?raw=true" width="250""/>
   <img src="screenshots/2_main.png?raw=true" width="250"/>
-  <img src="screenshots/3_edit_cover.png?raw=true" width="250"/>
+  <img src="screenshots/3_edit_document.png?raw=true" width="250"/>
 </p>
 <p align="center">
   <img src="screenshots/4_edit_document.png?raw=true" width="250"/>
-  <img src="screenshots/5_edit_document.png?raw=true" width="250"/>
-  <img src="screenshots/6_preview_document.png?raw=true" width="250"/>
-</p>
-<p align="center">
-  <img src="screenshots/7_preview_document_video.png?raw=true" width="250"/>
-  <img src="screenshots/8_music_player.png?raw=true" width="250"/>
-  <img src="screenshots/9_music_player_notification.png?raw=true" width="250"/>
+  <img src="screenshots/5_preview_document.png?raw=true" width="250"/>
+  <img src="screenshots/6_preview_document_video.png?raw=true" width="250"/>
 </p>
 
 ## Mockup
