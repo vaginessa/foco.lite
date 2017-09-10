@@ -12,17 +12,6 @@
     <string name="action_search_cancel">Cancel search</string>
     <string name="action_more">More</string>
 
-    <string name="unit_word">word</string>
-    <string name="unit_words">words</string>
-    <string name="unit_day">day</string>
-    <string name="unit_days">days</string>
-    <string name="unit_hour">hour</string>
-    <string name="unit_hours">hours</string>
-    <string name="unit_minute">minute</string>
-    <string name="unit_minutes">minutes</string>
-    <string name="unit_second">second</string>
-    <string name="unit_seconds">seconds</string>
-
     <!-- Font names -->
     <string name="font_libre_baskerville_regular" translatable="false">LibreBaskerville-Regular.ttf</string>
     <string name="font_libre_baskerville_bold" translatable="false">LibreBaskerville-Bold.ttf</string>
@@ -57,28 +46,6 @@
     <string name="dialog_edit_doc_title_ok_button">Edit</string>
     <string name="dialog_edit_doc_title_hint">Title</string>
 
-    <!-- Music dialog -->
-    <string name="dialog_music_title">Music player</string>
-    <string name="dialog_music_close_button">Close</string>
-    <string name="dialog_music_play_description">Play</string>
-    <string name="dialog_music_pause_description">Pause</string>
-    <string name="dialog_music_stop_description">Stop</string>
-    <string name="dialog_music_mute_description">Mute</string>
-    <string name="dialog_music_loop_description">Loop</string>
-
-    <!-- Edit cover dialog -->
-    <string name="dialog_edit_doc_cover">Edit document cover</string>
-    <string name="dialog_edit_doc_cover_ok_button">Edit</string>
-    <string name="dialog_edit_doc_cover_color">Color</string>
-    <string name="dialog_edit_doc_cover_color_select">Select color</string>
-    <string name="dialog_edit_doc_cover_color_select_ok">Select</string>
-    <string name="dialog_edit_doc_cover_image">Image</string>
-    <string name="dialog_edit_doc_cover_image_select">Select image</string>
-    <string name="dialog_edit_doc_cover_image_select_title">Select an image</string>
-    <string name="dialog_edit_doc_cover_image_permissions_msg">Permission is required to select an image</string>
-    <string name="dialog_edit_doc_cover_image_process_msg">Cannot create document image cover from selected image</string>
-    <string name="dialog_edit_doc_cover_image_select_ok">Select</string>
-
     <!-- Main activity strings -->
     <string name="main_selection_bar_exit">Discard selection</string>
     <string name="main_selection_bar_delete">Delete</string>
@@ -111,30 +78,6 @@
     <string name="pref_sort_title_key" translatable="false">sort-title</string>
     <string name="pref_sort_edit_time_label">Last edition time</string>
     <string name="pref_sort_edit_time_key" translatable="false">sort-edit-time</string>
-    <string name="pref_sort_words_label">Number of words</string>
-    <string name="pref_sort_words_key" translatable="false">sort-words</string>
-
-    <!-- Songs titles -->
-    <string name="song_raindrops">Raindrops noise</string>
-    <string name="song_fireplace">Fireplace</string>
-    <string name="song_storm">Approaching storm</string>
-    <string name="song_waves">Crashing waves</string>
-    <string name="song_farm">Farm ambience</string>
-    <string name="song_ocean_music">Ocean music</string>
-    <string name="song_forest">Forest sounds</string>
-    <string name="song_ocean_sounds">Ocean sounds</string>
-    <string name="song_thunder">Thunder rumble sounds</string>
-    <string name="song_water_stream">Water stream</string>
-    <string name="song_metro">Metro inside sound</string>
-    <string name="song_traffic">Traffic noise</string>
-
-    <!-- Notification strings -->
-    <string name="notification_text">Ambient music</string>
-    <string name="notification_previous_action">Previous</string>
-    <string name="notification_next_action">Next</string>
-    <string name="notification_play_action">Play</string>
-    <string name="notification_pause_action">Pause</string>
-    <string name="notification_stop_action">Stop</string>
 
     <!-- Import/Export messages -->
     <string name="import_warning_metadata">The document was imported but there was an error reading foco metadata. This file was treated as an external text file.</string>

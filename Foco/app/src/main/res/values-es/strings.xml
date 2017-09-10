@@ -12,17 +12,6 @@
     <string name="action_search_cancel">Cancelar busqueda</string>
     <string name="action_more">Más</string>
 
-    <string name="unit_word">palabra</string>
-    <string name="unit_words">palabras</string>
-    <string name="unit_day">día</string>
-    <string name="unit_days">días</string>
-    <string name="unit_hour">hora</string>
-    <string name="unit_hours">horas</string>
-    <string name="unit_minute">minuto</string>
-    <string name="unit_minutes">minutos</string>
-    <string name="unit_second">segundo</string>
-    <string name="unit_seconds">segundos</string>
-
     <!-- Ask save dialog -->
     <string name="dialog_ask_save_title">Guardar cambios</string>
     <string name="dialog_ask_save_message">¿Quieres guardar los cambios del documento antes de cerrarlo?</string>
@@ -53,28 +42,6 @@
     <string name="dialog_edit_doc_title_ok_button">Editar</string>
     <string name="dialog_edit_doc_title_hint">Título</string>
 
-    <!-- Music dialog -->
-    <string name="dialog_music_title">Reproductor</string>
-    <string name="dialog_music_close_button">Cerrar</string>
-    <string name="dialog_music_play_description">Reproducir</string>
-    <string name="dialog_music_pause_description">Pausar</string>
-    <string name="dialog_music_stop_description">Parar</string>
-    <string name="dialog_music_mute_description">Silenciar</string>
-    <string name="dialog_music_loop_description">Bucle</string>
-
-    <!-- Edit cover dialog -->
-    <string name="dialog_edit_doc_cover">Editar portada</string>
-    <string name="dialog_edit_doc_cover_ok_button">Editar</string>
-    <string name="dialog_edit_doc_cover_color">Color</string>
-    <string name="dialog_edit_doc_cover_color_select">Seleccionar color</string>
-    <string name="dialog_edit_doc_cover_color_select_ok">Seleccionar</string>
-    <string name="dialog_edit_doc_cover_image">Imagen</string>
-    <string name="dialog_edit_doc_cover_image_select">Seleccionar imagen</string>
-    <string name="dialog_edit_doc_cover_image_select_title">Seleccionar imagen</string>
-    <string name="dialog_edit_doc_cover_image_permissions_msg">Se requiere permiso para poder seleccionar una imagen</string>
-    <string name="dialog_edit_doc_cover_image_process_msg">No se puede crear una portada con la imagen seleccionada</string>
-    <string name="dialog_edit_doc_cover_image_select_ok">Seleccionar</string>
-
     <!-- Main activity strings -->
     <string name="main_selection_bar_exit">Descartar selección</string>
     <string name="main_selection_bar_delete">Eliminar</string>
@@ -103,29 +70,6 @@
     <!-- Preferences strings -->
     <string name="pref_sort_title_label">Título</string>
     <string name="pref_sort_edit_time_label">Última hora de edición</string>
-    <string name="pref_sort_words_label">Número de palabras</string>
-
-    <!-- Songs titles -->
-    <string name="song_raindrops">Gotas de lluvia</string>
-    <string name="song_fireplace">Chimenea</string>
-    <string name="song_storm">Tormenta acercándose</string>
-    <string name="song_waves">Olas</string>
-    <string name="song_farm">Granja</string>
-    <string name="song_ocean_music">Música del océano</string>
-    <string name="song_forest">Sonidos del bosque</string>
-    <string name="song_ocean_sounds">Sonidos del océano</string>
-    <string name="song_thunder">Tormenta de truenos</string>
-    <string name="song_water_stream">Flujo de agua</string>
-    <string name="song_metro">Metro</string>
-    <string name="song_traffic">Tráfico</string>
-
-    <!-- Notification strings -->
-    <string name="notification_text">Música de ambiente</string>
-    <string name="notification_previous_action">Anterior</string>
-    <string name="notification_next_action">Siguiente</string>
-    <string name="notification_play_action">Reproducir</string>
-    <string name="notification_pause_action">Pausar</string>
-    <string name="notification_stop_action">Parar</string>
 
     <!-- Import/Export messages -->
     <string name="import_warning_metadata">El documento se ha importado pero hubo un error leyendo los metadatos de la aplicación. El archivo fue tratado como un fichero de texto externo.</string>

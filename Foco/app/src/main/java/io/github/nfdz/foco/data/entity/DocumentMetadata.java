@@ -22,23 +22,11 @@ public class DocumentMetadata implements Parcelable, Document {
     @ColumnInfo(name = DocumentEntity.COLUMN_NAME)
     public String name;
 
-    @ColumnInfo(name = DocumentEntity.COLUMN_WORKING_TIME)
-    public long workingTime;
-
     @ColumnInfo(name = DocumentEntity.COLUMN_LAST_EDITION_TIME)
     public long lastEditionTime;
 
-    @ColumnInfo(name = DocumentEntity.COLUMN_WORDS)
-    public int words;
-
     @ColumnInfo(name = DocumentEntity.COLUMN_FAVORITE)
     public boolean isFavorite;
-
-    @ColumnInfo(name = DocumentEntity.COLUMN_COVER_COLOR)
-    public int coverColor = Document.NULL_COVER_COLOR;
-
-    @ColumnInfo(name = DocumentEntity.COLUMN_COVER_IMAGE)
-    public String coverImage = Document.NULL_COVER_IMAGE;
 
     @Override
     public int describeContents() {
@@ -49,23 +37,15 @@ public class DocumentMetadata implements Parcelable, Document {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(name);
-        dest.writeLong(workingTime);
         dest.writeLong(lastEditionTime);
-        dest.writeInt(words);
         dest.writeInt(isFavorite ? 1 : 0);
-        dest.writeInt(coverColor);
-        dest.writeString(coverImage);
     }
 
     private DocumentMetadata(Parcel in) {
         id = in.readLong();
         name = in.readString();
-        workingTime = in.readLong();
         lastEditionTime = in.readLong();
-        words = in.readInt();
         isFavorite = in.readInt() == 1;
-        coverColor = in.readInt();
-        coverImage = in.readString();
     }
 
     public static final Parcelable.Creator<DocumentMetadata> CREATOR
@@ -90,11 +70,6 @@ public class DocumentMetadata implements Parcelable, Document {
     }
 
     @Override
-    public long getWorkingTimeMillis() {
-        return workingTime;
-    }
-
-    @Override
     public long getLastEditionTimeMillis() {
         return lastEditionTime;
     }
@@ -105,22 +80,8 @@ public class DocumentMetadata implements Parcelable, Document {
     }
 
     @Override
-    public int getWords() {
-        return words;
-    }
-
-    @Override
     public boolean isFavorite() {
         return isFavorite;
     }
 
-    @Override
-    public int getCoverColor() {
-        return coverColor;
-    }
-
-    @Override
-    public String getCoverImage() {
-        return coverImage;
-    }
 }

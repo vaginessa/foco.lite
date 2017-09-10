@@ -11,7 +11,7 @@ public class DocumentSerializer {
     private static final String METADATA_SEPARATOR = "--- DOCUMENT METADATA ---";
 
     /** Number of lines that uses metadata */
-    private static final int METADATA_LINES = 9;
+    private static final int METADATA_LINES = 6;
 
     /**
      * Inner static class Document implementation.
@@ -19,20 +19,13 @@ public class DocumentSerializer {
     public static class DocumentImpl implements Document {
 
         public String name;
-        public long workingTime = Document.NULL_WORKING_TIME;
         public long lastEditionTime = Document.NULL_LAST_EDITION_TIME;
         public String text = Document.NULL_TEXT;
         public boolean favorite = false;
-        public int coverColor = Document.NULL_COVER_COLOR;
-        public String coverImage = Document.NULL_COVER_IMAGE;
 
         @Override
         public String getName() {
             return name;
-        }
-        @Override
-        public long getWorkingTimeMillis() {
-            return workingTime;
         }
         @Override
         public long getLastEditionTimeMillis() {
@@ -45,22 +38,6 @@ public class DocumentSerializer {
         @Override
         public boolean isFavorite() {
             return favorite;
-        }
-        @Override
-        public int getCoverColor() {
-            return coverColor;
-        }
-        @Override
-        public String getCoverImage() {
-            return coverImage;
-        }
-        /**
-         * This field is not stored in exported documents (it could be computed with text).
-         * @return Document.NULL_WORDS
-         */
-        @Override
-        public int getWords() {
-            return Document.NULL_WORDS;
         }
         /**
          * This field is not stored in exported documents (it depends of each database).
@@ -90,11 +67,8 @@ public class DocumentSerializer {
 
         try {
             result.name = lines[1];
-            result.workingTime = Long.parseLong(lines[2]);
-            result.lastEditionTime = Long.parseLong(lines[3]);
-            result.favorite = Boolean.parseBoolean(lines[4]);
-            result.coverColor = Integer.parseInt(lines[5]);
-            result.coverImage = lines[6];
+            result.lastEditionTime = Long.parseLong(lines[2]);
+            result.favorite = Boolean.parseBoolean(lines[3]);
             result.text = joinLines(lines, METADATA_LINES);
 
             return result;
@@ -127,11 +101,8 @@ public class DocumentSerializer {
         bld.append(METADATA_SEPARATOR).append('\n');
 
         bld.append(document.getName()).append('\n');
-        bld.append(Long.toString(document.getWorkingTimeMillis())).append('\n');
         bld.append(Long.toString(document.getLastEditionTimeMillis())).append('\n');
         bld.append(Boolean.toString(document.isFavorite())).append('\n');
-        bld.append(Integer.toString(document.getCoverColor())).append('\n');
-        bld.append(document.getCoverImage()).append('\n');
 
         bld.append(METADATA_SEPARATOR).append('\n').append('\n');
 

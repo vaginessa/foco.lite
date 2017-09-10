@@ -41,7 +41,6 @@ import io.github.nfdz.foco.data.entity.DocumentMetadata;
 import io.github.nfdz.foco.model.Callbacks;
 import io.github.nfdz.foco.model.DocumentLastEditionComparator;
 import io.github.nfdz.foco.model.DocumentNameComparator;
-import io.github.nfdz.foco.model.DocumentWordsComparator;
 import io.github.nfdz.foco.ui.dialogs.ChangeSortDialog;
 import io.github.nfdz.foco.ui.dialogs.CreateDocDialog;
 import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
@@ -259,9 +258,7 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     private void updateAdapterComparator() {
         String sort = PreferencesUtils.getPreferredSort(this);
-        if (getString(R.string.pref_sort_words_key).equals(sort)) {
-            mAdapter.setComparator(new DocumentWordsComparator());
-        } else if (getString(R.string.pref_sort_edit_time_key).equals(sort)) {
+        if (getString(R.string.pref_sort_edit_time_key).equals(sort)) {
             mAdapter.setComparator(new DocumentLastEditionComparator());
         } else {
             mAdapter.setComparator(new DocumentNameComparator());

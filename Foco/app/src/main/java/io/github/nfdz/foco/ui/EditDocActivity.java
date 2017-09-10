@@ -46,7 +46,6 @@ public class EditDocActivity extends AppCompatActivity {
     public static final String EXTRA_DOC = "document";
 
     private static final String TEXT_LOADED_KEY = "text-loaded";
-    private static final String START_TIME_KEY = "start-time";
     private static final String TEXT_EDITED_KEY = "text-edited";
     private static final String PREVIEW_MODE_KEY = "preview";
 
@@ -76,7 +75,6 @@ public class EditDocActivity extends AppCompatActivity {
     private DocumentMetadata mDocumentMetadata;
     private TextObserver mObserver = new TextObserver();
     private boolean mTextLoaded = false;
-    private long mStartTime = -1;
     private boolean mTextEdited = false;
     private boolean mPreviewMode = false;
 
@@ -132,7 +130,6 @@ public class EditDocActivity extends AppCompatActivity {
             loadTextAsync();
         } else {
             mAppBar.setExpanded(true, true);
-            mStartTime = savedInstanceState.getLong(START_TIME_KEY, -1);
             mTextEdited = savedInstanceState.getBoolean(TEXT_EDITED_KEY, false);
             mPreviewMode = savedInstanceState.getBoolean(PREVIEW_MODE_KEY, false);
             mTextLoaded = true;
@@ -155,15 +152,8 @@ public class EditDocActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(TEXT_LOADED_KEY, mTextLoaded);
-        outState.putLong(START_TIME_KEY, mStartTime);
         outState.putBoolean(TEXT_EDITED_KEY, mTextEdited);
         outState.putBoolean(PREVIEW_MODE_KEY, mPreviewMode);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (mStartTime < 0) mStartTime = System.currentTimeMillis();
     }
 
     @OnClick(R.id.edit_toolbar_back)
@@ -233,15 +223,12 @@ public class EditDocActivity extends AppCompatActivity {
     private void saveDocument(final Callbacks.FinishCallback callback) {
         final Context context = this;
         long now = System.currentTimeMillis();
-        long workingTime = mStartTime > 0 ? now - mStartTime : 0;
         TasksUtils.saveDocument(context,
                 mDocumentMetadata,
                 mEditTextContent.getText().toString(),
-                workingTime,
                 new Callbacks.FinishCallback<Void>() {
                     @Override
                     public void onFinish(Void result) {
-                        mStartTime = System.currentTimeMillis();
                         mTextEdited = false;
                         callback.onFinish(result);
                     }

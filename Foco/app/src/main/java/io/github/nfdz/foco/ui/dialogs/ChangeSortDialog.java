@@ -31,13 +31,11 @@ public class ChangeSortDialog {
         // get available sorts
         String titleLabel = context.getString(R.string.pref_sort_title_label);
         String editTimeLabel = context.getString(R.string.pref_sort_edit_time_label);
-        String wordsLabel = context.getString(R.string.pref_sort_words_label);
-        String options[] = new String[] { titleLabel, editTimeLabel, wordsLabel };
+        String options[] = new String[] { titleLabel, editTimeLabel };
         final String titleKey = context.getString(R.string.pref_sort_title_key);
         final String editTimeKey = context.getString(R.string.pref_sort_edit_time_key);
-        final String wordsKey = context.getString(R.string.pref_sort_words_key);
         String selectedKey = PreferencesUtils.getPreferredSort(context);
-        final int selected = selectedKey.equals(wordsKey) ? 2 : selectedKey.equals(editTimeKey) ? 1 : 0;
+        final int selected = selectedKey.equals(editTimeKey) ? 1 : 0;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getString(R.string.dialog_sort_title));
@@ -49,8 +47,7 @@ public class ChangeSortDialog {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... v) {
-                            String sort = selection == 2 ? wordsKey :
-                                    selection == 1 ? editTimeKey : titleKey;
+                            String sort = selection == 1 ? editTimeKey : titleKey;
                             PreferencesUtils.setPreferredSort(context, sort);
                             return null;
                         }
