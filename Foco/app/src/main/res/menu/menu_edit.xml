@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_music"
-        android:orderInCategory="100"
-        android:title="@string/action_music"
-        android:icon="@drawable/ic_music"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_preview"
         android:orderInCategory="101"
         android:title="@string/action_preview"

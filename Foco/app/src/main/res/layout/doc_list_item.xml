@@ -4,127 +4,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/doc_item_vertical_padding"
-    android:paddingBottom="@dimen/doc_item_vertical_padding"
-    android:paddingLeft="@dimen/doc_item_horizontal_padding"
-    android:paddingRight="@dimen/doc_item_horizontal_padding"
+    android:layout_height="@dimen/doc_item_height"
     android:background="@drawable/selector_doc" >
 
     <ImageView
-        android:id="@+id/doc_item_shape"
-        android:layout_width="@dimen/doc_shape_width"
-        android:layout_height="@dimen/doc_shape_height"
-        app:srcCompat="@drawable/shape_doc"
+        android:id="@+id/doc_item_fav"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        app:srcCompat="@drawable/ic_fav_dark"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <ImageView
-        android:id="@+id/doc_item_bg"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintRight_toRightOf="@+id/doc_item_shape"
-        app:layout_constraintLeft_toLeftOf="@+id/doc_item_shape"
-        app:layout_constraintTop_toTopOf="@+id/doc_item_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        android:layout_marginLeft="@dimen/doc_shape_line_width"
-        android:layout_marginRight="@dimen/doc_shape_line_width"
-        android:layout_marginBottom="@dimen/doc_shape_line_width"
-        android:layout_marginTop="@dimen/doc_shape_line_width" />
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/doc_item_guideline"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <View
-        android:id="@+id/doc_item_shadow"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/coverShadow"
-        app:layout_constraintBottom_toBottomOf="@+id/doc_item_edit_time"
-        app:layout_constraintTop_toTopOf="@+id/doc_item_title"
-        app:layout_constraintRight_toRightOf="@+id/doc_item_bg"
-        app:layout_constraintLeft_toLeftOf="@+id/doc_item_bg" />
+        android:layout_marginLeft="8dp" />
 
     <TextView
         android:id="@+id/doc_item_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/doc_item_guideline"
+        android:textAlignment="textStart"
+        android:gravity="start"
+        android:textColor="@color/colorAccent"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        app:layout_constraintRight_toRightOf="@+id/doc_item_bg"
-        app:layout_constraintLeft_toLeftOf="@+id/doc_item_bg"
-        android:paddingTop="@dimen/doc_item_shadow_vertical_padding"
-        android:textSize="@dimen/doc_item_title_large"
-        android:maxLines="3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/doc_item_fav"
+        android:textSize="@dimen/doc_item_title"
+        android:textStyle="bold"
+        android:maxLines="1"
         android:ellipsize="end"
-        tools:text="Title"/>
-
-    <TextView
-        android:id="@+id/doc_item_words"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:gravity="center"
-        tools:text="2000 words"
-        app:layout_constraintTop_toTopOf="@+id/doc_item_guideline"
-        app:layout_constraintRight_toRightOf="@+id/doc_item_title"
-        android:textSize="@dimen/doc_item_details"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintLeft_toLeftOf="@+id/doc_item_title" />
-
-
-    <TextView
-        android:id="@+id/doc_item_work_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:gravity="center"
-        tools:text="50 minutes"
-        app:layout_constraintTop_toBottomOf="@+id/doc_item_words"
-        app:layout_constraintRight_toRightOf="@+id/doc_item_title"
-        android:textSize="@dimen/doc_item_details"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintLeft_toLeftOf="@+id/doc_item_title" />
-
+        tools:text="Title" />
 
     <TextView
         android:id="@+id/doc_item_edit_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:gravity="center"
+        android:textAlignment="textStart"
+        android:gravity="start"
         tools:text="1999/12/31 00:00"
-        app:layout_constraintTop_toBottomOf="@+id/doc_item_work_time"
+        app:layout_constraintTop_toBottomOf="@+id/doc_item_title"
         app:layout_constraintRight_toRightOf="@+id/doc_item_title"
         android:textSize="@dimen/doc_item_details"
-        android:paddingBottom="@dimen/doc_item_shadow_vertical_padding"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         app:layout_constraintLeft_toLeftOf="@+id/doc_item_title" />
-
-    <ImageView
-        android:id="@+id/doc_item_fav"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        app:srcCompat="@drawable/ic_fav_dark"
-        app:layout_constraintBottom_toBottomOf="@+id/doc_item_bg"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintRight_toRightOf="@+id/doc_item_bg"
-        app:layout_constraintLeft_toLeftOf="@+id/doc_item_bg"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"/>
-
 
 </android.support.constraint.ConstraintLayout>

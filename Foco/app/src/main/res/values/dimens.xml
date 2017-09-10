@@ -15,22 +15,10 @@
     <dimen name="logo_expanded_width">100dp</dimen>
     <dimen name="logo_collapsed_width">48dp</dimen>
 
-    <dimen name="doc_item_vertical_padding">18dp</dimen>
-    <dimen name="doc_item_horizontal_padding">9dp</dimen>
+    <dimen name="doc_item_height">64dp</dimen>
 
-    <dimen name="doc_shape_height">191dp</dimen>
-    <dimen name="doc_shape_width">135dp</dimen>
-    <dimen name="doc_shape_line_width">2dp</dimen>
-    <dimen name="doc_shape_padding">8dp</dimen>
-    <dimen name="doc_detail_text_margin_start">4dp</dimen>
-    <dimen name="add_doc_image_size">60dp</dimen>
-
-    <dimen name="doc_item_shadow_vertical_padding">4dp</dimen>
-
-    <dimen name="doc_item_details">9dp</dimen>
-    <dimen name="doc_item_title_large">20dp</dimen>
-    <dimen name="doc_item_title_medium">14dp</dimen>
-    <dimen name="doc_item_title_small">11dp</dimen>
+    <dimen name="doc_item_details">10sp</dimen>
+    <dimen name="doc_item_title">20sp</dimen>
 
     <dimen name="dialog_horizontal_padding">22dp</dimen>
     <dimen name="dialog_vertical_padding">16dp</dimen>

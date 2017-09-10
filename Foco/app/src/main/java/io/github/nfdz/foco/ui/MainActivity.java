@@ -7,14 +7,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -46,9 +45,7 @@ import io.github.nfdz.foco.model.DocumentWordsComparator;
 import io.github.nfdz.foco.ui.dialogs.ChangeSortDialog;
 import io.github.nfdz.foco.ui.dialogs.CreateDocDialog;
 import io.github.nfdz.foco.ui.dialogs.DeleteDocDialog;
-import io.github.nfdz.foco.ui.dialogs.EditDocCoverDialog;
 import io.github.nfdz.foco.ui.dialogs.EditDocTitleDialog;
-import io.github.nfdz.foco.ui.dialogs.MusicDialog;
 import io.github.nfdz.foco.ui.dialogs.SearchTextDialog;
 import io.github.nfdz.foco.utils.ImportExportUtils;
 import io.github.nfdz.foco.utils.SelectionToolbarUtils;
@@ -62,14 +59,9 @@ import io.github.nfdz.foco.viewmodel.DocListViewModel;
 public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,
         DocsAdapter.DocsClickHandler, LifecycleRegistryOwner {
 
-    public static final String OPEN_MUSIC_ACTION = "OPEN_MUSIC";
-
     private static final String SELECTED_DOCUMENTS_KEY = "selected-documents";
     private static final String SEARCH_TEXT_KEY = "search-text-document";
 
-    private static final int PERMISSION_REQUEST_CODE = 9384;
-
-    private static final float PERCENTAGE_ADD_DOC_THRESHOLD = 0.7f;
     private static final float PERCENTAGE_LOGO_THRESHOLD = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
 
@@ -79,14 +71,9 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     private boolean mToolbarLogoVisible = false;
     private boolean mLayoutLogoVisible = true;
-
-    private boolean mProcessedStartAction = false;
-    private MusicDialog mMusicDialog;
-
     private boolean mExportEnabled;
 
     private DocsAdapter mAdapter;
-    private GridLayoutManager mLayoutManager;
 
     @BindView(R.id.main_toolbar) Toolbar mToolbar;
     @BindView(R.id.main_fab_add) FloatingActionButton mFab;
@@ -98,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     @BindView(R.id.main_collapsing_layout) CollapsingToolbarLayout mCollapsingLayout;
 
     @BindView(R.id.main_selection_bar) LinearLayout mSelectionBar;
-    @BindView(R.id.main_selection_bar_edit_cover) ImageButton mEditCoverSelectionBar;
     @BindView(R.id.main_selection_bar_edit_title) ImageButton mEditTitleSelectionBar;
     @BindView(R.id.main_selection_bar_export) ImageButton mExportSelectionBar;
 
@@ -117,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 R.id.main_selection_bar_delete,
                 R.id.main_selection_bar_export,
                 R.id.main_selection_bar_favorite,
-                R.id.main_selection_bar_edit_cover,
                 R.id.main_selection_bar_edit_title);
 
         // disable export feature if SDK version is not valid
@@ -125,11 +110,10 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         if (!mExportEnabled) mExportSelectionBar.setVisibility(View.GONE);
 
         // set up recycler view
-        int spanCount = getResources().getInteger(R.integer.grid_doc_columns);
         int orientation = OrientationHelper.VERTICAL;
         boolean reverseLayout = false;
-        mLayoutManager = new GridLayoutManager(this, spanCount, orientation, reverseLayout);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, orientation, reverseLayout);
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new DocsAdapter(this, mSelectedDocuments, this);
         mRecyclerView.setAdapter(mAdapter);
@@ -142,6 +126,24 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
         // subscribe to view model
         DocListViewModel viewModel = ViewModelProviders.of(this).get(DocListViewModel.class);
         subscribeUi(viewModel);
+    }
+
+    /**
+     * Subscribes this activity to LiveData view model.
+     * @param viewModel
+     */
+    private void subscribeUi(DocListViewModel viewModel) {
+        viewModel.getDocumentsMetadata().observe(this, new Observer<List<DocumentMetadata>>() {
+            @Override
+            public void onChanged(@Nullable List<DocumentMetadata> docs) {
+                if (docs != null) {
+                    showData();
+                    mAdapter.setDocumentList(docs);
+                } else {
+                    showLoading();
+                }
+            }
+        });
     }
 
     @Override
@@ -175,36 +177,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        String action = intent.getAction();
-        if (!TextUtils.isEmpty(action) && action.equals(OPEN_MUSIC_ACTION)) {
-            openMusicDialog();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        String action = getIntent().getAction();
-        if (!mProcessedStartAction &&
-                !TextUtils.isEmpty(action) &&
-                action.equals(OPEN_MUSIC_ACTION)) {
-            mProcessedStartAction = true;
-            openMusicDialog();
-        }
-    }
-
-    private void openMusicDialog() {
-        if (mMusicDialog == null ||
-                mMusicDialog.getDialog() == null ||
-                !mMusicDialog.getDialog().isShowing()) {
-            mMusicDialog = MusicDialog.newInstance();
-            mMusicDialog.show(getSupportFragmentManager(), "MusicDialogFragment");
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         if (mSelectedDocuments.size() != 0) {
             onSelectionExitClick();
@@ -234,9 +206,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                     updateAdapterComparator();
                 }
             });
-            return true;
-        } else if (id == R.id.action_music) {
-            openMusicDialog();
             return true;
         } else if (id == R.id.action_search) {
             if (mAdapter.hasFilter()) {
@@ -334,17 +303,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
             }
         }
 
-        // update add doc adapter placeholder
-        if (percentage < PERCENTAGE_ADD_DOC_THRESHOLD) {
-            if (mAdapter.getShowAddDoc()) {
-                mAdapter.setShowAddDoc(false);
-            }
-        } else {
-            if (!mAdapter.getShowAddDoc()) {
-                mAdapter.setShowAddDoc(true);
-            }
-        }
-
         // It is necessary to make sure that the toolbar is in the front because in some
         // versions of android (not all :S) the collapsible layout is placed above the toolbar
         // when it is expanding
@@ -419,14 +377,12 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     }
 
     private void showSingleSelectionMode() {
-        mEditCoverSelectionBar.setVisibility(View.VISIBLE);
         mEditTitleSelectionBar.setVisibility(View.VISIBLE);
         if (mExportEnabled) mExportSelectionBar.setVisibility(View.VISIBLE);
         mSelectionBar.setVisibility(View.VISIBLE);
     }
 
     private void showMultipleSelectionMode() {
-        mEditCoverSelectionBar.setVisibility(View.GONE);
         mEditTitleSelectionBar.setVisibility(View.GONE);
         if (mExportEnabled) mExportSelectionBar.setVisibility(View.GONE);
         mSelectionBar.setVisibility(View.VISIBLE);
@@ -488,37 +444,6 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
                 });
     }
 
-    @OnClick(R.id.main_selection_bar_edit_cover)
-    public void onSelectionEditCoverClick() {
-        final DocumentMetadata doc = mSelectedDocuments.iterator().next();
-        EditDocCoverDialog dialog = EditDocCoverDialog.newInstance(doc);
-        dialog.setCallback(new EditDocCoverDialog.Callback() {
-            @Override
-            public void onColorChanged(@ColorInt int color) {
-                TasksUtils.setCoverColor(MainActivity.this, doc, color, new Callbacks.FinishCallback<Void>() {
-                    @Override
-                    public void onFinish(Void result) {
-                        mSelectedDocuments.clear();
-                        showNoSelectionMode();
-                        mAdapter.refreshSelectedDocuments();
-                    }
-                });
-            }
-            @Override
-            public void onImageChanged(String imagePath) {
-                TasksUtils.setCoverImage(MainActivity.this, doc, imagePath, new Callbacks.FinishCallback<Void>() {
-                    @Override
-                    public void onFinish(Void result) {
-                        mSelectedDocuments.clear();
-                        showNoSelectionMode();
-                        mAdapter.refreshSelectedDocuments();
-                    }
-                });
-            }
-        });
-        dialog.show(getSupportFragmentManager(), "EditDocDialogFragment");
-    }
-
     @OnClick(R.id.main_selection_bar_edit_title)
     public void onSelectionEditTitleClick() {
         final DocumentMetadata doc = mSelectedDocuments.iterator().next();
@@ -538,31 +463,8 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
     }
 
     @Override
-    public void onAddDocumentClick() {
-        onCreateDocumentClick();
-    }
-
-    @Override
     public LifecycleRegistry getLifecycle() {
         return mRegistry;
-    }
-
-    /**
-     * Subscribes this activity to LiveData view model.
-     * @param viewModel
-     */
-    private void subscribeUi(DocListViewModel viewModel) {
-        viewModel.getDocumentsMetadata().observe(this, new Observer<List<DocumentMetadata>>() {
-            @Override
-            public void onChanged(@Nullable List<DocumentMetadata> docs) {
-                if (docs != null) {
-                    showData();
-                    mAdapter.setDocumentList(docs);
-                } else {
-                    showLoading();
-                }
-            }
-        });
     }
 
 }

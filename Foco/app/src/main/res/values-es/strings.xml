@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="action_music">Música</string>
     <string name="action_import">Importar</string>
     <string name="action_sort">Ordenar</string>
     <string name="action_preview">Previsualizar</string>
@@ -81,7 +80,6 @@
     <string name="main_selection_bar_delete">Eliminar</string>
     <string name="main_selection_bar_export">Exportar</string>
     <string name="main_selection_bar_favorite">Marcar/Desmarcar como favorito</string>
-    <string name="main_selection_bar_edit_cover">Editar portada</string>
     <string name="main_selection_bar_edit_title">Editar título</string>
 
     <!-- Edit activity strings -->
